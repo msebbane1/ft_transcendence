@@ -2,6 +2,7 @@
 # 1. VUE D'ENSEMBLE CONDITIONS
 
 Utilisations
+
     • NestJS : Back-end
     • framework TypeScript : Front-end
     • Bibliotheques autorisées : Toutes, derniere version stable (React?) [A CHOISIR]
@@ -9,10 +10,12 @@ Utilisations
     • NGINX - Open-source HTTP server
 
 Site Web
+
     • Doit etre compatible avec la dernière version stable à jour (Google Chrome...)
     • Doit être une application web monopage (boutons Précédent et Suivant du navigateur)
 
 Lancement
+
     -> docker-compose up --build
 
 # OUTILS
@@ -20,15 +23,18 @@ Lancement
 -> A completer..
 
 Organisation
+
     • Notion
     • Figma
 
 Front-end
+
     • React Bootstrap
     • React Router
     • React Contextify
 
 Back-end
+
     • Prisma
     • PassportJS
 
