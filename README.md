@@ -32,17 +32,18 @@ Back-end
 
 # LIENS DOCKER / DEBIAN
 
-• DEBIAN :
+DEBIAN :
 
-    - Download : https://www.debian.org/releases/stable/
+- Download : https://www.debian.org/releases/stable/
 
-    - Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
+- Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
 
-• DOKER-COMPOSE :
+DOKER-COMPOSE :
 
-    - Download :
+- Download :
 
-    - Tuto installation:
+- Tuto installation:
+
 
 # LIENS POUR FRONTEND BACKEND
 
