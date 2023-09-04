@@ -34,7 +34,7 @@ Back-end
 
 DEBIAN :
 
-- Download : https://www.debian.org/releases/stable/
+- Download : https://www.debian.org/download
 
 - Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
 
