@@ -69,9 +69,11 @@ joueurs.
 # 5. Le jeu
 
 • Un système de matching : l’utilisateur rejoint une file d’attente jusqu’à être matché automatiquement avec quelqu’un d’autre.
+
 • Doit etre fidele au Pong
-• Quelques options de customisation (des power-ups ou des maps différentes) mais l’utilisateur doit pouvoir jouer à la version par défaut
-sans options s’il le souhaite.
+
+• Quelques options de customisation (des power-ups ou des maps différentes) mais l’utilisateur doit pouvoir jouer à la version par défaut sans options s’il le souhaite.
+
 • Responsive
 
 # LIENS DOCKER / DEBIAN / VIRTUALBOX
