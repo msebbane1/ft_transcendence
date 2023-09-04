@@ -9,11 +9,6 @@ Utilisations
     • PostgreSQL : Base de données
     • NGINX - Open-source HTTP server
 
-Site Web
-
-    • Doit etre compatible avec la dernière version stable à jour (Google Chrome...)
-    • Doit être une application web monopage (boutons Précédent et Suivant du navigateur)
-
 Lancement
 
     -> docker-compose up --build
@@ -29,14 +24,10 @@ Organisation
 
 Front-end
 
-    • React Bootstrap
-    • React Router
-    • React Contextify
 
 Back-end
 
     • Prisma
-    • PassportJS
 
 
 # LIENS DOCKER / DEBIAN
