@@ -1,24 +1,36 @@
+
 # 1. VUE D'ENSEMBLE CONDITIONS
 
-Languages :
+Utilisations
+    • NestJS : Back-end
+    • framework TypeScript : Front-end
+    • Bibliotheques autorisées : Toutes, derniere version stable (React?) [A CHOISIR]
+    • PostgreSQL : Base de données
+    • NGINX - Open-source HTTP server
 
--> Backend : NestJS
+Site Web
+    • Doit etre compatible avec la dernière version stable à jour (Google Chrome...)
+    • Doit être une application web monopage (boutons Précédent et Suivant du navigateur)
 
--> FrontEnd : framework TypeScript
+Lancement
+    -> docker-compose up --build
 
--> Bibliotheques autorisées : Toutes, uniquement derniere version stable
+# OUTILS
 
--> Base de données autorisée : PostgreSQL
+-> A completer..
 
-Site Web :
+Organisation
+    • Notion
+    • Figma
 
--> Doit etre compatible avec la dernière version stable à jour (Google Chrome...)
+Front-end
+    • React Bootstrap
+    • React Router
+    • React Contextify
 
--> Doit être une application web monopage (es boutons Précédent et Suivant du navigateur)
-
-Lancement :
-
--> docker-compose up --build
+Back-end
+    • Prisma
+    • PassportJS
 
 # 2. Securite
 
