@@ -38,6 +38,21 @@ Back-end
     • Prisma
     • PassportJS
 
+
+# LIENS DOCKER / DEBIAN
+
+DEBIAN
+
+    • Download : https://www.debian.org/releases/stable/
+    • Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
+
+DOKER-COMPOSE
+
+    • Download :
+    • Tuto nstallation:
+
+# LIENS POUR FRONTEND BACKEND
+
 # 2. Securite
 
 • Tout mdp stocké dans la base de données doit être chiffré
@@ -94,7 +109,4 @@ joueurs.
 
 • Responsive
 
-# LIENS DOCKER / DEBIAN / VIRTUALBOX
-
-# LIENS POUR FRONTEND BACKEND
 
