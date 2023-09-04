@@ -1,4 +1,4 @@
-# VUE D'ENSEMBLE CONDITIONS
+# 1. VUE D'ENSEMBLE CONDITIONS
 
 Languages :
 
@@ -20,15 +20,19 @@ Lancement :
 
 -> docker-compose up --build
 
-# Securite
+# 2. Securite
 
 • Tout mdp stocké dans la base de données doit être chiffré
+
 • Utilisation d'un algorithme de hachage de mdp fort
+
 • Un fichier .env ignoré par git qui contient : clés API, variables env, infos d'identifications, etc...
+
 • Le site web doit être protégé contre les injections SQL
+
 • Implémenter un système de validation côté serveur pour les formulaires et toute requête utilisateur.
 
-# Compte utilisateur
+# 3. Compte utilisateur
 
 • L’utilisateur doit pouvoir :
 - se loguer avec le système OAuth de l’intranet 42.
@@ -43,7 +47,7 @@ Lancement :
 ties 1 contre 1, les niveaux et ainsi de suite). Toute personne loguée doit pouvoir
 le consulter.
 
-# Chat
+# 4. Chat
 
 • L’utilisateur doit pouvoir :
 - créer des channels publics, privés, ou protégés par mot de passe.
@@ -61,6 +65,14 @@ owners du channel.
 • Grâce a l'interface du chat :
 - l’utilisateur doit pouvoir en inviter d’autres à faire une partie de Pong et accéder aux profils d’autres
 joueurs.
+
+# 5. Le jeu
+
+• Un système de matching : l’utilisateur rejoint une file d’attente jusqu’à être matché automatiquement avec quelqu’un d’autre.
+• Doit etre fidele au Pong
+• Quelques options de customisation (des power-ups ou des maps différentes) mais l’utilisateur doit pouvoir jouer à la version par défaut
+sans options s’il le souhaite.
+• Responsive
 
 # LIENS DOCKER / DEBIAN / VIRTUALBOX
 
