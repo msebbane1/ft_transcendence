@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    volumes:
+      - ./html:/var/www/html
+      - ./nginx/conf.d:/etc/nginx/conf.d/
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    container_name: nginx_html
