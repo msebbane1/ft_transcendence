@@ -11,6 +11,7 @@ Utilisations
 
 Lancement
 
+    -> Tester nginx : docker-compose up -d (fonctionne)
     -> docker-compose up --build
 
 # OUTILS
