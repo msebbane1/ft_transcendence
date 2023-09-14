@@ -6,6 +6,7 @@ Utilisations
     • NestJS : Back-end
     • framework TypeScript : Front-end
     • Bibliotheques autorisées : Toutes, derniere version stable (React?) [A CHOISIR]
+    REACT : https://fr.legacy.reactjs.org/
     • PostgreSQL : Base de données
     • NGINX - Open-source HTTP server
 

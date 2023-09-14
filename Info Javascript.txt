@@ -1,0 +1,14 @@
+NODE.JS
+1. curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+2. Redemarer terminal
+3. nvm install node
+4. npm install -g npm
+----------------------
+1. installation de Node.js (Debian) : sudo apt install nodejs npm
+2. Verification : node -v && npm -v
+
+REACT 
+1. Creation du projet : npx create-react-app nom-du-projet
+2. npm start
+
+
