@@ -9,6 +9,9 @@ NODE.JS
 
 REACT 
 1. Creation du projet : npx create-react-app nom-du-projet
-2. npm start
+1. Voir : npx create-react-app nom-du-projet --template typescript
+2. npm install react-router-dom
+2. Lancement de la page internet : npm start
 
 
+info typescript : https://www.globalis-ms.com/actualites/react-typescript/
