@@ -1,22 +1,22 @@
-// src/components/Navbar.js
-
 import React from "react";
 import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav>
+    <nav className="navbar">
       <ul>
         <li>
-          <Link to="/">Accueil</Link>
+          <Link to="/chat">Chat</Link>
         </li>
-        <li>
-          <Link to="/about">À propos</Link>
-        </li>
+	<li>
+	  <Link to="/Login">Login</Link>
+	</li>
+	<li>
+	 <Link to="/Game">Game</Link>
+	</li>
       </ul>
     </nav>
   );
 }
 
 export default Navbar;
-

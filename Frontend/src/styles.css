@@ -1,0 +1,31 @@
+/* styles.css */
+
+/* Style pour le menu de navigation */
+.navbar {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  margin: 0 10px;
+}
+
+/* Style pour les liens */
+.navbar a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.navbar a:hover {
+  color: yellow;
+}
+
