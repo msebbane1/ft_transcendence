@@ -1,12 +1,34 @@
 version: '3'
-
 services:
-  nginx:
-    image: nginx:stable-alpine
+  # FRONTEND
+  front:
+    image: node:lts-alpine
+    container_name: frontend
+    working_dir: /app
+ #  environment:
+    # - PUBLIC_URL=${FRONT_URL}
+    # - BACKEND_URL=${BACK_URL}
+    # - BACKEND_SOCKET=${SOCKET_URL}i
     volumes:
-      - ./html:/var/www/html
-      - ./nginx/conf.d:/etc/nginx/conf.d/
-    restart: unless-stopped
+      - ./frontend:/app
     ports:
-      - "80:80"
-    container_name: nginx_html
+      - "3000:3000"
+    restart: unless-stopped
+    command : npm start
+  #  networks:
+  #    - backend
+  #  depends_on:
+  #   - back
+
+  #container_name: nginx
+  # image: nginx:stable-alpine
+  # ports:
+  #   - '80:80'
+  # volumes:
+  #   - ./nginx/nginx.conf:/etc/nginx/nginx.conf/
+    # - ./html:/var/www/html
+    # - ./nginx/conf.d:/etc/nginx/conf.d/
+  
+
+  #BACKEND
+  #POSTGRES

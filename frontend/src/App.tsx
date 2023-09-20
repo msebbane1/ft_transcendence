@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
+import LoginComponent from './components/LoginComponent';
 import HomePage from './HomePage';
 import Navbar from './pages/Navbar';
 import Login from './pages/Login';
@@ -14,6 +15,7 @@ function App() {
       <div className="App">
         <Navbar />
         <Routes>
+	  <Route path='/auth' element={<LoginComponent />} />
           <Route path='/Login' element={<Login/>} />
           <Route path='/Chat' element={<Chat/>} />
 	  <Route path='/Game' element={<Game/>} />
