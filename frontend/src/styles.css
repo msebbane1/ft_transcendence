@@ -29,3 +29,56 @@
   color: yellow;
 }
 
+@keyframes moveRight {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100px);
+  }
+}
+
+.element {
+  animation: moveRight 2s infinite alternate;
+}
+
+/* styles.css */
+
+/* Classe pour l'animation de fade-in */
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* styles.css */
+
+body {
+  /*position: relative;*/
+  background-image: url('../public/test.jpg'); /* Chemin vers votre image */
+  /*position: relative;
+  background-size: 2000px 1000px; /* Ajustez la taille de l'image */
+  background-size: 2000px 1000px;
+  background-repeat: no-repeat; /* Empêchez la répétition de l'image */
+}
+
+  /* Créez l'effet de superposition blanc */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.3); /* Couleur blanche avec une opacité de 0.5 */
+    z-index: -1; /* Placez-le en arrière-plan du contenu */
+  }
+
+
