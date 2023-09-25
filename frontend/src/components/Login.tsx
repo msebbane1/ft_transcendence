@@ -9,15 +9,12 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async () => {
+  const handleLogin = () => {
     if (username === "root" && password === "root") {
       navigate("/home");
-    } else {
-      console.error("La connexion a échoué. Veuillez vérifier vos informations de connexion.");
-	// Creer effet ajout d'erreur
     }
   };
-
+	
   return (
     <div className="login-container">
       <h2>Connexion</h2>

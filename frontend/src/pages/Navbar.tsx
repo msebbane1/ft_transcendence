@@ -9,7 +9,7 @@ function Navbar() {
           <Link to="/chat">Chat</Link>
         </li>
 	<li>
-	  <Link to="/Login">Login</Link>
+	  <Link to="/profile">Profile</Link>
 	</li>
 	<li>
 	 <Link to="/Game">Game</Link>
