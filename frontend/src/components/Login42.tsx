@@ -1,5 +1,6 @@
 import React from 'react';
 import './Login42.css';
+import Img from './Img.png'
 
 const Login42 = () => {
   const handleLoginWith42 = () => {
@@ -8,7 +9,7 @@ const Login42 = () => {
 
   return (
     <div className="login-container">
-      <h1>PONG GAME</h1>
+      <img src={Img} width="200" height="100" />
       <button onClick={handleLoginWith42}>42 Login</button>
     </div>
   );
