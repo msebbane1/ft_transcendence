@@ -29,42 +29,12 @@
   color: yellow;
 }
 
-@keyframes moveRight {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(100px);
-  }
-}
-
-.element {
-  animation: moveRight 2s infinite alternate;
-}
-
-/* styles.css */
-
-/* Classe pour l'animation de fade-in */
-.fade-in {
-  animation: fadeIn 1s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* styles.css */
 
 body {
-  /*position: relative;*/
-  background-image: url('../public/particules.gif'); /* Chemin vers votre image */
-  /*position: relative;
-  background-size: 2000px 1000px; /* Ajustez la taille de l'image */
+	
+ /* background-color: #000;
+  opacity: 0.5; */
+  background-image: url('../public/particules.gif');
   background-size: 2000px 1000px;
   background-repeat: no-repeat; /* Empêchez la répétition de l'image */
 }

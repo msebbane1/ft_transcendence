@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Navbar from './pages/Navbar';
 import CallbackPage from './CallbackPage';
 import './styles.css';
+//import ParticlesBackground from './components/ParticlesBackground'; A CHANGER
 
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
