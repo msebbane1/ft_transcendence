@@ -42,7 +42,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<PrivateRoute><Login42 /></PrivateRoute>} />
-        <Route path="/callback" element={<CallbackPage />} />}
+        <Route path="/callback" element={<CallbackPage />} />
         <Route path="/home" element={<PrivateRoute><Navbar /><Home /></PrivateRoute>} />
         <Route path="/game" element={<PrivateRoute><Navbar /><Game /></PrivateRoute>} />
         <Route path="/chat" element={<PrivateRoute><Navbar /><Chat /></PrivateRoute>} />

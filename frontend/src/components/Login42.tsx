@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login42.css';
-import Img from './Img.png'
+import Img from '../assets/3.png'
 
 const Login42 = () => {
   const handleLoginWith42 = () => {
@@ -8,8 +8,12 @@ const Login42 = () => {
   }; // A METTRE DANS .ENV CLIENT_ID et REDIRECT URL
 
   return (
-    <div className="login-container">
-      <img src={Img} width="200" height="100" />
+    <div>
+      <img
+      src={Img}
+      alt="Nom de l'image"
+      className="centered-image"
+    />
       <button onClick={handleLoginWith42}>42 Login</button>
     </div>
   );
