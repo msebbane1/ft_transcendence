@@ -10,11 +10,8 @@ const Login42 = () => {
   return (
     <div>
       <img
-      src={Img}
-      alt="Nom de l'image"
-      className="centered-image"
-    />
-      <button onClick={handleLoginWith42}>42 Login</button>
+      src={Img} className="centered-image" />
+      <button className="login-button" onClick={handleLoginWith42}>Login</button>
     </div>
   );
 };
