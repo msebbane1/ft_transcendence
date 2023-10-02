@@ -13,8 +13,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const isAuthenticated = async () => {
   try {
-    // ENV
-    const response = await fetch('https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-0eb1371b71fe5c6a555fd5eb1d7e9e369041aae68a8f326cd93b1f6b8b167b54&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code', {
+    const response = await fetch('${API_42}', {
       method: 'POST',
     });
 
