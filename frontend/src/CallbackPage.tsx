@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 
 const CallbackPage = () => {
   useEffect(() => {
-    // Extraitz le code d'autorisation de l'URL
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
-
     const clientId = '${CLIENT_ID}';
     const clientSecret = '${SECRET}';
     const redirectUri = '${API_42}';
@@ -25,9 +23,8 @@ const CallbackPage = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Stockez le jeton d'accès
-        const accessToken = data.access_token;
-
+        // Stockez le jeton d'accès dans le localStorage
+        localStorage.setItem('accessToken', data.access_token);
         // Redirigez l'utilisateur vers la page principale
         window.location.href = '/home';
       })
@@ -35,7 +32,7 @@ const CallbackPage = () => {
         console.error('Erreur lors de l\'échange de code :', error);
       });
   }, []);
-// A AJOUTER UN CSS
+
   return (
     <div>
       <p>Authentification en cours...</p>
