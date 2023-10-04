@@ -6,9 +6,11 @@ const CallbackPage = () => {
     const code = urlParams.get('code');
     const clientId = '${CLIENT_ID}';
     const clientSecret = '${SECRET}';
-    const redirectUri = '${API_42}';
 
-    fetch('https://api.intra.42.fr/oauth/token', {
+    const API_42 = process.env.REACT_APP_API_42;
+    const redirectUri = `${window.location.origin}/auth/callback`;
+
+    fetch('${API_42}/oauth/token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,4 +43,3 @@ const CallbackPage = () => {
 };
 
 export default CallbackPage;
-
