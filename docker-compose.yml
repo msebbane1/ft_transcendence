@@ -5,21 +5,32 @@ services:
     image: node:lts-alpine
     container_name: frontend
     working_dir: /app
- #  environment:
-    # - PUBLIC_URL=${FRONT_URL}
-    # - BACKEND_URL=${BACK_URL}
-    # - BACKEND_SOCKET=${SOCKET_URL}i
     volumes:
       - ./frontend:/app
     ports:
       - "3000:3000"
     restart: unless-stopped
-    command : npm start
-  #  networks:
-  #    - backend
-  #  depends_on:
-  #   - back
-  
+    command: npm start
+    networks:
+      - transcendence
+    depends_on:
+      - backend
 
-  #BACKEND
-  #POSTGRES
+  # BACKEND
+  backend:
+    image: node:lts-alpine
+    container_name: back
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./back:/app
+    networks:
+      - transcendence
+    restart: unless-stopped
+    command: npm run start
+
+networks:
+  transcendence:
+    name: transcendence
+
