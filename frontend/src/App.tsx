@@ -20,7 +20,7 @@ const PublicRoute = ({children}: {children: JSX.Element}) => {
 
 	useEffect(() => {
 		//let challenge = !session.get("2FA_status") || session.get("2FA_challenge");
-		if (session.has("access_token"))
+		if (session.has("accessToken"))
 			navigate("/home");
 	}, [])
 
@@ -30,20 +30,17 @@ const PublicRoute = ({children}: {children: JSX.Element}) => {
 const PrivateRoute = ({children}: {children: JSX.Element}) => {
 	const session = useSession2("session");
 	const navigate = useNavigate();
-const accessToken = localStorage.getItem("access_token");
+	const accessToken = localStorage.getItem("accessToken");
 
-// Vérifiez si le jeton d'accès existe
-if (accessToken) {
-  // Le jeton d'accès existe, vous pouvez l'utiliser
-  console.log("AccessToken:", accessToken);
-} else {
-  // Le jeton d'accès n'existe pas
-  console.log("Pas de jeton d'accès trouvé.");
-}
+	if (accessToken) {
+  		console.log("AccessToken:", accessToken);} 
+	else {
+  		console.log("Pas de jeton d'accès trouvé.");
+	}
 	useEffect(() => {
 		console.log("Session content:", session);
 		console.log("error : ", Error);	
-		if (session.has("access_token"))
+		if (session.has("accessToken"))
 		{
 			//let challenge = !session.get("2FA_status") || session.get("2FA_challenge");
 			//if (!challenge)	navigate("/2FA");
