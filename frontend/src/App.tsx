@@ -26,39 +26,29 @@ const PublicRoute = ({children}: {children: JSX.Element}) => {
 
 	return <>{children}</>;
 }
-
-const PrivateRoute = ({children}: {children: JSX.Element}) => {
-	const session = useSession2("session");
-	const navigate = useNavigate();
-	const accessToken = localStorage.getItem("accessToken");
-
-	if (accessToken) {
-  		console.log("AccessToken:", accessToken);} 
-	else {
-  		console.log("Pas de jeton d'accès trouvé.");
-	}
-	useEffect(() => {
-		console.log("Session content:", session);
-		console.log("error : ", Error);	
-		if (session.has("accessToken"))
-		{
-			//let challenge = !session.get("2FA_status") || session.get("2FA_challenge");
-			//if (!challenge)	navigate("/2FA");
-			navigate("/home");
-		}
-		else 
-		{  navigate("/");
-		   console.log("test error");
-		}
-		
-
-	}, [])
-
-	return <>{children}</>;
-}
-
-
 /*
+const PrivateRoute = ({ children }: { children: JSX.Element }) => {
+  const session = useSession2('session');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('Session content:', session);
+
+    // Vérifie si l'utilisateur est authentifié
+    if (!session.isAuthenticated()) {
+      // Si non authentifié, redirigez vers la page de connexion
+      navigate('/');
+      console.log('test error');}
+    else{
+ 	navigate('/home');
+    }
+  }, [session, navigate]);
+
+  return <>{children}</>;
+};*/
+
+
+
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const isAuthenticated = async () => {
@@ -85,7 +75,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   }, [navigate]);
 
   return <>{children}</>;
-};*/
+};
 
 function App() {
   return (

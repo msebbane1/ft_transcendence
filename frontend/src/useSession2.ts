@@ -37,6 +37,11 @@ export default function useSession2(key: string) {
     setSession({});
   };
 
-  return { has, get, set, clear };
+  // Ajoutez une vérification pour l'access token
+  const isAuthenticated = () => {
+    return has('accessToken');
+  };
+
+  return { has, get, set, clear, isAuthenticated };
 }
 

@@ -1,8 +1,11 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+//import useSession2 from './useSession2';
 //import { REACT_APP_CLIENT_ID, REACT_APP_CLIENT_SECRET, REACT_APP_API_URL, REACT_APP_REDIRECT_URI } from './config';
 
 const CallbackPage3 = () => {
+
+//const session = useSession2("session");
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
@@ -31,7 +34,7 @@ const CallbackPage3 = () => {
   	console.log("PTESSSTas de jeton d'accès trouvé.");
 	}
           const isAuthenticated = !!localStorage.getItem('accessToken');
-
+	  //session.set({ accessToken });
           if (isAuthenticated) {
             window.location.href = '/home';
           }
