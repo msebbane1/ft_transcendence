@@ -80,6 +80,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <BrowserRouter>
+      <div className="site-background">
       <Routes>
         <Route path="/" element={<Login42 />} />
  	<Route path="/callback" element={<CallbackPage3 />} />
@@ -88,6 +89,7 @@ function App() {
 	<Route path="/chat" element={<PrivateRoute><div><Navbar /><Chat /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Profil /></div></PrivateRoute>} />
       </Routes>
+	</div>
     </BrowserRouter>
   );
 }
