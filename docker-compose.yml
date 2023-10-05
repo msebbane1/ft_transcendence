@@ -24,7 +24,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./back:/app
+      - ./backend:/app
     networks:
       - transcendence
     restart: unless-stopped
