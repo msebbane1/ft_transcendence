@@ -26,7 +26,7 @@ const Login42 = () => {
   };
 
   return (
-    <div>
+    <body className="back">
     <div className="text-container">
 	<p className="text-pong"> pong </p>
 	<p className="text-game"> Game </p>
@@ -39,7 +39,7 @@ const Login42 = () => {
 	   participer à une compétition du célèbre jeu Pong !
 	</p>
       <button className="login-button" onClick={handleClickLogin}>Login</button>
-      </div>
+      </body>
   );
 };
 

@@ -1,18 +1,40 @@
 .container-grid {
   display: grid;
-  grid-template-columns: 400px 400px 400px;
-  gap: 20px;
+  grid-template-columns: 300px 300px 300px;
+  gap: 50px;
+  margin-top: 3%;
   justify-content: center;
   align-items: center;
 
   
 }
+@font-face {
+  font-family: "Dela";
+  src: url("../fonts/DelaGothicOne-Regular.ttf") format("truetype");
+}
 
+body {
+  background-color: rgba(15, 13, 14, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Styles pour les écrans plus petits (par exemple, les smartphones) */
+@media (max-width: 768px) {
+  .content {
+    width: 100%;
+  }
+}
 .container {
+  text-align: center; /* Centre le texte horizontalement */
+  display: flex; /* Utilise Flexbox pour centrer verticalement */
+  align-items: center; /* Centre verticalement le contenu */
+  justify-content: center; /* Centre horizontalement le contenu (si nécessaire) */
+  height: 100%;
   padding: 20px;
-  text-align: center;
-  font-size: 20px;
-  color: #fff;
+  font-size: 40px;
+  font-family: "Dela";
+  color: #f38ba3;
   text-decoration: none;
   border-radius: 10px;
   transition: transform 0.3s ease;
@@ -24,37 +46,37 @@
 
 
 .container-1 {
-  background-color: #007bff;
-  width: 350px;
-  height: 200px;
+  background-color: #231f20;
+  width: 280px;
+  height: 250px;
 }
 
 .container-2 {
-  background-color: #ff6347;
+  background-color: #12b5e5;
   width: 350px; 
   height: 200px; 
 }
 
 .container-3 {
-  background-color: #32cd32;
+  background-color: #f9f4da;
   width: 350px; 
   height: 200px;
 }
 
 .container-4 {
-  background-color: #ff69b4; /* Rose */
-  width: 350px; /* Largeur personnalisée */
-  height: 200px; /* Hauteur personnalisée */
+  background-color: #ed203d;
+  width: 350px;
+  height: 200px;
 }
 
 .container-5 {
-  background-color: #ffa500; /* Orange */
+  background-color: #f38ba3;
   width: 350px; /* Largeur personnalisée */
   height: 200px; /* Hauteur personnalisée */
 }
 
 .container-6 {
-  background-color: #800080; /* Violet */
+  background-color: #fcba28;
   width: 350px; /* Largeur personnalisée */
   height: 200px; /* Hauteur personnalisée */
 }

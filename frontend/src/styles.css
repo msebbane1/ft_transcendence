@@ -31,8 +31,8 @@
 
 body {
   background-color: rgba(15, 13, 14, 1);
-  border: 2.5vw solid rgba(35, 31, 32, 1); /* Utilisation de vw pour la bordure */
-  box-sizing: border-box;
+  /*border: 2.5vw solid rgba(35, 31, 32, 1);*/
+  /*box-sizing: border-box;*/
   min-height: 100vh;
   display: flex;
   flex-direction: column;

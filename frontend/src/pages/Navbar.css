@@ -1,0 +1,60 @@
+.navbar {
+  background-color: #231f20;
+  color: #f18aa2;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+}
+
+/*  TEXT PONG GAME */
+
+.text-containerl {
+  margin-left: 10%;
+  margin-bottom: 0;
+  margin-top: 0%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+.text-containerl p {
+  margin: 0;
+}
+.text-pongl {
+  font-family: "Kanit", sans-serif;
+  font-size: 35px;
+  color: #fff;
+  color: #f9f4da;
+}
+
+.text-gamel {
+  font-style: italic;
+  font-family: "Dela", sans-serif;
+  font-size: 60px;
+  color: #f088a0;
+}
+
+/* PHOTO PROFILE */
+
+.pic-profile {
+  background-image: url('../../public/msebbane.jpg'); /*A RECUPERER DIFFEREMENT*/
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding: 20px 200px 50px;
+  /*border-radius: 20px ;*/
+}
+
+/* NAV BAR */
+.nav-links a {
+  text-decoration: none;
+  text-align: center;
+  margin-right: 50px;
+  color: #fff;
+}
+
+.nav-links a:hover {
+  color: #00bcd4;
+}
+
