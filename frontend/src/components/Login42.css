@@ -1,6 +1,6 @@
 /* Login.css */
 
-
+/*FONT STYLE*/
 @font-face {
   font-family: "YoungSerif";
   src: url("../fonts/YoungSerif-Regular.ttf") format("truetype");}
@@ -19,14 +19,17 @@
   src: url("../fonts/RobotoMono-ExtraLight.ttf") format("truetype");
 }
 
+/* TEXT transcendance */
+
 .container_ft {
-  width: 40%;
-  margin: auto;
+  margin-bottom: 5%;
+  margin-left: 20%;
+  margin-top:0;
+  width: 60%;
   padding: 1px;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
-  margin-top: 1px;
   background-color: #231f20;
   cursor: pointer;
   color: #fff;
@@ -44,28 +47,34 @@
   font-family: "Roboto", sans-serif;
   font-size: 20px;
   color: #f9f4da;
+  margin-left: 10px;
 }
 
 .text-ft2 {
 font-family: "Roboto", sans-serif;
   font-size: 20px;
   color: #0ba759;
+  margin-left: 20px;
 }
 
+/*  TEXT PONG GAME */
+
 .text-container {
-  margin-top: 50px;
+  margin-left: 32%;
+  margin-bottom: 0;
+  margin-top: 10%;
   padding: 0; 
   display: flex;
-  justify-content: center;
   align-items: center;
   flex-direction: row;
 }
-
+.text-container p {
+  margin: 0;
+}
 .text-pong {
   font-family: "Kanit", sans-serif;
-  font-size: 70px;
-  color: #fff;
-  text-align: center; 
+  font-size: 60px;
+  color: #fff; 
   color: #f9f4da;
 }
 
@@ -73,16 +82,16 @@ font-family: "Roboto", sans-serif;
   font-style: italic;
   font-family: "Dela", sans-serif;
   font-size: 100px;
-  text-align: center;
   color: #f088a0;
 }
+/*TEXT INTRO*/
+
 .italic-text {
   font-family: "YoungSerif", sans-serif;
   font-size: 20px;
-  color: #fff;
   text-align: center;
   color: #f9f4da;
-  margin-top: 1px; /* Ajuster la marge supérieure selon vos besoins */
+  margin-top: 0;
   line-height: 1;
   padding: 100;
 }

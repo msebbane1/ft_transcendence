@@ -32,7 +32,7 @@ const Login42 = () => {
 	<p className="text-game"> Game </p>
       </div>
 	<div className="container_ft"> 
-        <p className="text-ft2"> &gt; </p> <p className="text-ft"> ft_transcendence/pongGame </p>
+        <p className="text-ft2">  &gt; </p> <p className="text-ft">  ft_transcendence/pongGame </p>
 	</div>
 	<p className="italic-text">
 	   Ce project consiste à créer un site web pour <br />

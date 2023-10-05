@@ -5,7 +5,7 @@ import LoginButton from './LoginButton';
 import Login42 from './components/Login42';
 import Game from './pages/Game';
 import Chat from './pages/Chat';
-import Home from './pages/Home';
+import Home2 from './pages/Home2';
 import Profil from './Profil';
 import Navbar from './pages/Navbar';
 import CallbackPage3 from './CallbackPage3';
@@ -84,7 +84,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Login42 />} />
  	<Route path="/callback" element={<CallbackPage3 />} />
-        <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
+        <Route path="/home" element={<PrivateRoute><div><Home2 /></div></PrivateRoute>} />
 	<Route path="/game" element={<PrivateRoute><div><Navbar /><Game /></div></PrivateRoute>} />
 	<Route path="/chat" element={<PrivateRoute><div><Navbar /><Chat /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Profil /></div></PrivateRoute>} />
