@@ -12,7 +12,10 @@
   font-family: "Dela";
   src: url("../fonts/DelaGothicOne-Regular.ttf") format("truetype");
 }
-
+@font-face {
+  font-family: "VT";
+  src: url("../fonts/VT323-Regular.ttf") format("truetype");
+}
 body {
   background-color: rgba(15, 13, 14, 1);
   display: flex;
@@ -26,15 +29,16 @@ body {
   }
 }
 .container {
-  text-align: center; /* Centre le texte horizontalement */
-  display: flex; /* Utilise Flexbox pour centrer verticalement */
-  align-items: center; /* Centre verticalement le contenu */
-  justify-content: center; /* Centre horizontalement le contenu (si nécessaire) */
+  text-align: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
   height: 100%;
   padding: 20px;
-  font-size: 40px;
+  font-size: 20px;
   font-family: "Dela";
-  color: #f38ba3;
+  /*color: #12b5e5; BLEU */
+  color: #fcba28;
   text-decoration: none;
   border-radius: 10px;
   transition: transform 0.3s ease;
@@ -46,38 +50,63 @@ body {
 
 
 .container-1 {
-  background-color: #231f20;
   width: 280px;
   height: 250px;
+  background-image: url('../../public/win.svg');
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-color: #f9f4da;
+  background-position: center;
 }
 
 .container-2 {
-  background-color: #12b5e5;
-  width: 350px; 
-  height: 200px; 
+  width: 280px;
+  height: 250px;
+  background-image: url('../../public/game.svg');
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-color: #231f20;
+  background-position: center;
 }
 
 .container-3 {
+  width: 280px;
+  height: 250px;
+  background-image: url('../../public/chat.svg');
+  background-size: 60%;
+  background-repeat: no-repeat;
   background-color: #f9f4da;
-  width: 350px; 
-  height: 200px;
+  background-position: center;
 }
 
-.container-4 {
-  background-color: #ed203d;
-  width: 350px;
-  height: 200px;
+.centered-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+  text-decoration: none;
+  text-shadow: none;
+  width: 250px;
+  height: 250px;
+  margin: auto;
 }
 
-.container-5 {
-  background-color: #f38ba3;
-  width: 350px; /* Largeur personnalisée */
-  height: 200px; /* Hauteur personnalisée */
+.blinking-text {
+  font-family: "VT";
+  color: #f1b228;
+  font-size: 180px;
+  animation: blink 1s infinite alternate;;
 }
 
-.container-6 {
-  background-color: #fcba28;
-  width: 350px; /* Largeur personnalisée */
-  height: 200px; /* Hauteur personnalisée */
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
+
+
 

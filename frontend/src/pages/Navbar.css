@@ -23,7 +23,7 @@
 }
 .text-pongl {
   font-family: "Kanit", sans-serif;
-  font-size: 35px;
+  font-size: 25px;
   color: #fff;
   color: #f9f4da;
 }
@@ -31,8 +31,10 @@
 .text-gamel {
   font-style: italic;
   font-family: "Dela", sans-serif;
-  font-size: 60px;
-  color: #f088a0;
+  font-size: 50px;
+  /*color: #f088a0; ROSE */ 
+  /*color: #12b5e5; BLEU */
+	color: #fcba28;
 }
 
 /* PHOTO PROFILE */
