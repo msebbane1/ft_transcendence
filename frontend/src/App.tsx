@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
-import Logintest from './Logintest';
-import LoginButton from './LoginButton';
+//import Logintest from './Logintest';
+//import LoginButton from './LoginButton';
 import Login42 from './components/Login42';
-import Game from './pages/Game';
+import PongGame from './pages/PongGame';
 import Chat from './pages/Chat';
 import Home2 from './pages/Home2';
 import Profil from './Profil';
@@ -85,7 +85,7 @@ function App() {
         <Route path="/" element={<Login42 />} />
  	<Route path="/callback" element={<CallbackPage3 />} />
         <Route path="/home" element={<PrivateRoute><div><Navbar2 /><Home2 /></div></PrivateRoute>} />
-	<Route path="/game" element={<PrivateRoute><div><Navbar2 /><Game /></div></PrivateRoute>} />
+	<Route path="/play" element={<PrivateRoute><div><Navbar2 /><PongGame /></div></PrivateRoute>} />
 	<Route path="/chat" element={<PrivateRoute><div><Navbar2 /><Chat /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Profil /></div></PrivateRoute>} />
       </Routes>
