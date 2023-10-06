@@ -2,7 +2,7 @@
   background-color: #231f20;
   color: #f18aa2;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   padding: 10px 20px;
 }
@@ -10,7 +10,7 @@
 /*  TEXT PONG GAME */
 
 .text-containerl {
-  margin-left: 10%;
+  margin-left: 7%;
   margin-bottom: 0;
   margin-top: 0%;
   padding: 0;
@@ -31,10 +31,10 @@
 .text-gamel {
   font-style: italic;
   font-family: "Dela", sans-serif;
-  font-size: 50px;
+  font-size: 40px;
   /*color: #f088a0; ROSE */ 
   /*color: #12b5e5; BLEU */
-	color: #fcba28;
+  color: #fcba28;
 }
 
 /* PHOTO PROFILE */
@@ -49,14 +49,15 @@
 }
 
 /* NAV BAR */
-.nav-links a {
+.nav-links a{
   text-decoration: none;
-  text-align: center;
+  font-family: "Dela";
   margin-right: 50px;
-  color: #fff;
+  text-align: center;
+  color: #f9f4da;
 }
 
 .nav-links a:hover {
-  color: #00bcd4;
+  color: #f088a0;
 }
 

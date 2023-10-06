@@ -55,8 +55,12 @@ body {
   background-image: url('../../public/win.svg');
   background-size: 60%;
   background-repeat: no-repeat;
-  background-color: #f9f4da;
+  background-color: #231f20;
   background-position: center;
+}
+.container-1:hover {
+  color: #fcba28;
+  background-color: #f9f4da;
 }
 
 .container-2 {
@@ -69,14 +73,23 @@ body {
   background-position: center;
 }
 
+.container-2:hover {
+  color: #fcba28;
+  background-color: #f9f4da;
+}
+
 .container-3 {
   width: 280px;
   height: 250px;
   background-image: url('../../public/chat.svg');
   background-size: 60%;
   background-repeat: no-repeat;
-  background-color: #f9f4da;
+  background-color: #231f20;
   background-position: center;
+}
+.container-3:hover {
+  color: #fcba28;
+  background-color: #f9f4da;
 }
 
 .centered-container {

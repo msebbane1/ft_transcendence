@@ -28,16 +28,12 @@ const Login42 = () => {
   return (
     <body className="back">
     <div className="text-container">
-	<p className="text-pong"> pong </p>
+	<p className="text-pong"> &gt; pong</p>
 	<p className="text-game"> Game </p>
       </div>
 	<div className="container_ft"> 
         <p className="text-ft2">  &gt; </p> <p className="text-ft">  ft_transcendence/pongGame </p>
 	</div>
-	<p className="italic-text">
-	   Ce project consiste à créer un site web pour <br />
-	   participer à une compétition du célèbre jeu Pong !
-	</p>
       <button className="login-button" onClick={handleClickLogin}>Login</button>
       </body>
   );

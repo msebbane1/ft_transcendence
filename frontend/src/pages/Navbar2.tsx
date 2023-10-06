@@ -7,13 +7,14 @@ function NavBar2() {
      <div className="pic-profile">
       </div>
 	<div className="nav-links">
+	<a href="/watch">WatchGame</a>
         <a href="/leaderboard">Leaderboard</a>
-        <a href="/chat">Chat</a>
         <a href="/profile">Profile</a>
-        <a href="/chat">Settings</a>
+        <a href="/settings">Settings</a>
+	<a href="/chat">Chat</a>
       </div>
       <div className="text-containerl">
-        <p className="text-pongl"> pong </p>
+        <p className="text-pongl"> &gt; pong </p>
         <p className="text-gamel"> Game </p>
       </div>
     </div>
