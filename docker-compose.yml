@@ -12,25 +12,27 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-    command: npm start
+    command: sh -c "npm install && npm start"
     networks:
       - transcendence
-    depends_on:
-      - backend
+        #  depends_on:
+        #- backend
 
   # BACKEND
-  backend:
-    image: node:lts-alpine
-    container_name: back
-    working_dir: /app
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./backend:/app
-    networks:
-      - transcendence
-    restart: unless-stopped
-    command: npm run start
+  #  backend:
+  # build:
+  #   context: ./backend
+  #  image: node:lts-alpine
+  # container_name: back
+  # working_dir: /app
+  # ports:
+  #   - "8080:8080"
+  # volumes:
+  #   - ./backend:/app
+  # networks:
+  #   - transcendence
+  #  restart: unless-stopped
+  # command: npm run start
 
 networks:
   transcendence:

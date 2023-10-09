@@ -1,7 +1,8 @@
 # Utilisation d'une image Node.js LTS Alpine comme base
 FROM node:lts-alpine
 
-# Définir le répertoire de travail dans le conteneur
+RUN npm install -g @nestjs/cli
+
 WORKDIR /app
 
 # Copier les fichiers package.json et package-lock.json dans le conteneur
