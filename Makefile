@@ -13,6 +13,7 @@ clean:	dbclean
 
 fclean: down clean
 	@docker rm -f	back frontend
+	@docker rmi -f back frontend
 	@docker system prune -af
 
 re: down fclean build
