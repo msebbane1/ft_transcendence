@@ -1,6 +1,9 @@
 FROM node:lts-alpine
 
 #COPY ./     /app/
+RUN npm install typescript --save-dev
+
+RUN npm install -g react-scripts
 
 WORKDIR /app
 
