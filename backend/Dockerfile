@@ -1,16 +1,21 @@
-FROM node:lts-alpine
+# Utilisez l'image Python officielle en tant qu'image de base
+FROM python:3.9
 
-#RUN npm install -g @nestjs/cli
-
+# Définissez le répertoire de travail
 WORKDIR /app
 
-COPY package*.json ./
+# Copiez les fichiers nécessaires dans le conteneur
+COPY requirements.txt /app/
+COPY . /app/
 
-RUN npm install
+# Installez les dépendances
+#RUN pip install --no-cache-dir -r requirements.txt
 
-COPY . .
+RUN python -m venv venv && . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
+# Exposez le port sur lequel Django sera en cours d'exécution
 EXPOSE 8080
 
-CMD ["npm", "run", "start"]
+# Commande pour démarrer le serveur Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
 

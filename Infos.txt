@@ -17,3 +17,5 @@ REACT
 info typescript : https://www.globalis-ms.com/actualites/react-typescript/
 
 API 42 : https://api.intra.42.fr/apidoc/guides/getting_started
+
+DJANGO :

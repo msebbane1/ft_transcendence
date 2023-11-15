@@ -1,35 +1,64 @@
 
 # 1. VUE D'ENSEMBLE CONDITIONS
 
+• Web
+    ◦ Module majeur : Utiliser un framework en backend.
+    ◦ Module mineur : Utiliser un framework ou toolkit en frontend.
+    ◦ Module mineur : Utiliser une base de données en backend.
+    ◦ Module majeur : Stocker les pointages d’un tournoi dans la Blockchain.
+• Gestion utilisateur
+    ◦ Module majeur : Gestion utilisateur standard, authentification, utilisateurs
+    en tournois.
+    ◦ Module majeur : Implémenter une authentification à distance.
+    Gameplay et expérience utilisateur
+    ◦ Module majeur : Joueurs à distance
+    ◦ Module majeur : Multijoueurs (plus de 2 dans la même partie)
+    ◦ Module majeur : Ajout d’un second jeu avec historique utilisateur et "matchmaking".
+    ◦ Module mineur : Option de personnalisation du jeu.
+    ◦ Module majeur : Clavardage en direct (live chat).
+• IA-Algo
+    ◦ Module majeur : Implémenter un adversaire contrôlé par IA.
+    ◦ Module mineur : Panneaux d’affichage (dashboards) d’utilisateurs et statistiques
+    des parties.
+• Cybersécurité
+    ◦ Module majeur : Mettez en place un pare-feu d’application Web (WAF) ou
+    ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour
+    la gestion des secrets.
+    ◦ Module mineur : Options de conformité au RGPD avec anonymisation des
+    utilisateurs, gestion des données locales et suppression de comptes.
+    ◦ Module majeur : Implémenter l’authentification à 2 facteurs (2FA) et JWT
+    (JSON Web Tokens).
+• Devops
+    ◦ Module majeur : Configuration de l’infrastructure pour la gestion des journaux
+    8(logs).
+    ◦ Module mineur : Système de monitoring.
+    ◦ Module majeur : Design du backend comme Microservices.
+• Graphiques
+    ◦ Module majeur : Utilisation de techniques avancées 3D.
+    • Accessibilité
+    ◦ Module mineur : Support sur tous types d’appareils.
+    ◦ Module mineur : Étendre la compatibilité des navigateurs web.
+    ◦ Module mineur : Support de multiple langues.
+    ◦ Module mineur : Ajout de l’accessibilité pour les utilisateurs malvoyants.
+    ◦ Module mineur : Intégration du rendu côté serveur (SSR).
+• Orienté objet
+    ◦ Module majeur : Remplacer le Pong de base par un Pong côté serveur et
+    implémentation d’une API.
+    ◦ Module majeur : Activation du gameplay via ligne de commande (CLI)
+    contre les utilisateurs Web avec intégration AP
+
 Utilisations
 
-    • NestJS : Back-end
-    • framework TypeScript : Front-end
-    • Bibliotheques autorisées : Toutes, derniere version stable (React?) [A CHOISIR]
-    REACT : https://fr.legacy.reactjs.org/
-    • PostgreSQL : Base de données
+    • Back-end : Django
+    • Front-end : framework TypeScript ?
+    • Bibliotheques autorisées : REACT (https://fr.legacy.reactjs.org/)
+    • Base de données : ??
     • NGINX - Open-source HTTP server
 
 Lancement
-
-    -> Tester nginx : docker-compose up -d (fonctionne)
-    -> docker-compose up --build
-
-# OUTILS
-
--> A completer..
-
-Organisation
-
-    • Notion
-    • Figma
-
-Front-end
-
-
-Back-end
-
-    • Prisma
+    -> make ou docker-compose up --build
+    -> backend : http://127.0.0.1:8080/
+    -> frontend : http://localhost:3000/
 
 
 # LIENS DOCKER / DEBIAN
@@ -40,69 +69,5 @@ DEBIAN :
 
 - Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
 
-DOKER-COMPOSE :
-
-- Download :
-
-- Tuto installation:
-
-
-# LIENS POUR FRONTEND BACKEND
-
-# 2. Securite
-
-• Tout mdp stocké dans la base de données doit être chiffré
-
-• Utilisation d'un algorithme de hachage de mdp fort
-
-• Un fichier .env ignoré par git qui contient : clés API, variables env, infos d'identifications, etc...
-
-• Le site web doit être protégé contre les injections SQL
-
-• Implémenter un système de validation côté serveur pour les formulaires et toute requête utilisateur.
-
-# 3. Compte utilisateur
-
-• L’utilisateur doit pouvoir :
-- se loguer avec le système OAuth de l’intranet 42.
-- choisir un nom d’utilisateur unique qui sera affiché sur le site
-- télécharger un avatar. S’il n’en met pas, un avatar par défaut doit être affiché.
-- activer l’authentification à deux facteurs, ou 2FA, comme Google Authenticator ou l’envoi d’un SMS sur son tel
-- ajouter d’autres utilisateurs comme amis et voir leur statut en temps réel (en ligne, hors-ligne, en pleine partie, etc.).
-
-• Des stats telles que : victoires et défaites, rang et niveaux, hauts faits... affichées sur le profil de l’utilisateur.
-
-• Chaque utilisateur doit avoir un Match History (historique comportant les par-
-ties 1 contre 1, les niveaux et ainsi de suite). Toute personne loguée doit pouvoir
-le consulter.
-
-# 4. Chat
-
-• L’utilisateur doit pouvoir :
-- créer des channels publics, privés, ou protégés par mot de passe.
-- envoyer des direct messages à d’autres utilisateurs.
-- bloquer d’autres utilisateurs (messages envoyés non visible par les comptes qu’il aura bloqués)
-
-• Channels :
-- L’utilisateur qui crée un nouveau channel devient son owner, jusqu’à ce qu’il le quitte.
-- Le owner peut définir un mot de passe requis pour accéder au channel, le modifier, et le retirer.
-◦ Le owner est aussi un administrateur. Il peut donner le rôle d’administrateur à d’autres utilisateurs.
-◦ Un utilisateur qui est administrateur d’un channel peut expulser, bannir ou
-mettre en sourdine (pour un temps limité) d’autres utilisateurs, mais pas les
-owners du channel.
-
-• Grâce a l'interface du chat :
-- l’utilisateur doit pouvoir en inviter d’autres à faire une partie de Pong et accéder aux profils d’autres
-joueurs.
-
-# 5. Le jeu
-
-• Un système de matching : l’utilisateur rejoint une file d’attente jusqu’à être matché automatiquement avec quelqu’un d’autre.
-
-• Doit etre fidele au Pong
-
-• Quelques options de customisation (des power-ups ou des maps différentes) mais l’utilisateur doit pouvoir jouer à la version par défaut sans options s’il le souhaite.
-
-• Responsive
 
 
