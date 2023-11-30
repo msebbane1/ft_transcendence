@@ -37,9 +37,49 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'dj_rest_auth',
+   # 'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
+    #'allauth.socialaccount.providers.oauth2',
+   # 'rest_framework_simplejwt',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'social_django',
+    'dj_rest_auth.registration',
+    'django.contrib.sites',
+    'oauth2_provider',
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.42.EDXOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
+# settings.py
+SOCIALACCOUNT_PROVIDERS = {
+    '42': {
+        'APP': {
+            'client_id': 'u-s4t2ud-ab0a2c4d071ad2ab41a09ecc31c56a394d7d0ffe63be47f4cd76e20ae87e843e',
+            'secret': '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',
+            'key': '',
+            'scope': ['public', 'profile', 'email'],
+            'auth_params': {'access_type': 'online'},
+        }
+    }
+}
+
+SOCIAL_AUTH_42_KEY = 'u-s4t2ud-ab0a2c4d071ad2ab41a09ecc31c56a394d7d0ffe63be47f4cd76e20ae87e843e'
+SOCIAL_AUTH_42_SECRET = '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'
+SOCIAL_AUTH_42_SCOPE = ['public']
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'http://localhost:3000/callback'
+
 MIDDLEWARE = [
+    # CORS
+    'corsheaders.middleware.CorsMiddleware',
+    # Default
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -47,7 +87,20 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    # Ajoutez le middleware allauth.account.middleware.AccountMiddleware ici
+  # 'allauth.account.middleware.AccountMiddleware',
+  #  'django.contrib.sites.middleware.CurrentSiteMiddleware',
 ]
+
+#SITE_ID = 1
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://localhost:8080",
+]
+
+REST_USE_JWT = True
 
 ROOT_URLCONF = 'back.urls'
 
@@ -67,7 +120,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'back.wsgi.application'
+#WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
