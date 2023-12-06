@@ -34,7 +34,7 @@ const CallbackPage = () => {
 
 	  if (response.status >= 200 && response.status < 300) {
       		console.log("Response OK:", response);
-	}
+	  }
 	  if (accessToken) {
 		console.log("AccessToken:", accessToken);
           }
@@ -55,7 +55,7 @@ const CallbackPage = () => {
             console.error('Error exchanging code for access token. Status:', error.response.status);
             console.error('Error details:', error.response.data);
           } else if (error.request) {
-            // La requête a été effectuée, mais aucune réponse n'a été reçue
+            // La requête a été effectuée mais aucune réponse n'a été reçue
             console.error('No response received from the server.', error);
           } else {
             // Une erreur s'est produite lors de la configuration de la requête

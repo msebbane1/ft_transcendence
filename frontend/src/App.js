@@ -27,9 +27,10 @@ const PublicRoute = ({children}: {children: JSX.Element}) => {
 
 	return <>{children}</>;
 }
-/*
+
+/* // A MODIFIER
 const PrivateRoute = ({ children }: { children: JSX.Element }) => {
-  const session = useSession2('session');
+  const session = useSession2('session'); // Stocker elements
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ const PrivateRoute = ({ children }: { children: JSX.Element }) => {
 };*/
 
 
-
+// CHANGER LA METHODE
 const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const isAuthenticated = async () => {

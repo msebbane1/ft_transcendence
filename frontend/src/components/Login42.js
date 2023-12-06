@@ -1,29 +1,27 @@
 import React from 'react';
 import './Login42.css';
 import Img from '../assets/3.png';
-
-const generateAuthorizationUrl = () => {
-  const { REACT_APP_CLIENT_ID, REACT_APP_REDIRECT_URI } = process.env;
-  const baseAuthUrl = 'https://api.intra.42.fr/oauth/authorize';
-
-  if (!REACT_APP_CLIENT_ID || !REACT_APP_REDIRECT_URI) {
-    throw new Error('REACT_APP_CLIENT_ID and REACT_APP_REDIRECT_URI must be defined in your environment.');
-  }
-
-  const queryParams = new URLSearchParams({
-    client_id: REACT_APP_CLIENT_ID,
-    redirect_uri: REACT_APP_REDIRECT_URI,
-    response_type: 'code',
-  });
-
-  return `${baseAuthUrl}?${queryParams.toString()}`;
-};
+import axios from 'axios';
 
 const Login42 = () => {
-  const handleClickLogin = () => {
-    const authorizationUrl = generateAuthorizationUrl();
-    window.location.href = authorizationUrl;
-  };
+    const handleLogin = async () => {
+        try {
+            // Effectuez une requête pour générer l'URL d'authentification 42
+            const responseUrl = await axios.get('http://localhost:8080/auth/');
+            console.log('Réponse du backend (URL) :', responseUrl);
+            console.log('URL d\'authentification 42 générée :', responseUrl.data.authorization_url);
+
+            // Redirigez l'utilisateur vers l'URL d'authentification 42
+            if (responseUrl.data.authorization_url){
+                window.location.href = responseUrl.data.authorization_url;
+            }
+            else {
+                console.log('Réponse URL', responseUrl.data);
+            }
+        } catch (error) {
+            console.error('Erreur lors de la vérification de l\'authentification 42 LOGIN:', error);
+        }
+    };
 
   return (
     <body className="back">
@@ -34,7 +32,7 @@ const Login42 = () => {
 	<div className="container_ft"> 
         <p className="text-ft2">  &gt; </p> <p className="text-ft">  ft_transcendence/pongGame </p>
 	</div>
-      <button className="login-button" onClick={handleClickLogin}>Login</button>
+      <button className="login-button" onClick={handleLogin}>Login</button>
       </body>
   );
 };
