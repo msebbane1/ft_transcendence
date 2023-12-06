@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-export default function useSession2(key: string) {
-  const [session, setSession] = useState<Record<string, any>>({});
+export default function useSession2(key) {
+  const [session, setSession] = useState({});
 
   // Charger les données de session depuis localStorage lors du chargement du composant
   useEffect(() => {
@@ -21,15 +21,15 @@ export default function useSession2(key: string) {
     localStorage.setItem(key, JSON.stringify(session));
   }, [key, session]);
 
-  const has = (field: string) => {
+  const has = (field) => {
     return field in session;
   };
 
-  const get = (field: string) => {
+  const get = (field) => {
     return session[field];
   };
 
-  const set = (data: Record<string, any>) => {
+  const set = (data) => {
     setSession({ ...session, ...data });
   };
 
