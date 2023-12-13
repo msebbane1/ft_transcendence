@@ -13,6 +13,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_GET
 from rest_framework.permissions import AllowAny
 from rest_framework.decorators import permission_classes
 from rest_framework.views import APIView
@@ -78,4 +79,22 @@ def RequestForToken(request):
 
     if request.method == 'GET':
         return JsonResponse({'message': 'GET request received'})
+
+# A MODIFIER
+@require_GET
+def get_profile_image(request):
+    # Récupérer le token d'accès depuis l'en-tête de la requête
+    access_token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+
+    # Faire une requête à l'API de 42 pour récupérer l'image de profil
+    response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
+
+    if response.status_code == 200:
+        profile_data = response.json()
+        image_url = profile_data.get('image_url')
+        if image_url:
+            image_response = requests.get(image_url)
+            return JsonResponse({'image': image_response.content.decode('latin-1')}, status=image_response.status_code)
+
+    return JsonResponse({'error': 'Erreur lors de la récupération de l\'image de profil'}, status=response.status_code)
 

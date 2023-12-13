@@ -1,10 +1,19 @@
 import React from 'react';
 import './Navbar.css';
+import { useImageContext } from '../ImageContext';
 
 function NavBar2() {
+
+  const { profileImage } = useImageContext();
   return (
     <div className="navbar">
-     <div className="pic-profile">
+     <div>
+	  {profileImage && <img src={profileImage} alt="Image de profil" style={{
+                maxWidth: '30%',
+                height: 'auto',
+                display: 'block',
+                marginTop: '5px',
+              }} />}
       </div>
 	<div className="nav-links">
 	<a href="/watch">WatchGame</a>

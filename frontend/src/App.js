@@ -6,10 +6,11 @@ import Login42 from './components/Login42';
 import PongGame from './pages/PongGame';
 import Chat from './pages/Chat';
 import Home2 from './pages/Home2';
-import Profil from './Profil';
+import Profil from './pages/Profil';
 import Navbar2 from './pages/Navbar2';
 import CallbackPage from './CallbackPage';
 import useSession2 from './useSession2';
+import { ImageProvider } from './ImageContext';
 //import _42LoginButton from './42LoginButton';
 //import './styles.css';
 
@@ -82,6 +83,7 @@ const PrivateRoute = ({ children }: { children: React.ReactNode }) => {
 function App() {
   return (
     <BrowserRouter>
+    <ImageProvider>
       <div className="site-background">
       <Routes>
 	<Route path="/" element={<Login42 />} />
@@ -89,9 +91,10 @@ function App() {
         <Route path="/home" element={<PrivateRoute><div><Navbar2 /><Home2 /></div></PrivateRoute>} />
 	<Route path="/play" element={<PrivateRoute><div><Navbar2 /><PongGame /></div></PrivateRoute>} />
 	<Route path="/chat" element={<PrivateRoute><div><Navbar2 /><Chat /></div></PrivateRoute>} />
-	<Route path="/profile" element={<PrivateRoute><div><Profil /></div></PrivateRoute>} />
+	<Route path="/profile" element={<PrivateRoute><div><Navbar2 /><Profil /></div></PrivateRoute>} />
       </Routes>
 	</div>
+    </ImageProvider>
     </BrowserRouter>
   );
 }

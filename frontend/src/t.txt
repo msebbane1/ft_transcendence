@@ -1,3 +1,22 @@
-Uncaught Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports.
-
-Check the render method of `App`.
+data: 
+Object { id: 133927, email: "asahonet@student.42nice.fr", login: "asahonet", first_name: "Arnaud", last_name: "Sahonet", usual_full_name: "Arnaud Sahonet", usual_first_name: null, url: "https://api.intra.42.fr/v2/users/asahonet", phone: "hidden", displayname: "Arnaud Sahonet", … }
+Profil2.js:22
+token: 9d4ce75a97cb41b14ebcd9cf493b6c1a7d324ef31e9e4ec7e3a293704500d304 Profil2.js:32
+Image response: 
+Object { data: {…}, status: 200, statusText: "OK", headers: {…}, config: {…}, request: XMLHttpRequest }
+​
+config: Object { timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", … }
+​
+data: Object { error: "Erreur lors de la récupération de l'image de profil" }
+​
+headers: Object { "content-length": "74", "content-type": "application/json" }
+​
+request: XMLHttpRequest { readyState: 4, timeout: 0, withCredentials: false, … }
+​
+status: 200
+​
+statusText: "OK"
+​
+<prototype>: Object { … }
+Profil2.js:33
+Image data: undefined

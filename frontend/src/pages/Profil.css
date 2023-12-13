@@ -1,0 +1,40 @@
+.containerProfile {
+  background-color: #231f20;
+  color: #f18aa2;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px 20px;
+
+.pic {
+  /*background-image: url('../../public/msebbane.jpg'); */
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  padding: 20px 200px 50px;
+  /*border-radius: 20px ;*/
+}
+.imgprofile {
+    max-width: 100%; /* La largeur maximale de l'image sera de 100% de la largeur de son conteneur parent */
+    height: auto; /* La hauteur s'ajustera automatiquement pour maintenir les proportions originales de l'image */
+    display: block; /* Supprime l'espace supplémentaire en dessous de l'image */
+    margin-top: 10px; /* Ajoute un espace au-dessus de l'image, ajustez selon vos besoins */
+  }
+
+}
+/*  
+
+.text-containerl {
+  margin-left: 7%;
+  margin-bottom: 0;
+  margin-top: 0%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.text-containerl p {
+  margin: 0;
+}
+*/
