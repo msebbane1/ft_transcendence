@@ -30,6 +30,7 @@ const Profil = () => {
             console.log('image url:', imageUrl);
             //setProfileImage(imageUrl);
 	    setProfileImageURL(imageUrl);
+	    localStorage.setItem('ProfileAvatar', imageUrl);
           } else {
             setError('Aucune image de profil');
           }

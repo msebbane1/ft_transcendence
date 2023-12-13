@@ -5,9 +5,9 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Login42 from './components/Login42';
 import PongGame from './pages/PongGame';
 import Chat from './pages/Chat';
-import Home2 from './pages/Home2';
+import Home from './pages/Home2';
 import Profil from './pages/Profil';
-import Navbar2 from './pages/Navbar2';
+import Navbar from './pages/Navbar';
 import CallbackPage from './CallbackPage';
 import useSession2 from './useSession2';
 import { ImageProvider } from './ImageContext';
@@ -88,10 +88,10 @@ function App() {
       <Routes>
 	<Route path="/" element={<Login42 />} />
  	<Route path="/callback/" element={<CallbackPage />} />
-        <Route path="/home" element={<PrivateRoute><div><Navbar2 /><Home2 /></div></PrivateRoute>} />
-	<Route path="/play" element={<PrivateRoute><div><Navbar2 /><PongGame /></div></PrivateRoute>} />
-	<Route path="/chat" element={<PrivateRoute><div><Navbar2 /><Chat /></div></PrivateRoute>} />
-	<Route path="/profile" element={<PrivateRoute><div><Navbar2 /><Profil /></div></PrivateRoute>} />
+        <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
+	<Route path="/play" element={<PrivateRoute><div><Navbar /><PongGame /></div></PrivateRoute>} />
+	<Route path="/chat" element={<PrivateRoute><div><Navbar /><Chat /></div></PrivateRoute>} />
+	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
       </Routes>
 	</div>
     </ImageProvider>
