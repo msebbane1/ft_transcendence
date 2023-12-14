@@ -4,7 +4,7 @@ import { useImageContext } from '../ImageContext';
 
 function NavBar2() {
 const imageProfile = localStorage.getItem('ProfileAvatar');
-  const { profileImage } = useImageContext();
+ // const { imageProfile } = useImageContext();
   return (
     <div className="navbar">
      <div>

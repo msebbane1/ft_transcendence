@@ -37,11 +37,6 @@ export default function useSession2(key) {
     setSession({});
   };
 
-  // Ajoutez une vérification pour l'access token
-  const isAuthenticated = () => {
-    return has('accessToken');
-  };
-
-  return { has, get, set, clear, isAuthenticated };
+  return { has, get, set, clear };
 }
 

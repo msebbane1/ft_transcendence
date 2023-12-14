@@ -1,8 +1,12 @@
 import axios from 'axios';
 import { useEffect } from 'react';
+import useSession from './useSession2';
 
 // Rajouter .dotenv pour localhost
 const CallbackPage = () => {
+ const session = useSession("session");
+
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
@@ -27,6 +31,7 @@ const CallbackPage = () => {
           const access_token = response.data.access_token;
           localStorage.setItem('accessToken', access_token);
 	  const accessToken = localStorage.getItem('accessToken');
+	  //session.set("access_token");
 
 	  console.log('Code:', code);
 	  console.log('response data: ', response.data);
@@ -35,13 +40,19 @@ const CallbackPage = () => {
 	  if (response.status >= 200 && response.status < 300) {
       		console.log("Response OK:", response);
 	  }
-	  if (accessToken) {
+	  if (access_token) {
 		console.log("AccessToken:", accessToken);
           }
 	  else {
          	console.log("Pas de jeton d'accès trouvé.");
           }
-
+	  /*
+	  if (session.has("access_token")) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
+            window.location.href = '/home';
+          }
+	  else
+		console.log("auth:", session.has("access_token"));*/
           const isAuthenticated = !!localStorage.getItem('accessToken');
           if (isAuthenticated) {
 	    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`; // A CHANGER

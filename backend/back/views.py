@@ -70,6 +70,7 @@ def RequestForToken(request):
 
             #user = authenticate(request, username=user_info['login'])
             #login(request, user)
+            #return JsonResponse({'test response': response.json()})
             return JsonResponse({'authenticated': True, 'access_token': access_token})
 
         except json.decoder.JSONDecodeError as e:
