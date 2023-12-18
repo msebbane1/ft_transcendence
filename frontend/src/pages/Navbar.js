@@ -16,7 +16,7 @@ const imageProfile = localStorage.getItem('ProfileAvatar');
               }} />}
       </div>
 	<div className="nav-links">
-	<a href="/watch">WatchGame</a>
+	<a href="/logout">Logout</a>
         <a href="/leaderboard">Leaderboard</a>
         <a href="/profile">Profile</a>
         <a href="/settings">Settings</a>
