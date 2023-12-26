@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import useSession from '../useSession';
+import useUser from '../hooks/useUserStorage';
 
 const Logout = () => {
-  const session = useSession("session");
+  const user = useUser("user");
   const navigate = useNavigate();
 
   const handleLogout = () => {
-     session.logout()
+     user.clear()
      setTimeout(() => navigate("/"), 500)
   };
 

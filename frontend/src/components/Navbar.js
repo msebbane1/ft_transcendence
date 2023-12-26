@@ -1,9 +1,9 @@
 import React from 'react';
 import './Navbar.css';
-import { useImageContext } from '../ImageContext';
+import { useImageContext } from '../context/ImageContext';
 
-function NavBar2() {
-const imageProfile = localStorage.getItem('ProfileAvatar');
+function NavBar() {
+const imageProfile = localStorage.getItem('ProfileAvatar'); // recuperer l'img avec useUser
  // const { imageProfile } = useImageContext();
   return (
     <div className="navbar">
@@ -16,11 +16,11 @@ const imageProfile = localStorage.getItem('ProfileAvatar');
               }} />}
       </div>
 	<div className="nav-links">
-	<a href="/logout">Logout</a>
+	<a href="/play">Game</a>
         <a href="/leaderboard">Leaderboard</a>
         <a href="/profile">Profile</a>
         <a href="/settings">Settings</a>
-	<a href="/chat">Chat</a>
+	<a href="/logout">Logout</a>
         </div>
         <div className="text-containerl">
         <p className="text-pongl"> &gt; pong </p>
@@ -30,5 +30,5 @@ const imageProfile = localStorage.getItem('ProfileAvatar');
   );
 }
 
-export default NavBar2;
+export default NavBar;
 

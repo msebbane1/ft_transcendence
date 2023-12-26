@@ -1,16 +1,18 @@
 import axios from 'axios';
 import { useEffect } from 'react';
-import useSession from './useSession';
+import { useNavigate } from 'react-router-dom';
+import useUser from '../hooks/useUserStorage';
 
-const CallbackPage2 = () => {
-  const session = useSession("session");
+const CallbackPage = () => {
+  const user = useUser("user");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
     console.log('Code received:', code);
 
-    if (code && !session.has("access_token")) {
+    if (code && !user.has("access_token")) {
       const tokenUrl = 'http://localhost:8080/auth/callback/';
 
       axios
@@ -28,7 +30,7 @@ const CallbackPage2 = () => {
           const accessToken = response.data.access_token;
 
           // Utilisation de setAll pour mettre à jour plusieurs valeurs dans la session
-          session.setAll({ access_token: accessToken });
+          user.setAll({ access_token: accessToken });
         })
         .catch((error) => {
           console.error('Error while fetching access token:', error);
@@ -36,26 +38,27 @@ const CallbackPage2 = () => {
     } else {
       console.error('No code parameter found in the URL.');
     }
-  }, [session]); // Ajout de la dépendance "session" pour éviter les avertissements liés aux Hooks
+  }, [user]);
 
+	//FAIRE 2FA
   useEffect(() => {
-    const { hostname, port } = document.location;
-    const challenge = !session.get("2FA_status") || session.get("2FA_challenge");
-    const connected = session.has("access_token");
+    const twofactorauth = !user.get("2FA_status") || user.get("2FA_challenge");
+    const connected = user.has("access_token");
+    console.log("2FA : ", twofactorauth);
+    console.log("2FA status", user.has("2FA_status"));
+    console.log("2FA challenge", user.has("2FA_challenge"));
 
-    if (connected && challenge) {
-      let first = session.get("first_access") === "true";
+    if (connected && twofactorauth) {
       setTimeout(() => {
-        session.set("first_access", "false");
-        if (first) document.location.href = `http://${hostname}:${port}/settings`;
-        else document.location.href = `http://${hostname}:${port}/home`;
+        //document.location.href = `http://localhost:3000/home`;
+	navigate("/home");
       }, 500);
     }
 
-    if (connected && !challenge) {
-      document.location.href = `http://${hostname}:${port}/2fa`;
+    if (connected && !twofactorauth) {
+      document.location.href = `http://localhost:3000/2fa`;
     }
-  }, [session]);
+  }, [user]);
 
   return (
     <div>
@@ -64,5 +67,4 @@ const CallbackPage2 = () => {
   );
 };
 
-export default CallbackPage2;
-
+export default CallbackPage;

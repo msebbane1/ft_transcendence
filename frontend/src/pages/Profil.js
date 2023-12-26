@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Profil.css';
-import { useImageContext } from '../ImageContext';
+import { useImageContext } from '../context/ImageContext';
+import useUser from '../hooks/useUserStorage';
+import { Link } from 'react-router-dom';
 
 const Profil = () => {
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   //const [profileImage, setProfileImage] = useState(null);
   const { profileImage, setProfileImageURL } = useImageContext();
+  const user = useUser("user");
 
   useEffect(() => {
     // Récupére le token depuis le stockage local
-    const accessToken = localStorage.getItem('accessToken');
+    //const accessToken = localStorage.getItem('accessToken');
+    const accessToken = user.get("access_token");
 
     if (accessToken) {
       // Requete API info
@@ -30,7 +34,7 @@ const Profil = () => {
             console.log('image url:', imageUrl);
             //setProfileImage(imageUrl);
 	    setProfileImageURL(imageUrl);
-	    localStorage.setItem('ProfileAvatar', imageUrl);
+	    user.set("ProfileAvatar", imageUrl);
           } else {
             setError('Aucune image de profil');
           }
@@ -59,28 +63,76 @@ const Profil = () => {
     }
   }, []);
 
-  return (
-    <div>
+ return (
+    <div className="containerProfile profile-grid1">
       {error && <p>Erreur : {error}</p>}
       {profileData && (
-        <div className="containerProfile">
-          <h1>Profil de {profileData.login}</h1>
-          <p>Nom: {profileData.first_name}</p>
-          <p>Prénom: {profileData.last_name}</p>
-          <p>Image utilisateur : </p>
-	  {profileImage && (
+        <>
+          <div className="containerProfile profile-1">
+	     <div className="profile-content1">
+              <div className="profile-content">
+                <div className="profile-info">
+                  <div className="info-header">
+                    <h1> USERNAME </h1>
+                    <div className="edit-button">
+                      <Link to="/edit-username">Edit</Link>
+                    </div>
+                  </div>
+                  <p>{profileData.login}</p>
+                </div>
+              </div>
+              <div className="profile-content">
+                <div className="profile-info">
+                  <h1> FULL NAME </h1>
+                  <p>{profileData.usual_full_name}</p>
+                </div>
+              </div>
+              <div className="profile-content">
+                <div className="profile-info">
+	         <div className="info-header">
+                    <h1> EMAIL </h1>
+                    <div className="edit-button">
+                      <Link to="/edit-username">Edit</Link>
+                    </div>
+                  </div>
+                  <p>{profileData.email}</p>
+                </div>
+              </div>
+              <div className="profile-content">
+                <div className="profile-info">
+	        <div className="info-header">
+                  <h1> Two Factor authentification</h1>
+                  <div className="edit-button">
+                    <Link to="/edit-username">Activate</Link>
+                    </div>
+                  </div>
+                  <p> disabled </p>
+                </div>
+              </div>
+	    </div>
+          </div>	
+          <div className="containerProfile profile-2">
+	  {user.has("ProfileAvatar") && (
             <img
-              src={profileImage}
+	      className="profile-image"
+              src={user.get("ProfileAvatar")}
               alt="Image de profil"
-              style={{
-                maxWidth: '20%',
+             /* style={{
+                maxWidth: '100%',
                 height: 'auto',
-	 	display: 'block',
-                marginTop: '10px', 
-              }}
-		/>
-          )}
-        </div>
+	 	display: 'flex',
+                marginTop: '10px',
+	        marginRight: '60%',
+	        justifyContent: 'center',
+	        alignItems: 'center',
+  		textAlign: 'center',
+	        //borderRadius: '50%',
+                //boxShadow: '0 0 10px rgba(0, 0, 0, 0.2)',
+            }}*/
+              />
+            )}
+          </div>
+        </>
       )}
     </div>
   );

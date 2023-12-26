@@ -5,15 +5,22 @@ import axios from 'axios';
 
 const Login42 = () => {
     const handleLogin = async () => {
+	const {hostname, port} = document.location
         try {
-            // Effectuez une requête pour générer l'URL d'authentification 42
+            // A MODIFIER EN POST
             const responseUrl = await axios.get('http://localhost:8080/auth/');
-            console.log('Réponse du backend (URL) :', responseUrl);
+	    /*
+	    const responseUrl = await axios.post('http://localhost:8080/auth/', {}, {
+		method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });*/
+            console.log('Réponse du backend :', responseUrl);
             console.log('URL d\'authentification 42 générée :', responseUrl.data.authorization_url);
 
-            // Redirigez l'utilisateur vers l'URL d'authentification 42
             if (responseUrl.data.authorization_url){
-                window.location.href = responseUrl.data.authorization_url;
+                document.location.href = responseUrl.data.authorization_url;
             }
             else {
                 console.log('Réponse URL', responseUrl.data);
@@ -38,4 +45,3 @@ const Login42 = () => {
 };
 
 export default Login42;
-

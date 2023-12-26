@@ -28,11 +28,13 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
 
+# authorizeUrl en POST
 def AuthUrl(request):
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
     return JsonResponse({'authorization_url': authorization_url})
     
 # A MODIFIER a rajouter csrf
+# getTokenUser
 @csrf_exempt
 def RequestForToken(request):
 
@@ -57,20 +59,6 @@ def RequestForToken(request):
             access_token = response.json().get('access_token')
             response_data = response.json()
 
-            user_info_url = 'https://api.intra.42.fr/v2/me'
-
-            ### A MODIFIER
-            #headers = {'Authorization': f'Bearer {response_data["access_token"]}'}
-            #user_info_response = post(user_info_url, headers=headers)
-            #user_info = user_info_response.json()
-
-            #user, created = User.objects.get_or_create(username=user_info['login'])
-            #user.set_unusable_password()
-            #user.save()
-
-            #user = authenticate(request, username=user_info['login'])
-            #login(request, user)
-            #return JsonResponse({'test response': response.json()})
             return JsonResponse({'authenticated': True, 'access_token': access_token})
 
         except json.decoder.JSONDecodeError as e:
@@ -81,7 +69,8 @@ def RequestForToken(request):
     if request.method == 'GET':
         return JsonResponse({'message': 'GET request received'})
 
-# A MODIFIER
+# A MODIFIER GET
+# getInformationsUser
 @require_GET
 def get_profile_image(request):
     # Récupérer le token d'accès depuis l'en-tête de la requête
