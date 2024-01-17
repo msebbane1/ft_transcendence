@@ -6,7 +6,7 @@ import Chat from './pages/Chat';
 import Home from './pages/Home2';
 import Settings from './pages/Settings';
 import Profil from './pages/Profil2';
-import Navbar from './components/Navbar';
+import Navbar from './components/Navbar2';
 import Logout from './pages/Logout';
 import CallbackPage from './components/CallbackPage';
 import useUser from './hooks/useUserStorage';
