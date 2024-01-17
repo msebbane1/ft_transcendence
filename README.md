@@ -2,7 +2,7 @@
 
 • Web
 
-    ◦ Module majeur : Utiliser un framework en backend. (tous le monde)
+    ◦ Module majeur : Utiliser un framework en backend. (tous le monde)(Arnaud implémentation)
     ◦ Module mineur : Utiliser un framework ou toolkit en frontend. (Marie)
     ◦ Module mineur : Utiliser une base de données en backend. (Arnaud)
     ◦ Module majeur : Stocker les pointages d’un tournoi dans la Blockchain. (Thomas ?)
@@ -44,7 +44,7 @@
 • Orienté objet
 
     ◦ Module majeur : Remplacer le Pong de base par un Pong côté serveur et
-    implémentation d’une API. (A faire ??)
+    implémentation d’une API. (A faire ??? Arnaud: Non on est pas oblige,dabord on fait le plus possible)
 
 Utilisations
 
