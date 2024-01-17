@@ -1,10 +1,11 @@
 import React from 'react';
 import './Navbar.css';
-import { useImageContext } from '../context/ImageContext';
+import useUser from '../hooks/useUserStorage';
 
 function NavBar() {
-const imageProfile = localStorage.getItem('ProfileAvatar'); // recuperer l'img avec useUser
- // const { imageProfile } = useImageContext();
+const user = useUser("user");
+const imageProfile = user.get("ProfileAvatar");
+//const imageProfile = localStorage.getItem('ProfileAvatar');
   return (
     <div className="navbar">
      <div>

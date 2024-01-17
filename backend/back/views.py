@@ -22,19 +22,22 @@ import requests
 from dotenv import load_dotenv
 import os
 
-
+### .ENV ###
 load_dotenv()
 CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
+REDIRECT_URIS = os.getenv('REDIRECT_URIS').split(',')
 
-# authorizeUrl en POST
+###### AUTHORIZE URL ######
+# authorizeUrl en POST A CHANGER
 def AuthUrl(request):
     authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
     return JsonResponse({'authorization_url': authorization_url})
     
 # A MODIFIER a rajouter csrf
 # getTokenUser
+###### GET TOKEN USER ####
 @csrf_exempt
 def RequestForToken(request):
 
@@ -69,22 +72,35 @@ def RequestForToken(request):
     if request.method == 'GET':
         return JsonResponse({'message': 'GET request received'})
 
-# A MODIFIER GET
-# getInformationsUser
-@require_GET
+##### PHOTO DE PROFILE INTRA ####
+@csrf_exempt
 def get_profile_image(request):
-    # Récupérer le token d'accès depuis l'en-tête de la requête
-    access_token = request.headers.get('Authorization', '').split('Bearer ')[-1]
+    if request.method == 'POST':
+        access_token = request.headers.get('Authorization').split(' ')[1]
+        response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
+        data = response.json()
+        
+        image_url = data.get('image', {}).get('link', None)
 
-    # Faire une requête à l'API de 42 pour récupérer l'image de profil
-    response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
-
-    if response.status_code == 200:
-        profile_data = response.json()
-        image_url = profile_data.get('image_url')
         if image_url:
-            image_response = requests.get(image_url)
-            return JsonResponse({'image': image_response.content.decode('latin-1')}, status=image_response.status_code)
+            return JsonResponse({'image_url': image_url})
+        else:
+            return JsonResponse({'error': 'Aucune image de profil disponible'}, status=400)
 
-    return JsonResponse({'error': 'Erreur lors de la récupération de l\'image de profil'}, status=response.status_code)
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+#### INFOS USER ####
+@csrf_exempt
+def get_infos_user(request):
+    if request.method == 'POST':
+        access_token = request.headers.get('Authorization').split(' ')[1]
+        response = requests.get('https://api.intra.42.fr/v2/me', headers={'Authorization': f'Bearer {access_token}'})
+        data = response.json()
+
+        if data:
+            return JsonResponse(data)
+        else:
+            return JsonResponse({'error': 'Aucune image de profil disponible'}, status=400)
+
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 

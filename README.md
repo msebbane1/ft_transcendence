@@ -1,24 +1,22 @@
-
-# 1. VUE D'ENSEMBLE CONDITIONS
+# 1. VUE D'ENSEMBLE MODULES
 
 • Web
 
-    ◦ Module majeur : Utiliser un framework en backend.
-    ◦ Module mineur : Utiliser un framework ou toolkit en frontend.
-    ◦ Module mineur : Utiliser une base de données en backend.
-    ◦ Module majeur : Stocker les pointages d’un tournoi dans la Blockchain.
+    ◦ Module majeur : Utiliser un framework en backend. (tous le monde)
+    ◦ Module mineur : Utiliser un framework ou toolkit en frontend. (Marie)
+    ◦ Module mineur : Utiliser une base de données en backend. (Arnaud)
+    ◦ Module majeur : Stocker les pointages d’un tournoi dans la Blockchain. (Thomas ?)
 
 • Gestion utilisateur
 
     ◦ Module majeur : Gestion utilisateur standard, authentification, utilisateurs
-    en tournois.
+    en tournois. (Arnaud et Marie)
     ◦ Module majeur : Implémenter une authentification à distance.
     Gameplay et expérience utilisateur
     ◦ Module majeur : Joueurs à distance
     ◦ Module majeur : Multijoueurs (plus de 2 dans la même partie)
     ◦ Module majeur : Ajout d’un second jeu avec historique utilisateur et "matchmaking".
     ◦ Module mineur : Option de personnalisation du jeu.
-    ◦ Module majeur : Clavardage en direct (live chat).
 
 • IA-Algo
 
@@ -28,24 +26,12 @@
 
 • Cybersécurité
 
-    ◦ Module majeur : Mettez en place un pare-feu d’application Web (WAF) ou
-    ModSecurity avec une configuration renforcée et utilisez HashiCorp Vault pour
-    la gestion des secrets.
-    ◦ Module mineur : Options de conformité au RGPD avec anonymisation des
-    utilisateurs, gestion des données locales et suppression de comptes.
     ◦ Module majeur : Implémenter l’authentification à 2 facteurs (2FA) et JWT
-    (JSON Web Tokens).
-
-• Devops
-
-    ◦ Module majeur : Configuration de l’infrastructure pour la gestion des journaux
-    8(logs).
-    ◦ Module mineur : Système de monitoring.
-    ◦ Module majeur : Design du backend comme Microservices.
+    (JSON Web Tokens). (Marie)
 
 • Graphiques
 
-    ◦ Module majeur : Utilisation de techniques avancées 3D.
+    ◦ Module majeur : Utilisation de techniques avancées 3D. (Cassandra)
 
 • Accessibilité
 
@@ -58,31 +44,18 @@
 • Orienté objet
 
     ◦ Module majeur : Remplacer le Pong de base par un Pong côté serveur et
-    implémentation d’une API.
-    ◦ Module majeur : Activation du gameplay via ligne de commande (CLI)
-    contre les utilisateurs Web avec intégration AP
+    implémentation d’une API. (A faire ??)
 
 Utilisations
 
     • Back-end : Django
-    • Front-end : framework TypeScript ?
+    • Front-end : framework React javascript
     • Bibliotheques autorisées : REACT (https://fr.legacy.reactjs.org/)
-    • Base de données : ??
-    • NGINX - Open-source HTTP server
+    • Base de données : PostgreSQL
+    • NGINX
 
 Lancement
     -> make ou docker-compose up --build
     -> backend : http://127.0.0.1:8080/
     -> frontend : http://localhost:3000/
-
-
-# LIENS DOCKER / DEBIAN
-
-DEBIAN :
-
-- Download : https://www.debian.org/download
-
-- Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md
-
-
 

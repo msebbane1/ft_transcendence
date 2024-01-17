@@ -21,3 +21,10 @@ statusText: "OK"
 Profil2.js:33
 Image data: undefined
 Uncaught SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
+ross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://localhost:8080/auth/. (Reason: CORS header ‘Access-Control-Allow-Origin’ missing). Status code: 200.
+
+[<0;36;13MCross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://127.0.0.1:8080/auth/callback/. (Reason: expected ‘true’ in CORS header ‘Access-Control-Allow-Credentials’).
+
+Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://127.0.0.1:8080/auth/callback/. (Reason: CORS request did not succeed). Status code: (null).
+
+

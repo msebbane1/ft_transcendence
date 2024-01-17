@@ -5,7 +5,7 @@ import PongGame from './pages/PongGame';
 import Chat from './pages/Chat';
 import Home from './pages/Home2';
 import Settings from './pages/Settings';
-import Profil from './pages/Profil';
+import Profil from './pages/Profil2';
 import Navbar from './components/Navbar';
 import Logout from './pages/Logout';
 import CallbackPage from './components/CallbackPage';

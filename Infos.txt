@@ -19,3 +19,27 @@ info typescript : https://www.globalis-ms.com/actualites/react-typescript/
 API 42 : https://api.intra.42.fr/apidoc/guides/getting_started
 
 DJANGO :
+sudo rm /usr/lib/python3.*/EXTERNALLY-MANAGED
+
+COMMANDES :
+
+Ngnix : sudo systemctl status nginx
+sudo systemctl start nginx
+sudo systemctl stop nginx
+ps aux | grep nginx
+sudo service --status-all
+
+
+Lancer le frontend : npm start
+Lancer le backend : python3 manage.py runserver
+Apres instalation : python3 manage.py makemigrations puis python3 manage.py migrate
+
+
+
+# LIENS DOCKER / DEBIAN
+
+DEBIAN :
+
+- Download : https://www.debian.org/download
+
+- Tuto installation : https://github.com/codesshaman/inception/blob/main/00_INSTALL_SYSTEM.md

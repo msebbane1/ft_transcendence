@@ -3,14 +3,15 @@ FROM python:3.9
 WORKDIR /app
 
 
-COPY requirements.txt /app/
+# Copie du reste des fichiers de l'application
 COPY . /app/
 
-#RUN pip install --no-cache-dir -r requirements.txt
-
+# Installation des dépendances
 RUN python -m venv venv && . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
+# Exposition du port
 EXPOSE 8080
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8080", "--noreload"]
+# Commande pour exécuter le serveur avec SSL
+CMD ["python", "manage.py", "runsslserver", "0.0.0.0:8080", "--cert", "/app/nginx.crt", "--key", "/app/nginx.key", "--noreload"]
 

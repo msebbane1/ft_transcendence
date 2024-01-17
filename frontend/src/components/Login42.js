@@ -7,8 +7,13 @@ const Login42 = () => {
     const handleLogin = async () => {
 	const {hostname, port} = document.location
         try {
+	    
+            const { protocol, hostname, port } = window.location;
+            const backendUrl = `${protocol}//${hostname}:8080/api/auth/`;
+
+            const responseUrl = await axios.get(backendUrl);
             // A MODIFIER EN POST
-            const responseUrl = await axios.get('http://localhost:8080/auth/');
+            //const responseUrl = await axios.get('https://localhost:8080/api/auth/');
 	    /*
 	    const responseUrl = await axios.post('http://localhost:8080/auth/', {}, {
 		method: "POST",

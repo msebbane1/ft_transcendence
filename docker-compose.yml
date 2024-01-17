@@ -29,21 +29,27 @@ services:
      - "8080:8080"
    volumes:
      - ./backend:/app
+     - ./nginx/nginx.crt:/app/nginx.crt
+     - ./nginx/nginx.key:/app/nginx.key
    networks:
      - transcendence
    restart: unless-stopped
-   command: sh -c "pip install -r requirements.txt && python manage.py runserver 0.0.0.0:8080 --noreload"
+     #command: sh -c "pip install -r requirements.txt && python3 manage.py runsslserver 0.0.0.0:8080 --noreload"
+   command: sh -c "pip install -r requirements.txt && python3 manage.py runsslserver 0.0.0.0:8080 --cert /app/nginx.crt --key /app/nginx.key --noreload"
 
 # NGINX
   nginx:
     image: nginx:latest
     container_name: nginx
     ports:
+      - "443:443"
       - "80:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/nginx.crt:/etc/nginx/nginx.crt
+      - ./nginx/nginx.key:/etc/nginx/nginx.key
     depends_on:
-      - backend
+      - front
     networks:
       - transcendence
 

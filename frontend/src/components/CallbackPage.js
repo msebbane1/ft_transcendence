@@ -10,10 +10,13 @@ const CallbackPage = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get('code');
+    const { protocol, hostname, port } = window.location;
+
     console.log('Code received:', code);
 
     if (code && !user.has("access_token")) {
-      const tokenUrl = 'http://localhost:8080/auth/callback/';
+      const tokenUrl = `${protocol}//${hostname}:8080/api/auth/callback/`;
+      //const tokenUrl = 'https://localhost:8080/api/auth/callback/';
 
       axios
         .post(
@@ -31,6 +34,8 @@ const CallbackPage = () => {
 
           // Utilisation de setAll pour mettre à jour plusieurs valeurs dans la session
           user.setAll({ access_token: accessToken });
+          console.log("token1:", accessToken);
+	  console.log("tokendata:", response.data.access_token);
         })
         .catch((error) => {
           console.error('Error while fetching access token:', error);
