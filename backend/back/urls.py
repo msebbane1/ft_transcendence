@@ -1,12 +1,15 @@
 from django.urls import path
-from back.views import RequestForToken, AuthUrl, get_profile_image, get_infos_user
+from back.views import get_all_user_data, get_authorize_url, get_profile_image, get_infos_user, validate_2fa, enable_2fa, disable_2fa
 
 urlpatterns = [
-    path('api/auth/', AuthUrl, name='auth_url'),
-    path('api/auth/callback/', RequestForToken, name='request_for_token'),
+    path('api/auth/', get_authorize_url, name='get_authorize_url'),
+    path('api/auth/callback/', get_all_user_data, name='get_all_user_data'),
+    path('api/auth/2fa/', validate_2fa, name='validate_2fa'),
+    path('api/auth/enable2fa/', enable_2fa, name='enable_2fa'),
+    path('api/auth/disable_2fa/', disable_2fa, name='disable_2fa'),
+    #path('api/auth/callback/', get_access_token, name='get_access_token'),
     path('api/profileimage/', get_profile_image, name='get_profile_image'),
     path('api/userinfos/', get_infos_user, name='get_infos_user'),
 
-    # Autres routes...
 ]
 

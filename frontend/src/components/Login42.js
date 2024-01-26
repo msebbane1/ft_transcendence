@@ -38,7 +38,7 @@ const Login42 = () => {
   return (
     <body className="back">
     <div className="text-container">
-	<p className="text-pong"> &gt; pong</p>
+	<p className="text-pong"> pong</p>
 	<p className="text-game"> Game </p>
       </div>
 	<div className="container_ft"> 

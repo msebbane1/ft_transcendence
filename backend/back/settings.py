@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'oauth2_provider',
     'sslserver',
+    'back',
 ]
 
 AUTHENTICATION_BACKENDS = [

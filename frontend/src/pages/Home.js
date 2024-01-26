@@ -1,8 +1,8 @@
 import React from 'react';
-import './Home2.css';
-import { Link } from 'react-router-dom'; // Importez Link depuis React Router
+import './Home.css';
+import { Link } from 'react-router-dom';
 
-function Home2() {
+function Home() {
   return (
     <div>
      <div>
@@ -26,5 +26,5 @@ function Home2() {
   );
 }
 
-export default Home2;
+export default Home;
 

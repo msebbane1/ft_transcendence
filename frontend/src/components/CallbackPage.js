@@ -30,12 +30,17 @@ const CallbackPage = () => {
           }
         )
         .then((response) => {
-          const accessToken = response.data.access_token;
+	  const data = response.data;
+	  console.log("!all data response:", data);
 
-          // Utilisation de setAll pour mettre à jour plusieurs valeurs dans la session
-          user.setAll({ access_token: accessToken });
-          console.log("token1:", accessToken);
-	  console.log("tokendata:", response.data.access_token);
+          const accessToken = response.data.access_token;
+          user.setAll(data);
+	 //user.set("2FA_activate", data["2FA_activate"]);
+	 // user.set("data[2FA_activate]", true);
+	 console.log("2FA activate in data:", data["status_2FA"]);
+	 console.log("2FA activate in userdata:", user.get("status_2FA"));
+         console.log("token1:", accessToken);
+
         })
         .catch((error) => {
           console.error('Error while fetching access token:', error);
@@ -46,22 +51,34 @@ const CallbackPage = () => {
   }, [user]);
 
 	//FAIRE 2FA
-  useEffect(() => {
-    const twofactorauth = !user.get("2FA_status") || user.get("2FA_challenge");
+  useEffect(() => { 
+    const twofactorauth = !user.get("2FA_status");
     const connected = user.has("access_token");
     console.log("2FA : ", twofactorauth);
-    console.log("2FA status", user.has("2FA_status"));
-    console.log("2FA challenge", user.has("2FA_challenge"));
+    console.log("2FA activate status BEFORE : ", user.get("2FA_activate"));
+    //console.log("2FA activate status AFTER", user.get("2FA_activate"));
+    console.log("2FA Secret =", user.get("2FA_secret"));
+    console.log("first BEFORE=", user.get("first_access"));
+    console.log("test data 2FA = ", user.get("request_token"));
+
+
 
     if (connected && twofactorauth) {
-      setTimeout(() => {
-        //document.location.href = `http://localhost:3000/home`;
-	navigate("/home");
-      }, 500);
+	const first_connect = user.get("first_access");
+	
+	setTimeout(() => {
+		if (first_connect){
+  			user.set("2FA_activate", "true");
+  			console.log("2FA activate AFTER", user.get("2FA_activate"));
+			navigate("/settings");
+		}
+		else
+			navigate("/home");
+	}, 500)
     }
 
     if (connected && !twofactorauth) {
-      document.location.href = `http://localhost:3000/2fa`;
+      navigate("/2fa");
     }
   }, [user]);
 

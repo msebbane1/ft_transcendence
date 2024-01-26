@@ -3,41 +3,21 @@ import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
 import Login42 from './components/Login42';
 import PongGame from './pages/PongGame';
 import Chat from './pages/Chat';
-import Home from './pages/Home2';
-import Settings from './pages/Settings';
-import Profil from './pages/Profil2';
-import Navbar from './components/Navbar2';
+import Home from './pages/Home';
+import Settings from './pages/Settings2';
+import TwoFA from './pages/2FA';
+import Profil from './pages/Profil';
+//import TwoFactorAuth from './pages/TwoFactorAuth';
+import Navbar from './components/Navbar';
 import Logout from './pages/Logout';
 import CallbackPage from './components/CallbackPage';
 import useUser from './hooks/useUserStorage';
 import { ImageProvider } from './context/ImageContext';
-//import './styles.css';
+// ROUTES
+import NoRoute from './routes/NoRoute';
+import PublicRoute from './routes/PublicRoute';
+import PrivateRoute from './routes/PrivateRoute';
 
-
-const PublicRoute = ({children}: {children: JSX.Element}) => {
-	const user = useUser("user");
-	const navigate = useNavigate();
-
-	useEffect(() => {
-		if (user.has("access_token"))
-			navigate("/home");
-	}, [])
-
-	return <>{children}</>;
-}
-
-// verifier pour la premiere authentification ? A modifier pour le localstorage
-const PrivateRoute = ({ children }: {children: JSX.Element}) => {
-  const user = useUser("user");
-  const navigate = useNavigate();
-	console.log("session user: ", user.has("access_token"));
-	useEffect(() => {
-		if (!user.has("access_token"))
-			navigate("/");
-	}, [])
-
-	return <>{children}</>;
-}
 
 function App() {
   return (
@@ -47,11 +27,13 @@ function App() {
       <Routes>
 	<Route path="/" element={<PublicRoute><div><Login42 /></div></PublicRoute>} />
 	<Route path="/callback" element={<CallbackPage />} />
+	<Route path="/2fa" element={<PublicRoute><div><TwoFA /></div></PublicRoute>} />
         <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
 	<Route path="/play" element={<PrivateRoute><div><Navbar /><PongGame /></div></PrivateRoute>} />
-	<Route path="/chat" element={<PrivateRoute><div><Navbar /><Chat /></div></PrivateRoute>} />
+	<Route path="/settings" element={<PrivateRoute><div><Navbar /><Settings /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
 	<Route path="/logout" element={<PrivateRoute><div><Navbar /><Logout /></div></PrivateRoute>} />
+	<Route path="*" element={<NoRoute />} />
       </Routes>
 	</div>
     </ImageProvider>
