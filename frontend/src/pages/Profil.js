@@ -54,10 +54,13 @@ const Profil = () => {
               <div className="profile-content">
                 <div className="profile-info">
                   <div className="info-header">
-                    <h1> USERNAME </h1>
-                    <div className="edit-button">
-                      <Link to="/settings">Edit</Link>
-                    </div>
+                	<div className="icon-profile"></div>
+                	<h1>
+                  	USERNAME
+                	</h1>
+                	<div className="edit-button">
+                  	<Link to="/settings">Edit</Link>
+                   </div>
                   </div>
                   <p>{profileData.login}</p>
                 </div>
@@ -71,21 +74,27 @@ const Profil = () => {
               <div className="profile-content">
                 <div className="profile-info">
 	         <div className="info-header">
-                    <h1> EMAIL </h1>
-                    <div className="edit-button">
-                      <Link to="/settings">Edit</Link>
-                    </div>
+                	<div className="icon-email"></div>
+                	<h1>
+                  	EMAIL
+                	</h1>
+                	<div className="edit-button">
+                  	<Link to="/settings">Edit</Link>
+                	</div> 
                   </div>
                   <p>{profileData.email}</p>
                 </div>
               </div>
               <div className="profile-content">
                 <div className="profile-info">
-	        <div className="info-header">
-                  <h1> Two Factor authentification</h1>
-                  <div className="edit-button">
-                    <Link to="/settings">Activate</Link>
-                    </div>
+	          <div className="info-header">
+                	<div className="icon-secure"></div>
+                	<h1>
+                  	Two Factor Auth
+                	</h1>
+                	<div className="edit-button">
+                  	<Link to="/settings">Edit</Link>
+                	</div>
                   </div>
                   <p> disabled </p>
                 </div>

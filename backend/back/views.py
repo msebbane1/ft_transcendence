@@ -141,8 +141,6 @@ def validate_2fa(request):
         # Vérifier si le code est bon
         # if not secret or not code or not validate_code(int(code), secret):
         #     return JsonResponse({'status': False})
-
-        # Correction de l'indentation et ajout des deux-points
         if secret != code:
             return JsonResponse({'status': False})
         return JsonResponse({'status': True})
@@ -178,7 +176,7 @@ def disable_2fa(request):
         if not secret:
             return JsonResponse({'status': False})
 
-        return JsonResponse({'status': False}) # A changer en true
+        return JsonResponse({'status': True}) # A changer en true
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 

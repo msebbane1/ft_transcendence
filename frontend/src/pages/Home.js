@@ -15,11 +15,11 @@ function Home() {
           Leader
 	  Board
         </Link>
-        <Link to="/watch" className="container container-2">
-          Watch Game
+        <Link to="/profile" className="container container-2">
+          Profile
         </Link>
-        <Link to="/chat" className="container container-3">
-          Chat
+        <Link to="/settings" className="container container-3">
+          Settings
         </Link>
     </div>
 </div>

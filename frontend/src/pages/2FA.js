@@ -19,7 +19,7 @@ const TwoFactorAuth = () => {
     const handleValidation = (status) => {
         if (status) {
             setLoading(true);
-            session.set("2FA_challenge", true);
+            session.set("2FA_valid", true);
             setTimeout(() => navigate("/home"), 1000);
         } else {
             handleError("Code invalide");

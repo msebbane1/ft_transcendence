@@ -52,8 +52,8 @@ body {
 .container-1 {
   width: 280px;
   height: 250px;
-  background-image: url('../../public/win.svg');
-  background-size: 60%;
+  background-image: url('../../public/trophy.svg');
+  background-size: 50%;
   background-repeat: no-repeat;
   background-color: #231f20;
   background-position: center;
@@ -66,7 +66,7 @@ body {
 .container-2 {
   width: 280px;
   height: 250px;
-  background-image: url('../../public/game.svg');
+  background-image: url('../../public/profile.svg');
   background-size: 60%;
   background-repeat: no-repeat;
   background-color: #231f20;
@@ -81,8 +81,8 @@ body {
 .container-3 {
   width: 280px;
   height: 250px;
-  background-image: url('../../public/chat.svg');
-  background-size: 60%;
+  background-image: url('../../public/settings.svg');
+  background-size: 50%;
   background-repeat: no-repeat;
   background-color: #231f20;
   background-position: center;
