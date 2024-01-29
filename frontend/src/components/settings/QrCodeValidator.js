@@ -2,6 +2,7 @@ import { useState } from "react";
 import useUser from "../../hooks/useUserStorage";
 import axios from "axios";
 import styles from "../../styles/Settings.module.scss";
+import '../../pages/2FA.css';
 
 const QrCodeValidator = ({ then, placeholder }: {
   then: (status: boolean) => void,
@@ -47,13 +48,13 @@ const QrCodeValidator = ({ then, placeholder }: {
       if (data.status) {
         then(true);
       } else {
-        setError("Code invalide §");
+        setError("Réesayer code invalide");
         setTimeout(() => setError(null), 2000);
         then(false);
       }
     } catch (error) {
       console.error("Erreur lors de la validation de la 2FA :", error);
-      setError("Erreur inattendue");
+      setError("Erreur");
       setTimeout(() => setError(null), 2000);
       then(false);
     }
@@ -62,14 +63,14 @@ const QrCodeValidator = ({ then, placeholder }: {
   return (
     <form onSubmit={handleSubmit}>
       <input
-        className={styles.settings_feature_input_code}
+        className="input-code"
         type="text"
         value={code || ""}
         placeholder={placeholder}
         onChange={handleChange}
       />
-      <button type="submit">{"Activer"}</button>
-      {error && <strong className={styles.settings_feature_error}>{error}</strong>}
+      <button class="button2FA" type="submit">{"Activer"}</button>
+      {error && <strong className="error-code-2FA">{error}</strong>}
     </form>
   );
 };

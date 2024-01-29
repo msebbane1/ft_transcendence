@@ -2,7 +2,7 @@
 
 body {
   display: grid;
-  overflow: hidden;
+  /*overflow: hidden;*/
   background: url('../public/fond2.jpg');
   background-size: cover;
   /*background-position: center;*/

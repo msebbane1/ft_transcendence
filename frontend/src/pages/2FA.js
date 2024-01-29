@@ -4,6 +4,8 @@ import styles from "../styles/2FA_module.scss";
 import settingsStyles from "../styles/Settings.module.scss";
 import QrCodeValidator from "../components/settings/QrCodeValidator";
 import { useNavigate } from "react-router-dom";
+import './2FA.css';
+import '../components/loading.css'
 
 const TwoFactorAuth = () => {
     const session = useUser("user");
@@ -26,24 +28,22 @@ const TwoFactorAuth = () => {
         }
     }
 
-    // Définir le titre de la page
-    document.title = "2-Factor Auth - Vérification du code...";
-
     return (
-        <main>
+         <div className="container2FA">
+	    <div className="authContainer">
             {loading ? (
-                <div>
-
-                </div>
+                <div class="loading-2FA">
+      		<p class="loading-2FA-text" >Authentification en cours...</p>
+    		</div>
             ) : (
-                <div className={styles.authentification}>
-                    <h1>2-Factor Auth</h1>
-                    <p>Veuillez entrer votre code secret de 2FA.</p>
-                    {error && <strong className={settingsStyles.settings_feature_error}>{error}</strong>}
+                <div>
+                    <h1>Two-Factor autentification</h1>
+                    <p>Saisissez le code à 6 chiffres généré par votre application pour confirmer votre action.</p>
                     <QrCodeValidator then={handleValidation} placeholder="Code secret" />
                 </div>
             )}
-        </main>
+        </div>
+     </div>
     );
 }
 

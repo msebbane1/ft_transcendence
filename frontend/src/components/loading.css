@@ -10,8 +10,8 @@
 }
 
 .loading-text {
-  position: relative; /* Assurez-vous que le texte reste dans le flux normal du document */
-  z-index: 1; /* Placez le texte au-dessus de l'image */
+  position: relative;
+  z-index: 1;
   grid-column: 2;
   grid-row: 2;
   font-size: 20px;

@@ -40,6 +40,11 @@
   height: 30px;
   background: url('../../public/log.png') center/contain no-repeat;
   justify-self: center;
+  cursor: pointer;
+}
+
+.logout-link:hover {
+  transform: scale(1.1);
 }
 
 /*  LOGO TEXT PONG GAME */

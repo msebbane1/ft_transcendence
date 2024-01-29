@@ -7,8 +7,8 @@ const Logout = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-     user.clear()
-     setTimeout(() => navigate("/"), 500)
+     user.clear();
+     setTimeout(() => navigate("/"), 500);
   };
 
   return (
