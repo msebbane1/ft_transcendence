@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useUser from '../hooks/useUserStorage';
+import './loading.css';
 
 const CallbackPage = () => {
   const user = useUser("user");
@@ -35,10 +36,6 @@ const CallbackPage = () => {
 
           const accessToken = response.data.access_token;
           user.setAll(data);
-	 //user.set("2FA_activate", data["2FA_activate"]);
-	 // user.set("data[2FA_activate]", true);
-	 console.log("2FA activate in data:", data["status_2FA"]);
-	 console.log("2FA activate in userdata:", user.get("status_2FA"));
          console.log("token1:", accessToken);
 
         })
@@ -50,7 +47,7 @@ const CallbackPage = () => {
     }
   }, [user]);
 
-	//FAIRE 2FA
+  
   useEffect(() => { 
     const twofactorauth = !user.get("2FA_status");
     const connected = user.has("access_token");
@@ -68,8 +65,8 @@ const CallbackPage = () => {
 	
 	setTimeout(() => {
 		if (first_connect){
-  			user.set("2FA_activate", "true");
-  			console.log("2FA activate AFTER", user.get("2FA_activate"));
+			user.set("first_access", false);
+			console.log("first AFTER=", user.get("first_access"));
 			navigate("/settings");
 		}
 		else
@@ -83,8 +80,8 @@ const CallbackPage = () => {
   }, [user]);
 
   return (
-    <div>
-      <p>Authentification en cours...</p>
+    <div class="loading-auth">
+      <p class="loading-text">Authentification en cours...</p>
     </div>
   );
 };

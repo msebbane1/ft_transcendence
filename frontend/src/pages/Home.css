@@ -16,17 +16,23 @@
   font-family: "VT";
   src: url("../fonts/VT323-Regular.ttf") format("truetype");
 }
-body {
-  background-color: rgba(15, 13, 14, 1);
-  display: flex;
-  flex-direction: column;
-}
 
-/* Styles pour les écrans plus petits (par exemple, les smartphones) */
 @media (max-width: 768px) {
   .content {
     width: 100%;
   }
+}
+
+.container-home {
+  display: grid;
+  grid-template-columns: 300px 300px 300px;
+  grid-template-rows:200px 200px;
+  gap: 50px;
+  margin-top: 3%;
+  justify-content: center;
+  /*align-items: center;*/
+
+
 }
 .container {
   text-align: center;
@@ -37,8 +43,9 @@ body {
   padding: 20px;
   font-size: 20px;
   font-family: "Dela";
-  /*color: #12b5e5; BLEU */
-  color: #fcba28;
+  /*color: #E9C482;*/
+  /*color: #fcba28;*/
+  color: #f9f4da;
   text-decoration: none;
   border-radius: 10px;
   transition: transform 0.3s ease;
@@ -55,11 +62,16 @@ body {
   background-image: url('../../public/trophy.svg');
   background-size: 50%;
   background-repeat: no-repeat;
-  background-color: #231f20;
+  /*background-color: #231f20;*/
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 3px solid #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   background-position: center;
+  grid-row: 2;
 }
 .container-1:hover {
-  color: #fcba28;
+  color: #f088a0;
   background-color: #f9f4da;
 }
 
@@ -70,11 +82,16 @@ body {
   background-size: 60%;
   background-repeat: no-repeat;
   background-color: #231f20;
+   background-color: rgba(255, 255, 255, 0.4);
+  border: 3px solid #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   background-position: center;
+  grid-row: 2;
 }
 
 .container-2:hover {
-  color: #fcba28;
+  color: #f088a0;
   background-color: #f9f4da;
 }
 
@@ -85,10 +102,15 @@ body {
   background-size: 50%;
   background-repeat: no-repeat;
   background-color: #231f20;
+  background-color: rgba(255, 255, 255, 0.4);
+  border: 3px solid #ffffff;
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   background-position: center;
+  grid-row: 2;
 }
 .container-3:hover {
-  color: #fcba28;
+  color: #f088a0;
   background-color: #f9f4da;
 }
 
@@ -107,9 +129,11 @@ body {
 
 .blinking-text {
   font-family: "VT";
-  color: #f1b228;
+  /*color: #f1b228; JAUNE*/
+  color: #f9f4da;
   font-size: 180px;
-  animation: blink 1s infinite alternate;;
+  animation: blink 1s infinite alternate;
+  grid-column: 2;
 }
 
 @keyframes blink {

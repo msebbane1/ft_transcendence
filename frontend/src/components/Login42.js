@@ -36,16 +36,17 @@ const Login42 = () => {
     };
 
   return (
-    <body className="back">
+   <div className="container-login">
     <div className="text-container">
-	<p className="text-pong"> pong</p>
-	<p className="text-game"> Game </p>
+	<p><span class="text-pong">pong</span><span class="text-game">Game</span> 
+	</p>
       </div>
 	<div className="container_ft"> 
-        <p className="text-ft2">  &gt; </p> <p className="text-ft">  ft_transcendence/pongGame </p>
+        <p><span className="text-ft2">  &gt;</span><span className="text-ft">  ft_transcendence/pongGame</span>
+	</p>
 	</div>
       <button className="login-button" onClick={handleLogin}>Login</button>
-      </body>
+   </div>
   );
 };
 

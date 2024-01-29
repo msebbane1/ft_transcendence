@@ -1,26 +1,57 @@
+/* GRID NAVBAR*/
+
 .navbar {
-  background-color: #231f20;
+  background-color: rgba(255, 255, 255, 0.1);
+  /*border: 1px solid #ffffff;*/
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   color: #f18aa2;
-  display: flex;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: 4fr 120px 120px 120px 120px 120px 1fr;
+  grid-template-rows: 75px;
   align-items: center;
   padding: 10px 20px;
+  margin-right: 20px;
+  border-bottom: 3px solid #ffffff;
 }
 
-/*  TEXT PONG GAME */
+.navbar a{
+  text-decoration: none;
+  font-family: "Dela";
+  color: #f9f4da;
+  justify-self: center;
+}
+
+.navbar a:hover {
+  color: #f088a0;
+}
+
+/* PHOTO DE PROFIL NAV*/
+
+.pic-nav {
+ max-width: 139px;
+  height: auto;
+ border-radius: 30px;
+ justify-self: end;
+}
+
+.logout-link {
+  width: 30px;
+  height: 30px;
+  background: url('../../public/log.png') center/contain no-repeat;
+  justify-self: center;
+}
+
+/*  LOGO TEXT PONG GAME */
 
 .text-containerl {
-  margin-left: 9%;
-  margin-bottom: 0;
-  margin-top: 0%;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
+  display: grid;
+  justify-self: start;
 }
 .text-containerl p {
   margin: 0;
 }
+
 .text-pongl {
   font-family: "Kanit", sans-serif;
   font-size: 25px;
@@ -32,32 +63,8 @@
   font-style: italic;
   font-family: "Dela", sans-serif;
   font-size: 40px;
-  /*color: #f088a0; ROSE */ 
+  color: #f088a0; 
   /*color: #12b5e5; BLEU */
-  color: #fcba28;
-}
-
-/* PHOTO PROFILE */
-
-.pic-profile {
-  background-image: url('../../public/msebbane.jpg'); /*A RECUPERER DIFFEREMENT*/
-  background-size: 25%;
-  background-repeat: no-repeat;
-  background-color: transparent;
-  padding: 20px 200px 50px;
-  /*border-radius: 20px ;*/
-}
-
-/* NAV BAR */
-.nav-links a{
-  text-decoration: none;
-  font-family: "Dela";
-  margin-right: 50px;
-  text-align: center;
-  color: #f9f4da;
-}
-
-.nav-links a:hover {
-  color: #f088a0;
+  /*color: #fcba28;*/
 }
 

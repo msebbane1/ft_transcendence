@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div>
-     <div>
+    <div class="container-home">
 	<Link to="/play" className="centered-container blinking-text">
           PLAY
         </Link>
-      </div>
-      <div className="container-grid">
         <Link to="/leaderboard" className="container container-1">
           Leader
 	  Board
@@ -21,7 +18,7 @@ function Home() {
         <Link to="/settings" className="container container-3">
           Settings
         </Link>
-    </div>
+    
 </div>
   );
 }

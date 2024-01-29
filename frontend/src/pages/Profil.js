@@ -49,26 +49,22 @@ const Profil = () => {
       {error && <p>Erreur : {error}</p>}
       {profileData && (
         <>
-          <div className="containerProfile profile-1">
+          <div className="containerProfile profile-1" id="profile-1">
 	     <div className="profile-content1">
               <div className="profile-content">
-                <div className="profile-info">
+                <div className="profile-info" id="profile-info-1">
                   <div className="info-header">
                 	<div className="icon-profile"></div>
                 	<h1>
-                  	USERNAME
+                  	Nom Utilisateur
                 	</h1>
                 	<div className="edit-button">
                   	<Link to="/settings">Edit</Link>
                    </div>
                   </div>
-                  <p>{profileData.login}</p>
-                </div>
-              </div>
-              <div className="profile-content">
-                <div className="profile-info">
-                  <h1> FULL NAME </h1>
-                  <p>{profileData.usual_full_name}</p>
+                  <p className="profile-info-text">Username 42 : {profileData.login}</p>
+	      	  <p className="profile-info-text">Full name: {profileData.usual_full_name}</p>
+	          <p className="profile-info-text">Pseudo: </p>
                 </div>
               </div>
               <div className="profile-content">
@@ -76,13 +72,13 @@ const Profil = () => {
 	         <div className="info-header">
                 	<div className="icon-email"></div>
                 	<h1>
-                  	EMAIL
+                  	@EMAIL
                 	</h1>
                 	<div className="edit-button">
                   	<Link to="/settings">Edit</Link>
                 	</div> 
                   </div>
-                  <p>{profileData.email}</p>
+                  <p className="profile-info-text"> Email : {profileData.email}</p>
                 </div>
               </div>
               <div className="profile-content">
@@ -96,12 +92,12 @@ const Profil = () => {
                   	<Link to="/settings">Edit</Link>
                 	</div>
                   </div>
-                  <p> disabled </p>
+                  <p className="profile-info-text"> 2FA : {user.get("status_2FA") ? "Activer" : "Desactiver"}</p>
                 </div>
               </div>
 	    </div>
           </div>	
-          <div className="containerProfile profile-2">
+          <div className="containerProfile profile-2" id="profile-2">
 	  {user.has("ProfileAvatar") && (
             <img
 	      className="profile-image"

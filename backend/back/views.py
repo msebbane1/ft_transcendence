@@ -100,18 +100,17 @@ def get_all_user_data(request):
                 # Si l'utilisateur n'existe pas : new User :
             #user = User(
              #   username=user_info.get('login'),
-              #  ELO_score=0,
+              #  
                # _2FA_secret=generate_secret(access_token),
                 #_2FA_status=False,
             #)
             #jwt_token = generate_jwt(user_info.get('login'), user_info.get('id'))
-            first_access = "true" # Mettre a false et mettre a true si l'user n'existe pas dans la bdd
-
+            first_access = True # Mettre a false et mettre a true si l'user n'existe pas dans la bdd
+            # AJOUTER image + email ??
             return JsonResponse({
                 'id': user_info.get('id'),
                 '42_username': user_info.get('login'),
                 'username': "user.username",
-                'ELO_score': "user.ELO_score",
                 '2FA_secret': "123456",
                 '2FA_valid': False, # A mettre dans la base donnee de l'user (ne pas mettre a false)
                 'status_2FA': False,

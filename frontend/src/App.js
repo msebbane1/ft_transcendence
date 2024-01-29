@@ -17,13 +17,15 @@ import { ImageProvider } from './context/ImageContext';
 import NoRoute from './routes/NoRoute';
 import PublicRoute from './routes/PublicRoute';
 import PrivateRoute from './routes/PrivateRoute';
+import './global.css';
+//import TwoFAuthRoute from './routes/TwoFAuthRoute';
 
 
 function App() {
   return (
     <BrowserRouter>
     <ImageProvider>
-      <div className="site-background">
+      <div>
       <Routes>
 	<Route path="/" element={<PublicRoute><div><Login42 /></div></PublicRoute>} />
 	<Route path="/callback" element={<CallbackPage />} />

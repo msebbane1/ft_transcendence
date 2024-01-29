@@ -35,26 +35,19 @@ function NavBar() {
 
   return (
     <div className="navbar">
-     <div>
-	  {imageProfile && <img src={imageProfile} alt="Image de profil" style={{
-                maxWidth: '30%',
-                height: 'auto',
-                display: 'block',
-                marginTop: '5px',
-              }} />}
-      </div>
-	<div className="nav-links">
+   	<div class="text-containerl">
+           <p><span class="text-pongl">pong</span><span class="text-gamel">Game</span>
+           </p>
+          </div>
+	<a href="/home">Home</a>
 	<a href="/play">Game</a>
-        <a href="/leaderboard">Leaderboard</a>
         <a href="/profile">Profile</a>
         <a href="/settings">Settings</a>
-	<a href="/logout">Logout</a>
-        </div>
-        <div className="text-containerl">
-        <p className="text-pongl"> pong </p>
-        <p className="text-gamel"> Game </p>
-        </div>
-    </div>
+    	<a href="/logout" className="logout-link"></a>
+	  <div className="pic-nav">
+          {imageProfile && <img src={imageProfile} alt="Image de profil" class="pic-nav" />}
+      </div>
+  </div>
   );
 }
 
