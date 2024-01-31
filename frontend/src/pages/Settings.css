@@ -1,0 +1,64 @@
+.Button-settings {
+  background-color: transparent;
+  color: black;
+  border: 2px solid black;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  width:200px;
+  height:60px;
+}
+
+.Button-settings:hover {
+  background-color: black;
+  border: 2px solid black;
+  color: white;
+}
+
+.Button-settings-2FA-ON {
+  background-color: transparent;
+  color: green;
+  border: 2px solid green;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  width:200px;
+  height:60px;
+}
+
+.Button-settings-2FA-ON:hover {
+  background-color: green;
+  border: 2px solid green;
+  color: white;
+}
+
+.Button-settings-2FA-OFF {
+  background-color: transparent;
+  color: red;
+  border: 2px solid red;
+  border-radius: 10px;
+  transition: background-color 0.3s, color 0.3s;
+  width:200px;
+  height:60px;
+}
+
+.Button-settings-2FA-OFF:hover {
+  background-color: red;
+  border: 2px solid red;
+  color: white;
+}
+
+.larger-profile-pic {
+  width: 150px;  /* Ajustez la taille selon vos besoins */
+  height: 150px; /* Ajustez la taille selon vos besoins */
+  object-fit: cover;
+}
+
+.active-indicator {
+  position: absolute;
+  bottom: 1px;
+  right: 270px;
+  width: 35px;
+  height: 35px;
+  background-color: #28a745; /* Couleur verte de Bootstrap */
+  border-radius: 50%;
+  border: 2px solid #fff; /* Bordure blanche */
+}

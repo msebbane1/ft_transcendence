@@ -32,7 +32,7 @@ function App() {
 	<Route path="/2fa" element={<PublicRoute><div><TwoFA /></div></PublicRoute>} />
         <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
 	<Route path="/play" element={<PrivateRoute><div><Navbar /><PongGame /></div></PrivateRoute>} />
-	<Route path="/settings" element={<PrivateRoute><div><Navbar /><Settings /></div></PrivateRoute>} />
+	<Route path="/settings" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
 	<Route path="/logout" element={<PrivateRoute><div><Navbar /><Logout /></div></PrivateRoute>} />
 	<Route path="*" element={<NoRoute />} />

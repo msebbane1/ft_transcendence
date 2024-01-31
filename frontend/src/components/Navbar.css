@@ -1,17 +1,18 @@
 /* GRID NAVBAR*/
 
 .navbar {
-  background-color: rgba(255, 255, 255, 0.1);
+ /* background-color: rgba(255, 255, 255, 0.1);*/
   /*border: 1px solid #ffffff;*/
-  border-radius: 5px;
-  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
-  color: #f18aa2;
+  /*border-radius: 5px;*/
+  /*box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);*/
+  /*color: #f18aa2;*/
   display: grid;
-  grid-template-columns: 4fr 120px 120px 120px 120px 120px 1fr;
-  grid-template-rows: 75px;
+  grid-template-columns: 8fr 100px 100px 100px 100px 100px 1fr;
+  grid-template-rows: 65px;
   align-items: center;
   padding: 10px 20px;
   margin-right: 20px;
+  margin-left: 20px;
   border-bottom: 3px solid #ffffff;
 }
 
@@ -29,10 +30,20 @@
 /* PHOTO DE PROFIL NAV*/
 
 .pic-nav {
- max-width: 139px;
-  height: auto;
- border-radius: 30px;
- justify-self: end;
+  object-fit: cover;
+  width: 80px;
+  height: 80px;
+}
+
+.status-indicator {
+  position: absolute;
+  bottom: 5px;
+  right: 40px;
+  width: 20px;
+  height: 20px;
+  background-color: #28a745; /* Couleur verte de Bootstrap */
+  border-radius: 50%;
+  border: 2px solid #fff; /* Bordure blanche */
 }
 
 .logout-link {

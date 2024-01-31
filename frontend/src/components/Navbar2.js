@@ -4,6 +4,7 @@ import './Navbar.css';
 import useUser from '../hooks/useUserStorage';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavBar() {
   const user = useUser("user");
@@ -44,23 +45,26 @@ const handleLogout = () => {
   }, [user, imageProfile]);
 
   return (
-    <nav className="navbar">
-      <div className="text-containerl">
-        <p>
-          <span className="text-pongl">pong</span>
-          <span className="text-gamel">Game</span>
-        </p>
-      </div>
-      <Link to="/home">Home</Link>
-      <Link to="/play">Game</Link>
-      <Link to="/settings">Profile</Link>
-      <Link to="/settings">Settings</Link>
-      <a href="/" className="logout-link" onClick={handleLogout}></a>
-      <div class="img-fluid">
-        {imageProfile && (
-          <img src={imageProfile} alt="Image de profil" class="rounded-circle pic-nav" />
-        )}
-	<div className="status-indicator"></div>
+    <nav className="navbar navbar-expand-lg navbar-light navbar">
+      <div className="container-fluid">
+        <div className="text-containerl">
+          <p>
+            <span className="text-pongl">pong</span>
+            <span className="text-gamel">Game</span>
+          </p>
+        </div>
+        <div className="navbar-nav">
+          <Link to="/home" className="nav-link">Home</Link>
+          <Link to="/play" className="nav-link">Game</Link>
+          <Link to="/profile" className="nav-link">Profile</Link>
+          <Link to="/settings" className="nav-link">Settings</Link>
+        </div>
+        <a href="/" className="logout-link" onClick={handleLogout}></a>
+        <div className="pic-nav">
+          {imageProfile && (
+            <img src={imageProfile} alt="Image de profil" className="pic-nav" />
+          )}
+        </div>
       </div>
     </nav>
   );

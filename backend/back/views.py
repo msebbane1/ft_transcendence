@@ -29,6 +29,10 @@ from .jwt_generator import generate_jwt
 #from .access_token import get_access_token_response
 from .two_factor_auth import generate_secret, validate_code
 import os
+from .generate_qr_code import qrcode_generator
+from django.http import HttpResponse
+import base64
+import pyotp
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -104,14 +108,15 @@ def get_all_user_data(request):
                # _2FA_secret=generate_secret(access_token),
                 #_2FA_status=False,
             #)
+            _2FA_secret = generate_secret(access_token)
             #jwt_token = generate_jwt(user_info.get('login'), user_info.get('id'))
             first_access = True # Mettre a false et mettre a true si l'user n'existe pas dans la bdd
             # AJOUTER image + email ??
             return JsonResponse({
                 'id': user_info.get('id'),
                 '42_username': user_info.get('login'),
-                'username': "user.username",
-                '2FA_secret': "123456",
+                'username': user_info.get('login'),
+                '2FA_secret': _2FA_secret,
                 '2FA_valid': False, # A mettre dans la base donnee de l'user (ne pas mettre a false)
                 'status_2FA': False,
                 'first_access': first_access,
@@ -130,6 +135,10 @@ def get_all_user_data(request):
 
 ##################################################### TWO FACTOR AUTH ###########################################
 
+def valid_code(secret, code):
+    totp = pyotp.TOTP(secret)
+    return totp.verify(code)
+
 @csrf_exempt
 def validate_2fa(request):
     if request.method == 'POST':
@@ -137,11 +146,10 @@ def validate_2fa(request):
         secret = data.get('secret')
         code = data.get('code')
 
-        # Vérifier si le code est bon
-        # if not secret or not code or not validate_code(int(code), secret):
-        #     return JsonResponse({'status': False})
-        if secret != code:
+        if not secret or not code or not valid_code(secret, code):
             return JsonResponse({'status': False})
+        # if secret != code:
+        #    return JsonResponse({'status': False})
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -175,8 +183,22 @@ def disable_2fa(request):
         if not secret:
             return JsonResponse({'status': False})
 
-        return JsonResponse({'status': True}) # A changer en true
+        return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
+@csrf_exempt
+def get_qrcode(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        secret = data.get('secret')
 
+        image_content = qrcode_generator(username, secret)
+        buffer = base64.b64decode(image_content)
+
+        response = HttpResponse(buffer, content_type="image/png")
+        response['Content-Disposition'] = f'inline; filename="qrcode.png"'
+        return response
+    else:
+        return JsonResponse({'error': str(e)}, status=500)

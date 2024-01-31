@@ -8,14 +8,14 @@ function Home() {
 	<Link to="/play" className="centered-container blinking-text">
           PLAY
         </Link>
-        <Link to="/leaderboard" className="container container-1">
+        <Link to="/leaderboard" className="container0 container-1">
           Leader
 	  Board
         </Link>
-        <Link to="/profile" className="container container-2">
+        <Link to="/profile" className="container0 container-2">
           Profile
         </Link>
-        <Link to="/settings" className="container container-3">
+        <Link to="/settings" className="container0 container-3">
           Settings
         </Link>
     

@@ -5,6 +5,8 @@ import useUser from '../../hooks/useUserStorage';
 import { useState } from 'react';
 import { SettingsFeature } from '../../pages/Settings2';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row, Col, Button } from 'react-bootstrap';
 
 const TwoFactorFeature = () => {
   const session = useUser("user");
@@ -55,22 +57,32 @@ const TwoFactorFeature = () => {
     }
   };
 
-  return SettingsFeature("Security", "Activer 2FA", (
-  <>
-    <QrCode size="150px" />
-    {error && <strong className={styles.settings_feature_error}>{error}</strong>}
-    {!session.get("status_2FA") ? <QrCodeValidator
-      then={handleActivation}
-      placeholder="Code secret"
-    /> : <button
-      onClick={handleDesactivation}
-      className={styles.settings_feature_desactivate}>
-      Désactiver
-    </button>}
-  </>
-));
-
-}
+return (
+    
+      <Row className="bg-dark rounded p-4">
+        
+          <QrCode size="150px" />
+       
+        <Col md={6} className="text-center rounded-end">
+          {error && <strong className={styles.settings_feature_error}>{error}</strong>}
+          {!session.get("status_2FA") ? (
+            <QrCodeValidator
+              then={handleActivation}
+              placeholder="Code secret"
+            />
+          ) : (
+            <Button
+              onClick={handleDesactivation}
+              className={styles.settings_feature_desactivate}
+            >
+              Désactiver
+            </Button>
+          )}
+        </Col>
+      </Row>
+  
+  );
+};
 
 export default TwoFactorFeature;
 

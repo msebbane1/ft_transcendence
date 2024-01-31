@@ -1,0 +1,13 @@
+/* Ajoutez ces styles dans votre fichier CSS */
+.custom-button1 {
+  background-color:  #ac76cb;  /* Changez la couleur du fond selon vos préférences */
+  color: white;  /* Changez la couleur du texte selon vos préférences */
+  border-radius: 10px;  /* Ajoutez des bordures arrondies */
+  /* Ajoutez d'autres styles personnalisés au besoin */
+}
+
+.custom-button1:hover {
+  background-color: lightcoral;  /* Changez la couleur au survol selon vos préférences */
+  /* Ajoutez d'autres styles personnalisés au survol au besoin */
+}
+
