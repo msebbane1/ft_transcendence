@@ -2,7 +2,7 @@ import { useState } from "react";
 import useUser from "../hooks/useUserStorage";
 import styles from "../styles/2FA_module.scss";
 import settingsStyles from "../styles/Settings.module.scss";
-import QrCodeValidator from "../components/settings/QrCodeValidator";
+import QrCodeValidator from "../components/settings/Qr";
 import { useNavigate } from "react-router-dom";
 import './2FA.css';
 import '../components/loading.css'
@@ -39,7 +39,7 @@ const TwoFactorAuth = () => {
                 <div>
                     <h1>Two-Factor autentification</h1>
                     <p>Saisissez le code à 6 chiffres généré par votre application pour confirmer votre action.</p>
-                    <QrCodeValidator then={handleValidation} placeholder="Code secret" />
+                    <QrCodeValidator then={handleValidation} placeholder="_" />
                 </div>
             )}
         </div>

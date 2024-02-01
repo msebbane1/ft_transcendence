@@ -53,7 +53,7 @@ const QrCode = (props) => {
   );
 }
 
-// Function to convert array buffer to base64
+// conversion array buffer to base64
 const arrayBufferToBase64 = (buffer) => {
   let binary = '';
   const bytes = new Uint8Array(buffer);

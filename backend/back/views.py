@@ -1,9 +1,7 @@
 from django.shortcuts import redirect
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-#from django.views.decorators.cors import cors_headers
 from oauth2_provider.models import Application
 from requests import post
 from django.conf import settings
@@ -23,13 +21,9 @@ from dotenv import load_dotenv
 ### AUTH
 from .auth_access_token import get_access_token
 from .auth_user_infos import get_user_info
-from .user import User
 from .jwt_generator import generate_jwt
-#from .models import User
-#from .access_token import get_access_token_response
-from .two_factor_auth import generate_secret, validate_code
+from .two_factor_auth import generate_secret, check_valid_code, qrcode_generator
 import os
-from .generate_qr_code import qrcode_generator
 from django.http import HttpResponse
 import base64
 import pyotp
@@ -46,8 +40,8 @@ REDIRECT_URI = os.getenv('REDIRECT_URI')
 ###### AUTHORIZE URL ######
 # A CHANGER en POST et a optimiser
 def get_authorize_url(request):
-    authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
-    return JsonResponse({'authorization_url': authorization_url})
+        authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
+        return JsonResponse({'authorization_url': authorization_url})
     
 
 ##### PHOTO DE PROFILE INTRA ####
@@ -135,9 +129,6 @@ def get_all_user_data(request):
 
 ##################################################### TWO FACTOR AUTH ###########################################
 
-def valid_code(secret, code):
-    totp = pyotp.TOTP(secret)
-    return totp.verify(code)
 
 @csrf_exempt
 def validate_2fa(request):
@@ -146,7 +137,7 @@ def validate_2fa(request):
         secret = data.get('secret')
         code = data.get('code')
 
-        if not secret or not code or not valid_code(secret, code):
+        if not secret or not code or not check_valid_code(secret, code):
             return JsonResponse({'status': False})
         # if secret != code:
         #    return JsonResponse({'status': False})
@@ -163,7 +154,7 @@ def enable_2fa(request):
         secret = data.get('secret')
         code = data.get('code')
 
-        if not secret or not code or not validate_code(int(code), secret): # Verifie si c'est bien 2FA_secret qui est ==au code donner
+        if not secret or not code or not check_valid_code(secret, code):
             return JsonResponse({'status': False})
 
         # Ajouter et mettre à jour la base de données et activer la 2FA

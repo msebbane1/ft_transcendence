@@ -1,69 +1,107 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import './Profil.css';
+import useUser from '../hooks/useUserStorage';
+import { Link } from 'react-router-dom';
+import { Modal, Button } from 'react-bootstrap';
+import "./Settings.css"
+/*MODALS*/
+import TwoFA from '../modals/TwoFAModals';
+import UsernameModals from '../modals/UsernameModals';
 
-const SettingsPage = () => {
-  const [isTwoFactorAuthEnabled, setTwoFactorAuth] = useState(false);
-  const [profilePicture, setProfilePicture] = useState('');
-  const [userName, setUserName] = useState('');
-  const [textColor, setTextColor] = useState('white');
+const Settings = () => {
+  const [error, setError] = useState(null);
+  const user = useUser("user");
 
-  const handleToggleTwoFactorAuth = () => {
-    setTwoFactorAuth((prev) => !prev);
-  };
+  useEffect(() => {
+    const accessToken = user.get("access_token");
+    console.log("token :", accessToken);
 
-  const handleProfilePictureChange = (e) => {
-    const file = e.target.files[0];
-    console.log('Nouvelle photo de profil :', file);
-  };
+    if (accessToken) {
+      axios.post('https://localhost:8080/api/userinfos/', {}, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          console.log('data:', response.data);
 
-  const handleUserNameChange = (e) => {
-    setUserName(e.target.value);
-  };
+          const imageUrl = response.data.image.link;
 
-  const handleTextColorChange = (e) => {
-    setTextColor(e.target.value);
-  };
+          if (imageUrl) {
+            console.log('image url:', imageUrl);
+            user.set("ProfileAvatar", imageUrl);
+          } else {
+            setError('Aucune image de profil');
+          }
+        })
+        .catch((error) => {
+          setError(error.message);
+        });
+    }
+  }, []);
 
-  const textStyle = { color: textColor }; // Style pour appliquer la couleur du texte
 
-  return (
-    <div>
-      <h2 style={textStyle}>Paramètres</h2>
+return (
+    <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/} 
+        <div>
+          {/* Section Titre Settings */}
+	      <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
+             <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-settings"></div>
+              <p class="title-profile-settings">SETTINGS</p>
+             </div>
+            </div>
 
-      <div>
-        <label style={textStyle}>
-          Activer la double authentification (2FA):
-          <input
-            type="checkbox"
-            checked={isTwoFactorAuthEnabled}
-            onChange={handleToggleTwoFactorAuth}
-          />
-        </label>
-      </div>
+             {/* Section Photo et nom */}
+             <div className="row mb-0">
+	      <div className="col text-center position-relative">
+	      {user.has("ProfileAvatar") && ( <div className="position-relative">
+		      <img className="rounded-circle larger-profile-pic"src={user.get("ProfileAvatar")}
+		      alt="Image de profil"/>
+	     
+	  	<div class="animate-ping position-absolute h-35 w-35 rounded-circle active-indicator"></div>
+	 
+	    	</div>
 
-      <div>
-        <label style={textStyle}>
-          Changer la photo de profil:
-          <input type="file" accept="image/*" onChange={handleProfilePictureChange} />
-        </label>
-      </div>
+	     )}
+    		<p className="profile-info-text">{user.get("username")}</p>
+    		<p class="profile-info-text" >{user.get("status_2FA") ? "2FA: On" : "2FA: Off"}</p>
+  		</div>
+	     </div>
+              {/* Section Titre User */}
+            
+             <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-profile"></div>
+              <p class="title-profile">AVATAR/USERNAME</p>
+             </div>
+            
 
-      <div>
-        <label style={textStyle}>
-          Changer le nom d'utilisateur:
-          <input type="text" value={userName} onChange={handleUserNameChange} />
-        </label>
-      </div>
+         {/* Section change Nom Utilisateur/Avatar */}
+          <div className="row mb-2">
+            <div className="col text-center">
+	      <UsernameModals/>
+            </div>
+          </div>
+          {/* Section Titre 2FA */}
+            
+             <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-secure"></div>
+              <p class="title-profile">TWO-FACTOR-AUTH</p>
+             </div>
+      
+          {/* Section 2FA */}
+          <div className="row mb-2">
+            <div className="col text-center">
+              <TwoFA/>
+          </div>
+	  </div>
+	 </div>
 
-      <div>
-        <label style={textStyle}>
-          Changer la couleur du texte:
-          <input type="color" value={textColor} onChange={handleTextColorChange} />
-        </label>
-        <p style={textStyle}>Exemple de texte avec la nouvelle couleur</p>
-      </div>
+      
     </div>
   );
 };
 
-export default SettingsPage;
-
+export default Settings;

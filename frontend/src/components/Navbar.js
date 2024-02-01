@@ -53,7 +53,7 @@ const handleLogout = () => {
       </div>
       <Link to="/home">Home</Link>
       <Link to="/play">Game</Link>
-      <Link to="/settings">Profile</Link>
+      <Link to="/profile">Profile</Link> 
       <Link to="/settings">Settings</Link>
       <a href="/" className="logout-link" onClick={handleLogout}></a>
       <div class="img-fluid">

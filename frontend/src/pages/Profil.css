@@ -13,12 +13,25 @@
  	/* align-items: center;*/
 }
 
+.title-profile-settings {
+  /*font-family: "IBM Plex Mono";*/
+  font-weight: bold;
+  /*font-family: "Dela", sans-serif;*/
+  margin-right: 5%;
+  transform: translateY(-95%);
+  color: #ffffff; 
+  font-family: 'Raleway',sans-serif; 
+  font-size: 40px;
+}
+
 .title-profile {
   /*font-family: "IBM Plex Mono";*/
-  font-size: 199px;
+  font-size: 20px;
   font-weight: bold;
-  color: #ea4c89;
-  font: 1.2rem "Fira Sans", sans-serif;
+  /*color: #ea4c89;*/
+  color: white;
+  font-family: 'Raleway', sans-serif;
+ /* font: 1.2rem "Fira Sans", sans-serif;*/
   margin-top: 30px;
   margin-right: 40px;
 }
@@ -43,32 +56,31 @@
   width: 50px;
   height: 50px;
   background-image: url('../../public/settings.svg');
-  background-size: 80%;
+  background-size: 90%;
   background-repeat: no-repeat;
-  background-color: #231f20;
   background-position: center;
-  margin-left: 15px;
+  margin-right: 10px;
   border: none;
   outline: none;
   box-shadow: none;
-  background-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-130%);
+
 }
 
 .icon-secure {
 
   display: inline-block;	
-  width: 50px;
-  height: 50px;
-  background-image: url('../../public/security.svg');
+  width: 40px;
+  height: 40px;
+  background-image: url('../../public/shield.svg');
   background-size: 90%;
   background-repeat: no-repeat;
-  background-color: #231f20;
   background-position: center;
-  margin-left: 15px;
+  margin-right: 10px;
   border: none;
   outline: none;
   box-shadow: none;
-   background-color: rgba(255, 255, 255, 0.4);
+
 
 
 }

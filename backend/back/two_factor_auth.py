@@ -3,6 +3,8 @@ import hashlib
 import base64
 import struct
 import time
+import qrcode
+from io import BytesIO
 
 def dynamic_truncation_fn(hmac_value):
     offset = hmac_value[-1] & 0xf
@@ -14,19 +16,19 @@ def dynamic_truncation_fn(hmac_value):
     )
     return truncated_value
 
-def generate_code(secret):
-    decoded_secret = base64.b32decode(secret, casefold=True)
-    buffer = bytearray(8)
-    counter = int(time.time() / 30)
-    for i in range(8):
-        buffer[7 - i] = counter & 0xff
-        counter >>= 8
+#def generate_code(secret):
+#   decoded_secret = base64.b32decode(secret, casefold=True)
+#    buffer = bytearray(8)
+#    counter = int(time.time() / 30)
+#    for i in range(8):
+#        buffer[7 - i] = counter & 0xff
+#        counter >>= 8
 
-    hmac_result = hmac.new(decoded_secret, bytes(buffer), hashlib.sha1).digest()
-    return dynamic_truncation_fn(hmac_result) % (10 ** 6)
+ #   hmac_result = hmac.new(decoded_secret, bytes(buffer), hashlib.sha1).digest()
+ #   return dynamic_truncation_fn(hmac_result) % (10 ** 6)
 
-def validate_code(code, secret):
-    return generate_code(secret) == code
+#def validate_code(code, secret):
+ #   return generate_code(secret) == code
 
 def generate_secret(data):
     hash_object = hashlib.md5(data.encode())
@@ -36,6 +38,25 @@ def generate_secret(data):
         hash_hex += '0'
 
     return base64.b32encode(hash_hex.encode()).decode().replace('=', '')
+
+def check_valid_code(secret, code):
+    totp = pyotp.TOTP(secret)
+    return totp.verify(code)
+
+def qrcode_generator(user: str, secret: str) -> str:
+    uri = generate_google_uri(user, secret)
+    image_data = to_data_url(uri)
+    return image_data.replace("data:image/png;base64,", "")
+
+def generate_google_uri(user: str, secret: str) -> str:
+    return f'otpauth://totp/Transcendence:{user}?secret={secret}'
+
+def to_data_url(uri: str) -> str:
+    img = qrcode.make(uri)
+    buffered = BytesIO()
+    img.save(buffered, format="PNG")
+    return base64.b64encode(buffered.getvalue()).decode('utf-8')
+
 #def generate_secret(data):
  #   hash_object = hashlib.md5(data.encode())
   #  hash_hex = hash_object.hexdigest()

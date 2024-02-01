@@ -1,15 +1,20 @@
-
 import React, { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import '../pages/Settings.css';
 import useUser from '../hooks/useUserStorage';
 
-const AvatarModals = ({ handleActivation }) => {
+const UsernameModals = ({ handleActivation }) => {
   const [showModal, setShowModal] = useState(false);
+  const [userName, setUserName] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const user = useUser("user");
 
   const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+  const handleUserNameChange = (e) => {
+    setUserName(e.target.value);
+  };
+
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
     console.log('Nouvelle photo de profil :', file);
@@ -19,16 +24,22 @@ const AvatarModals = ({ handleActivation }) => {
   return (
     <>
       {/* Bouton pour ouvrir le modal */}
-      <div className="edit-button" onClick={handleShowModal}>
-        Change Avatar
-      </div>
+      <Button className="Button-settings" onClick={handleShowModal}>
+        Edit Username/Avatar
+      </Button>
 
-      {/* Modal pour l'activation 2FA */}
+      {/* Modal pour changer Username */}
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Changer Username</Modal.Title>
         </Modal.Header>
-       	<div>
+        <div>
+                <label>
+                Changer le nom d'utilisateur:
+                <input type="text" value={userName} onChange={handleUserNameChange} />
+                </label>
+        </div>
+          <div>
                 <div>
                 <label>
                 Changer la photo de profil:
@@ -36,10 +47,20 @@ const AvatarModals = ({ handleActivation }) => {
                 </label>
               </div>
         </div>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Annuler
+          </Button>
+          <Button variant="primary" onClick={() => {
+            handleActivation();
+            handleCloseModal();
+          }}>
+            Confirmer
+          </Button>
+        </Modal.Footer>
       </Modal>
     </>
   );
 };
 
-export default AvatarModals;
-
+export default UsernameModals;

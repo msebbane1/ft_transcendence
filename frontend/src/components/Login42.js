@@ -2,6 +2,10 @@ import React from 'react';
 import './Login42.css';
 import Img from '../assets/3.png';
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'animate.css/animate.min.css';
+/*import 'mdbreact/dist/css/mdb.css';*/
+
 
 const Login42 = () => {
     const handleLogin = async () => {
@@ -13,11 +17,12 @@ const Login42 = () => {
 
             const responseUrl = await axios.get(backendUrl);
             // A MODIFIER EN POST
-            //const responseUrl = await axios.get('https://localhost:8080/api/auth/');
-	    /*
-	    const responseUrl = await axios.post('http://localhost:8080/auth/', {}, {
+            /*const responseUrl = await axios.get('https://localhost:8080/api/auth/');
+	    
+	   /* const responseUrl = await axios.post('http://localhost:8080/auth/', {}, {
 		method: "POST",
                 headers: {
+			'Authorization': `Bearer ${session.get("request_token")}`,
                     'Content-Type': 'application/json',
                 },
             });*/
@@ -36,7 +41,7 @@ const Login42 = () => {
     };
 
   return (
-   <div className="container-login">
+   <div className="container-login animate__bounceIn">
     <div className="text-container">
 	<p><span class="text-pong">pong</span><span class="text-game">Game</span> 
 	</p>

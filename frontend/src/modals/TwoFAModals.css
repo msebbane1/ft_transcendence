@@ -1,0 +1,11 @@
+
+.custom-button1 {
+  background-color:  #ac76cb;
+  color: white;
+  border-radius: 10px;
+}
+
+.custom-button1:hover {
+  background-color: lightcoral;
+}
+

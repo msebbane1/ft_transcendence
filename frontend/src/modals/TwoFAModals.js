@@ -3,9 +3,8 @@ import { Row, Col, Button, Modal } from 'react-bootstrap';
 import QrCode from '../components/settings/QrCode';
 import QrCodeValidator from "../components/settings/Qr";
 import useUser from '../hooks/useUserStorage';
-import { SettingsFeature } from './Settings2';
 import styles from '../styles/Settings.module.scss';
-import './Settings.css';
+import '../pages/Settings.css';
 import axios from 'axios';
 
 const TwoFAModals = () => {
