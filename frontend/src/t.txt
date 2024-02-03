@@ -1,30 +1,6 @@
-data: 
-Object { id: 133927, email: "asahonet@student.42nice.fr", login: "asahonet", first_name: "Arnaud", last_name: "Sahonet", usual_full_name: "Arnaud Sahonet", usual_first_name: null, url: "https://api.intra.42.fr/v2/users/asahonet", phone: "hidden", displayname: "Arnaud Sahonet", … }
-Profil2.js:22
-token: 9d4ce75a97cb41b14ebcd9cf493b6c1a7d324ef31e9e4ec7e3a293704500d304 Profil2.js:32
-Image response: 
-Object { data: {…}, status: 200, statusText: "OK", headers: {…}, config: {…}, request: XMLHttpRequest }
-​
-config: Object { timeout: 0, xsrfCookieName: "XSRF-TOKEN", xsrfHeaderName: "X-XSRF-TOKEN", … }
-​
-data: Object { error: "Erreur lors de la récupération de l'image de profil" }
-​
-headers: Object { "content-length": "74", "content-type": "application/json" }
-​
-request: XMLHttpRequest { readyState: 4, timeout: 0, withCredentials: false, … }
-​
-status: 200
-​
-statusText: "OK"
-​
-<prototype>: Object { … }
-Profil2.js:33
-Image data: undefined
-Uncaught SyntaxError: JSON.parse: unexpected non-whitespace character after JSON data at line 1 column 5 of the JSON data
-ross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://localhost:8080/auth/. (Reason: CORS header ‘Access-Control-Allow-Origin’ missing). Status code: 200.
 
-[<0;36;13MCross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://127.0.0.1:8080/auth/callback/. (Reason: expected ‘true’ in CORS header ‘Access-Control-Allow-Credentials’).
+​
 
-Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource at http://127.0.0.1:8080/auth/callback/. (Reason: CORS request did not succeed). Status code: (null).
+Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
 
-
+arning: A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controll

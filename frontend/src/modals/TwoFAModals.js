@@ -83,7 +83,7 @@ const TwoFAModals = () => {
             <div className="row">
                 <div className="card">
                   <div className="card-body px-lg-5 py-lg-5 text-center">
-                    <QrCode size="150px" />
+                    <QrCode size="200px" />
                     <h2 className="text-info">2FA Security</h2>
 	  	    <p className="mb-4"><p>
                 {session.get("status_2FA") ? "Two-factor authentication is enabled" : 

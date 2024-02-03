@@ -7,11 +7,13 @@ import { Modal, Button } from 'react-bootstrap';
 import "./Settings.css"
 /*MODALS*/
 import TwoFA from '../modals/TwoFAModals';
-import UsernameModals from '../modals/UsernameModals';
+import EditUserModals from '../modals/EditUserModals';
 
 const Settings = () => {
-  const [error, setError] = useState(null);
   const user = useUser("user");
+  const [error, setError] = useState('');
+  const [username, setUsername] = useState(user.get("username"));
+	console.log("username(settings): ", user.get("username"));
 
   useEffect(() => {
     const accessToken = user.get("access_token");
@@ -57,18 +59,23 @@ return (
              {/* Section Photo et nom */}
              <div className="row mb-0">
 	      <div className="col text-center position-relative">
-	      {user.has("ProfileAvatar") && ( <div className="position-relative">
-		      <img className="rounded-circle larger-profile-pic"src={user.get("ProfileAvatar")}
-		      alt="Image de profil"/>
-	     
-	  	<div class="animate-ping position-absolute h-35 w-35 rounded-circle active-indicator"></div>
-	 
-	    	</div>
+	       {user.has("ProfileAvatar") && 
+	       ( <div className="position-relative">
+          <img
+            className="rounded-circle larger-profile-pic"
+            src={user.get("ProfileAvatar")}
+            alt="Image de profil"
+          />
 
-	     )}
-    		<p className="profile-info-text">{user.get("username")}</p>
+          <div
+            className="animate-ping position-absolute translate middle rounded-circle active-indicator"
+            
+          ></div>
+        </div>
+      )}
+    		<p className="profile-info-text">{username}</p>
     		<p class="profile-info-text" >{user.get("status_2FA") ? "2FA: On" : "2FA: Off"}</p>
-  		</div>
+  	      </div>
 	     </div>
               {/* Section Titre User */}
             
@@ -81,7 +88,7 @@ return (
          {/* Section change Nom Utilisateur/Avatar */}
           <div className="row mb-2">
             <div className="col text-center">
-	      <UsernameModals/>
+	      <EditUserModals setUsername={setUsername}/>
             </div>
           </div>
           {/* Section Titre 2FA */}

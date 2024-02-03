@@ -7,7 +7,6 @@ import { Modal, Button } from 'react-bootstrap';
 import "./Settings.css"
 /*MODALS*/
 import TwoFA from '../modals/TwoFAModals';
-import UsernameModals from '../modals/UsernameModals';
 
 const Profil = () => {
   const [profileData, setProfileData] = useState(null);
@@ -19,13 +18,10 @@ const Profil = () => {
   };
 
   useEffect(() => {
-    // Récupére le token depuis le stockage local
-    //const accessToken = localStorage.getItem('accessToken');
     const accessToken = user.get("access_token");
     console.log("token :", accessToken);
 
     if (accessToken) {
-      // Requete API info
       axios.post('https://localhost:8080/api/userinfos/', {}, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -33,7 +29,6 @@ const Profil = () => {
         },
       })
         .then((response) => {
-          //console.log('Image URL:', response.data.image_url);
           console.log('data:', response.data);
           setProfileData(response.data);
 
@@ -53,17 +48,49 @@ const Profil = () => {
   }, []);
 
 return (
-    <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/}
+    <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc bg-white ?*/}
         <div>
           {/* Section Titre Settings */}
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
              <div className="col d-flex justify-content-center align-items-center">
-              <div className="icon-settings"></div>
+              <div className="icon-profile1"></div>
               <p class="title-profile-settings">PROFILE</p>
 	     </div>
              </div>
-            </div>
-    	</div>
+           
+	{/* Section Photo et nom */}
+             <div className="row mb-0">
+              <div className="col text-center position-relative">
+               {user.has("ProfileAvatar") &&
+               ( <div className="position-relative">
+          <img
+            className="rounded-circle larger-profile-pic"
+            src={user.get("ProfileAvatar")}
+            alt="Image de profil"
+          />
+
+          <div
+            className="animate-ping position-absolute translate middle rounded-circle active-indicator"></div>
+        </div>
+      )}
+                <p className="profile-info-text">{user.get("username")}</p>
+              </div>
+             </div>
+              {/* Section Stats */}
+
+             <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-stats"></div>
+              <p class="title-profile">Statistics</p>
+             </div>
+
+          {/* Section Titre 2FA */}
+
+             <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-leader"></div>
+              <p class="title-profile">Match History</p>
+             </div>
+         </div>
+    </div>
   );
 };
 

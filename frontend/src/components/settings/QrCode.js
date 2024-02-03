@@ -48,7 +48,8 @@ const QrCode = (props) => {
       backgroundImage: `url(${qrCodeValue})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
-      borderRadius: "12px"
+      borderRadius: "12px",
+      margin: "auto"
     }} />
   );
 }

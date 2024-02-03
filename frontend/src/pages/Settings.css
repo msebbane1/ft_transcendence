@@ -6,6 +6,8 @@
   transition: background-color 0.3s, color 0.3s;
   width:200px;
   height:60px;
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: white;
 }
 
 .Button-settings:hover {
@@ -13,7 +15,10 @@
   color: white;
   color: #fff;
   background-color: rgba(255, 255, 255, 0.2);
+  outline: none;
+  box-shadow: none;
 }
+
 
 .Button-settings-2FA-ON {
   background-color: transparent;
@@ -23,10 +28,12 @@
   transition: background-color 0.3s, color 0.3s;
   width:200px;
   height:60px;
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: green;
 }
 
 .Button-settings-2FA-ON:hover {
-  background-color: green;
+  background-color: rgba(0, 128, 0, 0.2);
   border: 2px solid green;
   color: white;
 }
@@ -39,10 +46,12 @@
   transition: background-color 0.3s, color 0.3s;
   width:200px;
   height:60px;
+  --bs-btn-active-bg: transparent;
+  --bs-btn-active-border-color: red;
 }
 
 .Button-settings-2FA-OFF:hover {
-  background-color: red;
+  background-color: rgba(255, 0, 0, 0.2);
   border: 2px solid red;
   color: white;
 }
@@ -63,10 +72,13 @@
 }
 .active-indicator {
   position: absolute;
+  top: 85%;
+  left: 55%;
+  transform: translate(-50%, -50%);
   bottom: 1px;
-  right: 270px;
-  width: 25px;
-  height: 25px;
+  /*right: 50%;*/
+  width: 28px;
+  height: 28px;
   background-color: #28a745;
   border-radius: 50%;
   border: 1px solid #fff;

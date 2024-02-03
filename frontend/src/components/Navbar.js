@@ -4,11 +4,17 @@ import './Navbar.css';
 import useUser from '../hooks/useUserStorage';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
+import { Button, Modal } from 'react-bootstrap';
+import LogoutModals from '../modals/LogoutModals';
 
 function NavBar() {
   const user = useUser("user");
   const imageProfile = user.get("ProfileAvatar");
   const navigate = useNavigate();
+	const [showModal, setShowModal] = React.useState(false);
+
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   const fetchProfileImage = async () => {
     const accessToken = user.get("access_token");
@@ -35,10 +41,7 @@ function NavBar() {
       }
     }
   };
-const handleLogout = () => {
-    user.clear();
-    setTimeout(() => navigate("/"), 500);
-  };
+
   useEffect(() => {
     fetchProfileImage();
   }, [user, imageProfile]);
@@ -55,13 +58,14 @@ const handleLogout = () => {
       <Link to="/play">Game</Link>
       <Link to="/profile">Profile</Link> 
       <Link to="/settings">Settings</Link>
-      <a href="/" className="logout-link" onClick={handleLogout}></a>
+      <div className="logout-link" onClick={openModal}></div>
       <div class="img-fluid">
         {imageProfile && (
           <img src={imageProfile} alt="Image de profil" class="rounded-circle pic-nav" />
         )}
 	<div className="status-indicator"></div>
       </div>
+     <LogoutModals showModal={showModal} handleClose={closeModal} />
     </nav>
   );
 }
