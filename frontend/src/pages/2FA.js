@@ -5,7 +5,7 @@ import settingsStyles from "../styles/Settings.module.scss";
 import QrCodeValidator from "../components/settings/Qr";
 import { useNavigate } from "react-router-dom";
 import './2FA.css';
-import '../components/loading.css'
+import './loading.css'
 
 const TwoFactorAuth = () => {
     const session = useUser("user");

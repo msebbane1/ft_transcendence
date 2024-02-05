@@ -34,8 +34,8 @@ services:
    networks:
      - transcendence
    restart: unless-stopped
-     #command: sh -c "pip install -r requirements.txt && python3 manage.py runsslserver 0.0.0.0:8080 --noreload"
-   command: sh -c "pip install -r requirements.txt && python3 manage.py runsslserver 0.0.0.0:8080 --cert /app/nginx.crt --key /app/nginx.key --noreload"
+     #command: sh -c "pip install -r requirements.txt && python3 manage.py runsslserver 0.0.0.0:8080 --cert /app/nginx.crt --key /app/nginx.key --noreload"
+   command: sh -c "pip install -r requirements.txt && python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runsslserver 0.0.0.0:8080 --cert /app/nginx.crt --key /app/nginx.key --noreload"
 
 # NGINX
   nginx:
@@ -52,6 +52,19 @@ services:
       - front
     networks:
       - transcendence
+#POSTGRESQL
+  database:
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: msebbane
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: django_db
+    networks:
+      - transcendence
+    restart: unless-stopped
 
 networks:
   transcendence:

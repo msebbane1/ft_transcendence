@@ -29,7 +29,7 @@ const EditUserModals = ({ setUsername }) => {
         { username: newUsername },
         {
           headers: {
-            Authorization: `Bearer ${user.get("access_token")}`,
+            Authorization: `Bearer ${user.get("jwt_token")}`,
             'Content-Type': 'application/json',
           },
         }

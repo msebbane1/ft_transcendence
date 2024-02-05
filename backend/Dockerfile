@@ -9,6 +9,7 @@ COPY . /app/
 # Installation des dépendances
 RUN python -m venv venv && . venv/bin/activate && pip install --no-cache-dir -r requirements.txt
 
+
 # Exposition du port
 EXPOSE 8080
 

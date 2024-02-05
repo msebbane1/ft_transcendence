@@ -16,6 +16,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'back.apps.BackConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -24,11 +25,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'dj_rest_auth',
-   # 'allauth',
-    #'allauth.account',
-    #'allauth.socialaccount',
-    #'allauth.socialaccount.providers.oauth2',
-   # 'rest_framework_simplejwt',
     'rest_framework',
     'rest_framework.authtoken',
     'social_django',
@@ -36,8 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'oauth2_provider',
     'sslserver',
-    'back',
 ]
+
 
 AUTHENTICATION_BACKENDS = [
     'social_core.backends.42.EDXOAuth2',
@@ -126,8 +122,12 @@ TEMPLATES = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        "NAME": "django_db",
+        "USER": "msebbane",
+        "PASSWORD": "pass",
+        "HOST": "database",
+        "PORT": "5432",
     }
 }
 

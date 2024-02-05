@@ -27,6 +27,8 @@ import os
 from django.http import HttpResponse
 import base64
 import pyotp
+from rest_framework_simplejwt.tokens import RefreshToken
+from .models import User
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -39,9 +41,13 @@ REDIRECT_URI = os.getenv('REDIRECT_URI')
 
 ###### AUTHORIZE URL ######
 # A CHANGER en POST et a optimiser
+@csrf_exempt
 def get_authorize_url(request):
+    if request.method == 'POST':
         authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
         return JsonResponse({'authorization_url': authorization_url})
+    
+    return JsonResponse({'error': 'Methode non autorisée'}, status=405)
     
 
 ##### PHOTO DE PROFILE INTRA ####
@@ -90,35 +96,36 @@ def get_all_user_data(request):
         user_info = get_user_info(access_token)
 
         try:
-            # IMPLEMENTER un noouvel User dans la base de donnée :
-            #user = User.objects.filter(username=user_info.get('login')).first()
-            #first_access = False
-
-            #if not user:
-                # Si l'utilisateur n'existe pas : new User :
-            #user = User(
-             #   username=user_info.get('login'),
-              #  
-               # _2FA_secret=generate_secret(access_token),
-                #_2FA_status=False,
-            #)
-            _2FA_secret = generate_secret(access_token)
-            #jwt_token = generate_jwt(user_info.get('login'), user_info.get('id'))
-            first_access = True # Mettre a false et mettre a true si l'user n'existe pas dans la bdd
-            # AJOUTER image + email ??
+            user = User.objects.filter(username=user_info.get('login')).first()
+            first_access = False
+            #user.delete() si je dois modifier user
+            if not user:
+                user, created = User.objects.get_or_create(
+                username=user_info.get('login'),
+                defaults={
+                    'id': user_info.get('id'),
+                    'pseudo': user_info.get('login'),
+                    'secret_2auth': generate_secret(access_token),
+                    'wins': 0,
+                    'loses': 0,}
+                )
+                refresh = RefreshToken.for_user(user)
+                first_access = True
+                user.save()
+            
+            refresh = RefreshToken.for_user(user)
+            jwt_token = str(refresh.access_token)
+            # AJOUTER image + image id dans user + email + color ball + token refresh + color paddle + score ??
             return JsonResponse({
-                'id': user_info.get('id'),
-                '42_username': user_info.get('login'),
-                'username': user_info.get('login'),
-                '2FA_secret': _2FA_secret,
-                '2FA_valid': False, # A mettre dans la base donnee de l'user (ne pas mettre a false)
-                'status_2FA': False,
+                'id': user.id,
+                'username': user.username,
+                'pseudo': user.pseudo,
+                '2FA_secret': user.secret_2auth,
+                '2FA_valid': False,
+                'status_2FA': user.has_2auth,
                 'first_access': first_access,
                 'access_token': access_token,
-                'refresh_token': 'example_refresh_token', 
-                'jwt_token': "jwt_token",
-                'color_paddle': 'example_color_paddle',
-                'color_ball': 'example_color_ball',
+                'jwt_token': jwt_token
 })
 
         except json.decoder.JSONDecodeError as e:

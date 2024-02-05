@@ -50,6 +50,7 @@ const Qr = ({ then, placeholder }: {
         {
           headers: {
             "Content-Type": "application/json",
+	    'Authorization': `Bearer ${session.get("jwt_token")}`,
           },
         }
       );

@@ -38,7 +38,7 @@ const TwoFAModals = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${session.get("access_token")}`, // A chnager avec token JWT
+              Authorization: `Bearer ${session.get("jwt_token")}`, // A chnager avec token JWT
             },
           }
         );

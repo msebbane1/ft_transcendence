@@ -15,7 +15,7 @@ const QrCode = (props) => {
         const response = await fetch("https://localhost:8080/api/auth/qrcode/", {
           method: "POST",
           headers: {
-            'Authorization': `Bearer ${user.get("access_token")}`,
+            'Authorization': `Bearer ${user.get("jwt_token")}`,
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
