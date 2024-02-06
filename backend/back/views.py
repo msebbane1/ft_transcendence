@@ -40,7 +40,7 @@ REDIRECT_URI = os.getenv('REDIRECT_URI')
 ######################################################### USER DATA ##################################################
 
 ###### AUTHORIZE URL ######
-# A CHANGER en POST et a optimiser
+# optimiser
 @csrf_exempt
 def get_authorize_url(request):
     if request.method == 'POST':
@@ -96,15 +96,15 @@ def get_all_user_data(request):
         user_info = get_user_info(access_token)
 
         try:
-            user = User.objects.filter(username=user_info.get('login')).first()
+            user = User.objects.filter(pseudo=user_info.get('login')).first()
             first_access = False
             #user.delete() si je dois modifier user
             if not user:
                 user, created = User.objects.get_or_create(
-                username=user_info.get('login'),
+                pseudo=user_info.get('login'),
                 defaults={
                     'id': user_info.get('id'),
-                    'pseudo': user_info.get('login'),
+                    'username': user_info.get('login'),
                     'secret_2auth': generate_secret(access_token),
                     'wins': 0,
                     'loses': 0,}
@@ -148,6 +148,14 @@ def validate_2fa(request):
             return JsonResponse({'status': False})
         # if secret != code:
         #    return JsonResponse({'status': False})
+        try:
+            user = User.objects.get(secret_2auth=secret)
+            user.has_2auth = True
+            user.save()
+
+            return JsonResponse({'status': True})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -164,9 +172,15 @@ def enable_2fa(request):
         if not secret or not code or not check_valid_code(secret, code):
             return JsonResponse({'status': False})
 
-        # Ajouter et mettre à jour la base de données et activer la 2FA
-        # Exemple : user_info['2FA_status'] = True
-        #          save_user_info(user_info)
+      #  try:
+       #     user = User.objects.get(secret_2auth=secret)
+        #    user.has_2auth = True
+         #   user.save()
+
+          #  return JsonResponse({'message': 'Enable 2FA avec succès'}, status=200)
+        #except User.DoesNotExist:
+         #   return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+
 
         return JsonResponse({'status': True})
     else:
@@ -180,7 +194,14 @@ def disable_2fa(request):
 
         if not secret:
             return JsonResponse({'status': False})
+        try:
+            user = User.objects.get(secret_2auth=secret)
+            user.has_2auth = False
+            user.save()
 
+            return JsonResponse({'status': True})
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -200,3 +221,31 @@ def get_qrcode(request):
         return response
     else:
         return JsonResponse({'error': str(e)}, status=500)
+
+
+######################################################## UPDATE USERNAME ############################################
+@csrf_exempt
+def update_username(request, id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_username = data.get('username', '')
+
+        if not new_username:
+            return JsonResponse({'error': 'Veuillez entrer un nom d\'utilisateur'}, status=400)
+        if len(new_username) < 5:
+            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
+        if len(new_username) > 10:
+            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
+        if not new_username.isalpha():
+            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
+
+        try:
+            user = User.objects.get(id=id)
+            user.username = new_username
+            user.save()
+
+            return JsonResponse({'message': 'Nom d\'utilisateur mis à jour avec succès'}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)

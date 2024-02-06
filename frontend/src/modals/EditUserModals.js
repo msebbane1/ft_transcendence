@@ -9,6 +9,7 @@ const EditUserModals = ({ setUsername }) => {
   const user = useUser("user");
   const [profilePicture, setProfilePicture] = useState('');
   const [newUsername, setNewUsername] = useState('');
+  const [error, setError] = useState('');
 
 
   const handleOpenModal = () => setShowModal(true);
@@ -23,9 +24,9 @@ const EditUserModals = ({ setUsername }) => {
 
   const handleSaveUsername = async () => {
     try {
-      
+      console.log('Nouveau nom d\'utilisateur à enregistrer :', newUsername);
       const response = await axios.post(
-        'https://localhost:8080/api/userinfos/',
+        `https://localhost:8080/api/update-username/${user.get("id")}/`,
         { username: newUsername },
         {
           headers: {
@@ -39,15 +40,23 @@ const EditUserModals = ({ setUsername }) => {
 	user.set('username', newUsername);
        // setCurrentUsername(newUsername);
 	setUsername(newUsername);
-	console.log("username(modal) after: ", user.get("username"));
+	console.log("username(modal) ", user.get("username"));
+	console.log("newusername:", newUsername);
 	setNewUsername('');
         handleCloseModal();
         
-      } else {
-        console.log(response.data.message);
       }
     } catch (error) {
-      console.error('Erreur lors de la requête POST :', error);
+      if (error.response && error.response.data && error.response.data.error) {
+      		setError(error.response.data.error);
+	      setTimeout(() => setError(null), 2000);
+     }
+    }
+  };
+    const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSaveUsername();
     }
   };
 
@@ -64,6 +73,7 @@ const EditUserModals = ({ setUsername }) => {
           <Modal.Title>Modifier le nom d'utilisateur</Modal.Title>
         </Modal.Header>
         <Modal.Body>
+	  {error && <strong className="error-message">{error}</strong>}
           <Form>
             <Form.Group controlId="formNewUsername">
               <Form.Label>Nouveau nom d'utilisateur</Form.Label>
@@ -72,10 +82,10 @@ const EditUserModals = ({ setUsername }) => {
                 placeholder="Entrez le nouveau nom d'utilisateur"
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
+	  	onKeyDown={handleKeyDown}
               />
             </Form.Group>
           </Form>
-        </Modal.Body>
 	{/* Changer Avatar */}
 	<div>
            <div>
@@ -94,6 +104,7 @@ const EditUserModals = ({ setUsername }) => {
             Enregistrer
           </Button>
         </Modal.Footer>
+	  </Modal.Body>
       </Modal>
     </div>
   );
