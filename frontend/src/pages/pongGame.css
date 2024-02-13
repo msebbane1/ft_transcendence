@@ -1,0 +1,43 @@
+.canvas {
+    position:relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+  }
+
+.button {
+    height:80vh
+}
+
+.scorej1 {
+  position: absolute;
+  top: 650px;
+  right: 1300px;
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.scorej2 {
+  position: absolute;
+  top: 650px;
+  right: 500px;
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 5px;
+}
+
+.Feature {
+  position: absolute;
+  top: 650px;
+  right: calc(50% - 50px);
+  background-color: black;
+  color: white;
+  padding: 5px 20px;
+  border-radius: 5px;
+  width: 100px;
+  text-align: center; /* Centrer le texte à l'intérieur du bouton */
+}
