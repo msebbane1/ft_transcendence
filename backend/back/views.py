@@ -239,6 +239,8 @@ def update_username(request, id):
             return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
         if not new_username.isalpha():
             return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
+        if (usernameAlreadyUse(new_username) == False):
+            return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
 
         try:
             user = User.objects.get(id=id)
@@ -250,6 +252,11 @@ def update_username(request, id):
             return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
 
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+def usernameAlreadyUse(new_username):
+    if User.objects.get(username=new_username).count() > 0:
+        return (False)
+    return (True)
 
 ############################################# AUTH SIGN IN SIGN UP ##########################################
 
