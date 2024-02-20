@@ -7,6 +7,8 @@ from django.contrib import admin
 class User(models.Model):
     username = models.CharField(max_length=50)
     pseudo = models.CharField(max_length=50)
+    password = models.CharField(max_length=50, null=True)
+    register = models.BooleanField(default=False)
     secret_2auth = models.CharField(max_length=100)
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)

@@ -249,3 +249,57 @@ def update_username(request, id):
             return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
 
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+
+############################################# AUTH SIGN IN SIGN UP ##########################################
+
+@csrf_exempt
+def signup(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        repeat_password = data.get('repeatPassword')
+
+        
+        existing_users = User.objects.filter(username=username)
+        if existing_users.exists():
+            return JsonResponse({'error': 'Username already exists'}, status=400)
+        if password != repeat_password:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+        user = User.objects.create(
+            username=username,
+            password=password,
+            register=True,
+            wins=0,
+            loses=0
+        )
+        user.save()
+
+        return JsonResponse({'status': True})
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def signin(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+
+        try:
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
+
+        if password != user.password:
+            return JsonResponse({'error': 'Invalid password'}, status=400)
+
+        return JsonResponse({
+            'register': user.register,
+            'username': user.username,
+            'wins': user.wins,
+            'loses': user.loses
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+

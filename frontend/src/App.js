@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+//PAGES
 import Login42 from './pages/Login';
+import SignUp from './pages/SignUp';
 import PongGame from './pages/pongGame';
 import Home from './pages/Home';
 import TwoFA from './pages/2FA';
 import Settings from './pages/Settings';
 import Profil from './pages/Profil';
+
 import Navbar from './components/Navbar';
 import CallbackPage from './components/LoginAuthorize';
-import useUser from './hooks/useUserStorage';
+//import useUser from './hooks/useUserStorage';
 // ROUTES
 import NoRoute from './routes/NoRoute';
 import PublicRoute from './routes/PublicRoute';
@@ -34,6 +37,7 @@ const backgroundStyle = {
       <div className="container-fluid" style={backgroundStyle}>
       <Routes>
 	<Route path="/" element={<PublicRoute><div><Login42 /></div></PublicRoute>} />
+	<Route path="/signup" element={<div><SignUp /></div>} />
 	<Route path="/2fa" element={<PublicRoute><div><TwoFA /></div></PublicRoute>} />
         <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
 	<Route path="/play" element={<PrivateRoute><div><Navbar /><PongGame /></div></PrivateRoute>} />

@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import useUser from '../hooks/useUserStorage';
 import axios from 'axios';
+import "../pages/Settings.css" 
 
 const EditUserModals = ({ setUsername }) => {
   const [showModal, setShowModal] = useState(false);
@@ -63,7 +64,7 @@ const EditUserModals = ({ setUsername }) => {
   return (
     <div>
       {/* Bouton pour ouvrir le modal */}
-      <Button className="Button-settings" onClick={handleOpenModal}>
+      <Button className="Button-settings !important" onClick={handleOpenModal}>
         Edit Username/Avatar
       </Button>
 	

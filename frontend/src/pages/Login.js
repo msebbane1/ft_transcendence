@@ -8,12 +8,17 @@ import Img from '../assets/3.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css/animate.min.css';
 import LoginAuthorize from '../components/LoginAuthorize';
+import SignInModals from '../modals/SignInModals';
 import { handleAuthentification } from '../components/LoginAuth';
 
 const LoginPage = () => {
   const user = useUser("user");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false)
+   const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
  //Set toute les infos dans user
   useEffect(() => {
     handleAuthentification(user, setLoading, navigate);
@@ -62,7 +67,8 @@ return (
               <span className="text-ft"> ft_transcendence/pongGame</span>
             </p>
           </div>
-          <LoginAuthorize />
+          <SignInModals />
+	 
         </div>
       )}
     </div>

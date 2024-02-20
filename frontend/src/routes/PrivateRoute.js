@@ -5,7 +5,7 @@ import useUser from '../hooks/useUserStorage';
 const PrivateRoute = ({ children }: {children: JSX.Element}) => {
   const user = useUser("user");
   const navigate = useNavigate();
-  console.log("session user has token: ", user.has("access_token"));
+  console.log("session user has register ", user.get("register"));
 
         useEffect(() => {
                 //if (user.has("access_token"))
@@ -16,7 +16,7 @@ const PrivateRoute = ({ children }: {children: JSX.Element}) => {
 		//}
                // if(!user.has("access_token"))
 		//	navigate("/");
-		if (user.has("access_token"))
+		if (user.has("access_token") || user.get("register"))
 		{
 			const challenge = !user.get("status_2FA") || user.get("2FA_valid");
 			console.log("challenge routes :", challenge);

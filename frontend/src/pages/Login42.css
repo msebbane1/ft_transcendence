@@ -122,7 +122,7 @@ font-family: "Roboto", sans-serif;
   background-color: transparent;
   background-position: 10px center;
   width: 150px;
-  margin: 0 auto;
+  margin: 0 auto; 
   text-align: 100px center;
   padding: 20px 10px 20px 50px;
   border-radius: 5px;
@@ -166,6 +166,49 @@ button {
 button:hover {
   color: #fff;
   background-color: #01263a;
+}
+
+/*BUTTON SIGN IN*/
+
+
+.signin-button {
+  background-image: url('../../public/signin.png');
+  background-size: 35px;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  background-position: 10px center;
+  width: 150px;
+  margin: 0 auto;
+  text-align: 100px center;
+  padding: 20px 10px 20px 50px;
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.2);
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  font-family: sans-serif;
+  grid-column: 2;
+  grid-row: 3;
+}
+
+.signin-button:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.sign-button {
+
+  background-color: transparent;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.2);
+}
+
+.sign-button:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
 }
 
 

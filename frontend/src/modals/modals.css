@@ -1,0 +1,16 @@
+.custom-modal .modal-content {
+  background: rgba(24, 24, 16, .2);
+  background-clip: border-box;
+  border-radius: 2em;
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+  color: white;
+  backdrop-filter: blur(15px);
+}
+
+.custom-modal .modal-title {
+  text-align: center; /* Centrer le texte */
+  font-size: 60px; /* Augmenter la taille du texte */
+}
+
