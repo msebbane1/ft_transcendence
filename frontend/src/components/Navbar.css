@@ -89,3 +89,19 @@
   /*color: #fcba28;*/
 }
 
+.default-avatar-nav {
+  background-image: url('../../public/default.jpg');
+  width: 70px;
+  height: 70px;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  object-fit: cover;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+}
+

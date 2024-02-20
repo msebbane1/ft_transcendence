@@ -60,8 +60,10 @@ function NavBar() {
       <Link to="/settings">Settings</Link>
       <div className="logout-link" onClick={openModal}></div>
       <div class="img-fluid">
-        {imageProfile && (
-          <img src={imageProfile} alt="Image de profil" class="rounded-circle pic-nav" />
+        {imageProfile ? (
+          <img src={imageProfile} alt="Image de profil" className="rounded-circle pic-nav" />
+        ) : (
+          <div className="default-avatar-nav"></div>
         )}
 	<div className="status-indicator"></div>
       </div>

@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib import admin
 
 
+
 class User(models.Model):
     username = models.CharField(max_length=50)
     pseudo = models.CharField(max_length=50)

@@ -41,7 +41,7 @@ const SignUpPage = () => {
     } catch (error) {
       console.error('Error submitting form:', error);
       if (error.response) {
-        // Afficher le message d'erreur renvoyé par le serveur dans la console
+        
         console.log('Server error:', error.response.data.error);
         setError(error.response.data.error);
       } else {

@@ -29,6 +29,7 @@ import base64
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import User
+import random
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -98,7 +99,7 @@ def get_all_user_data(request):
         try:
             user = User.objects.filter(pseudo=user_info.get('login')).first()
             first_access = False
-            #user.delete() si je dois modifier user
+        
             if not user:
                 user, created = User.objects.get_or_create(
                 pseudo=user_info.get('login'),
@@ -252,6 +253,9 @@ def update_username(request, id):
 
 ############################################# AUTH SIGN IN SIGN UP ##########################################
 
+def generate_unique_id(length=8):
+    return ''.join(random.choices('0123456789', k=length))
+
 @csrf_exempt
 def signup(request):
     if request.method == 'POST':
@@ -266,7 +270,9 @@ def signup(request):
             return JsonResponse({'error': 'Username already exists'}, status=400)
         if password != repeat_password:
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
+        unique_id = generate_unique_id()
         user = User.objects.create(
+            id=unique_id,
             username=username,
             password=password,
             register=True,
@@ -295,6 +301,7 @@ def signin(request):
             return JsonResponse({'error': 'Invalid password'}, status=400)
 
         return JsonResponse({
+            'id': user.id,
             'register': user.register,
             'username': user.username,
             'wins': user.wins,

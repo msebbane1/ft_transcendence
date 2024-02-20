@@ -58,28 +58,25 @@ return (
 
              {/* Section Photo et nom */}
              <div className="row mb-0">
-	      <div className="col text-center">
-	       <div className="position-relative">
-      {user.get("ProfileAvatar") ? (
-        <div className="position-relative">
-          <img
-            className="rounded-circle larger-profile-pic"
-            src={user.get("ProfileAvatar")}
-            alt="Image de profil"
-          />
-          <div className="animate-ping position-absolute translate middle rounded-circle active-indicator"></div>
-        </div>
-      ) : (
-        <div className="default-avatar">
-          <div className="animate-ping position-absolute translate middle rounded-circle active-indicator"></div>
+	      <div className="col text-center position-relative">
+	       <div className={`${user.get("ProfileAvatar") ? '' : 'default-avatar'} position-relative`}> 
+              {user.get("ProfileAvatar") && (
+                <img
+                  className="rounded-circle larger-profile-pic"
+                  src={user.get("ProfileAvatar")}
+                  alt="Image de profil"
+                /> )}
+          	<div
+            	className="animate-ping position-absolute translate middle rounded-circle active-indicator">
+		</div>
         </div>
       )}
-    </div>
     		<p className="profile-info-text">{username}</p>
     		<p class="profile-info-text" >{user.get("status_2FA") ? "2FA: On" : "2FA: Off"}</p>
   	      </div>
 	     </div>
               {/* Section Titre User */}
+            
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-profile"></div>
               <p class="title-profile">AVATAR/USERNAME</p>
