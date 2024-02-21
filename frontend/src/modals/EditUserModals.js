@@ -19,8 +19,20 @@ const EditUserModals = ({ setUsername }) => {
 	//A MODIFIER
   const handleProfilePictureChange = (e) => {
     const file = e.target.files[0];
-    console.log('Nouvelle photo de profil :', file);
-    user.set("ProfileAvatar", file);
+    const formData = new FormData();
+    formData.append('profile_picture', file);
+    
+    axios.post(`https://localhost:8080/api/update-profile-picture/${user.get("id")}/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${user.get("jwt_token")}`,
+      }
+    }).then(response => {
+      console.log(response.data);
+      user.set("ProfileAvatar", file);
+    }).catch(error => {
+      console.error('Erreur lors de la mise à jour de l\'image de profil :', error);
+    });
   };
 
   const handleSaveUsername = async () => {

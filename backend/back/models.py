@@ -20,6 +20,13 @@ class User(models.Model):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
         return output
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
 
 class Tournament(models.Model):
 	title = models.CharField(max_length=30)

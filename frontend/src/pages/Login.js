@@ -27,6 +27,7 @@ const LoginPage = () => {
   useEffect(() => { 
     const code2FA_is_activate = user.get("status_2FA");
     const connected = user.has("access_token");
+    const register = user.get("register");
     const code2FA_is_valid = user.get("2FA_valid");
     const not_2FA = !code2FA_is_activate || code2FA_is_valid;
     

@@ -30,7 +30,9 @@ def dynamic_truncation_fn(hmac_value):
 #def validate_code(code, secret):
  #   return generate_code(secret) == code
 
-def generate_secret(data):
+def generate_secret(data=None):
+    if data is None:
+        data = ''
     hash_object = hashlib.md5(data.encode())
     hash_hex = hash_object.hexdigest()
 

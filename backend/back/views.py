@@ -28,7 +28,7 @@ from django.http import HttpResponse
 import base64
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User
+from .models import User, UserProfile
 import random
 
 ######################################################### .ENV #########################################################
@@ -116,7 +116,7 @@ def get_all_user_data(request):
             
             refresh = RefreshToken.for_user(user)
             jwt_token = str(refresh.access_token)
-            # AJOUTER image + image id dans user + email + color ball + token refresh + color paddle + score ??
+            # AJOUTER image + image id dans user + color ball + token refresh + color paddle + score ??
             return JsonResponse({
                 'id': user.id,
                 'username': user.username,
@@ -223,7 +223,12 @@ def get_qrcode(request):
     else:
         return JsonResponse({'error': str(e)}, status=500)
 
-
+def usernameAlreadyUse(new_username):
+    try:
+        user_count = User.objects.filter(username=new_username).count()
+        return user_count > 0
+    except User.DoesNotExist:
+        return False
 ######################################################## UPDATE USERNAME ############################################
 @csrf_exempt
 def update_username(request, id):
@@ -239,7 +244,7 @@ def update_username(request, id):
             return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
         if not new_username.isalpha():
             return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
-        if (usernameAlreadyUse(new_username) == False):
+        if (usernameAlreadyUse(new_username)):
             return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
 
         try:
@@ -253,15 +258,10 @@ def update_username(request, id):
 
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
-def usernameAlreadyUse(new_username):
-    if User.objects.get(username=new_username).count() > 0:
-        return (False)
-    return (True)
-
 ############################################# AUTH SIGN IN SIGN UP ##########################################
 
-def generate_unique_id(length=8):
-    return ''.join(random.choices('0123456789', k=length))
+#def generate_unique_id(length=8):
+ #   return ''.join(random.choices('0123456789', k=length))
 
 @csrf_exempt
 def signup(request):
@@ -272,20 +272,20 @@ def signup(request):
         repeat_password = data.get('repeatPassword')
 
         
-        existing_users = User.objects.filter(username=username)
+        existing_users = User.objects.filter(username=username) #reprendre fc
         if existing_users.exists():
             return JsonResponse({'error': 'Username already exists'}, status=400)
         if password != repeat_password:
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
-        unique_id = generate_unique_id()
+    
         user = User.objects.create(
-            id=unique_id,
             username=username,
             password=password,
             register=True,
             wins=0,
             loses=0
         )
+        user.secret_2auth = generate_secret(str(user.id))
         user.save()
 
         return JsonResponse({'status': True})
@@ -311,9 +311,32 @@ def signin(request):
             'id': user.id,
             'register': user.register,
             'username': user.username,
+            '2FA_secret': user.secret_2auth,
+            '2FA_valid': False,
+            'status_2FA': user.has_2auth,
             'wins': user.wins,
             'loses': user.loses
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+def update_profile_picture(request, id):
+    if request.method == 'POST':
+        try:
+            user_profile = UserProfile.objects.get(id=id)
+        except UserProfile.DoesNotExist:
+            return JsonResponse({'error': 'Profil utilisateur non trouvé'}, status=404)
+
+        if 'profile_picture' not in request.FILES:
+            return JsonResponse({'error': 'Aucune image envoyée'}, status=400)
+
+        profile_picture = request.FILES['profile_picture']
+        user_profile.profile_picture = profile_picture
+        user_profile.save()
+
+        return JsonResponse({'message': 'Image de profil mise à jour avec succès'}, status=200)
+
+    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 

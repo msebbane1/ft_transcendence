@@ -1,5 +1,5 @@
 from django.urls import path
-from back.views import get_all_user_data, get_authorize_url, get_profile_image, get_infos_user, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin
+from back.views import get_all_user_data, get_authorize_url, get_profile_image, get_infos_user, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin, update_profile_picture
 
 urlpatterns = [
     path('api/auth/', get_authorize_url, name='get_authorize_url'),
@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/update-username/<int:id>/', update_username, name='update-username'),
     path('api/signup/', signup, name='signup'),
     path('api/signin/', signin, name='signin'),
+    path('api/update-profile-picture/<int:id>/', update_profile_picture, name='update_profile_picture'),
 
 ]
 
