@@ -28,14 +28,16 @@ function AITicTacToe(){
         playerSymbol: (randomNum < 0.5 ? 'X' : 'O'),  // si rNum < 0.5 symbole = X et invercement
         //playerId: , //database
     });
-	const [aiSymbol , setAi] = useState(player.playerSymbol === 'X' ? 'O' : 'X'); //choisi en fonction du symbole du player
-	
-    useEffect(() => { //rendre l'IA intelligente (verifier les diagonales/lignes droites et faire un algo de defenese ou d'attaque)
+	const [ai , setAi] = useState({
+        aiSymbol: (player.playerSymbol === 'X' ? 'O' : 'X'), //choisi en fonction du symbole du player
+        aiAlias: "AI",
+    });
+    useEffect(() => {
         if (!xIsNext && !calculateWinner(squares, lines)) {
                 const aiMove = AI(squares); // Récupère le mouvement de l'IA
                 console.log("aiMove=", aiMove);
                 const nextSquares = squares.slice();// l'utilisation de slice() permet de creer une copie du jeu a modifier pour garder le status d'avant en memoire
-                nextSquares[aiMove] = aiSymbol;
+                nextSquares[aiMove] = ai.aiSymbol;
                 setSquares(nextSquares);
                 setXIsNext(true);
         }
@@ -47,7 +49,7 @@ function AITicTacToe(){
         }
         if(xIsNext){
 			const nextSquares = squares.slice();
-			nextSquares[i] = xIsNext ? player.playerSymbol : aiSymbol;
+			nextSquares[i] = xIsNext ? player.playerSymbol : ai.aiSymbol;
 			setSquares(nextSquares);
         }
         setXIsNext(!xIsNext);
@@ -73,12 +75,17 @@ function AITicTacToe(){
 	const tie = checkBoardFull() && !winner;
 	let status;
 	if (winner) {
-        status = `Winner : ${winner}`;
+        if(winner === ai.aiSymbol){
+            status = "AI wins!";
+        }
+        else if (winner === player.playerSymbol){
+            status = "You win!";
+        }
 	} else {
         if(tie){
             status = "It's a Tie!";
 		} else {
-            status = `Next player: ${xIsNext ? player.playerSymbol : aiSymbol}`;
+            status = `Next player: ${xIsNext ? player.playerSymbol : ai.aiSymbol}`;
 		}
 	}
     
@@ -91,7 +98,7 @@ function AITicTacToe(){
             let emptyIndices = 0;
             let line = lines[i];
             for(let y = 0; y < line.length; y++){
-                if(squares[line[y]] === aiSymbol){
+                if(squares[line[y]] === ai.aiSymbol){
                     aiCount++;
                 } else if (squares[line[y]] === player.playerSymbol){
                     playerCount++;
@@ -102,14 +109,33 @@ function AITicTacToe(){
             }
             if(aiCount === 2 && emptyCount === 1){
                 return emptyIndices;
-            } else if(playerCount === 2 && emptyCount === 1){
+            }
+        }
+
+        for(let i = 0; i < lines.length; i++){
+            let aiCount = 0;
+            let playerCount = 0;
+            let emptyCount = 0;
+            let emptyIndices = 0;
+            let line = lines[i];
+            for(let y = 0; y < line.length; y++){
+                if(squares[line[y]] === ai.aiSymbol){
+                    aiCount++;
+                } else if (squares[line[y]] === player.playerSymbol){
+                    playerCount++;
+                } else{
+                    emptyCount++;
+                    emptyIndices = line[y];
+                }
+            }
+           if(playerCount === 2 && emptyCount === 1){
                 return emptyIndices;
             }
         }
     
         // Si aucune combinaison gagnante pour le joueur, jouer un coup aléatoire
         const randomIndex = Math.floor(Math.random() * emptySquares.length);
-        return randomIndex;
+        return emptySquares[randomIndex];
     }
 
     function AI(squares) { //faire une IA defensive 
@@ -123,7 +149,7 @@ function AITicTacToe(){
         return index;
     }
 
-    return ( //modifer status en fenetre pop-up pour winner ou Tie Game; lien util: https://popupsmart.com/blog/react-popup
+    return ( // lien util: https://popupsmart.com/blog/react-popup
         <>
         	<div className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>
                 {status}
@@ -145,9 +171,11 @@ function AITicTacToe(){
                     ))}
                 </div>
             </div>
-            <div className="resetgame">
-                <button className="reset-button">Reset{/*changer reset-button en pop-up (rejouer une partie ou changer de jeu)*/}</button>
-            </div>
+            {/* if(winner){
+                <div class="alert alert-light" role="alert">
+                    Reset game
+                </div>
+            } */}
         </>
     );
 }
