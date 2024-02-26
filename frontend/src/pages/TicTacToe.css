@@ -45,3 +45,16 @@
     transition: 0.5s ease-in-out;
     margin: 2px; /* Ajoutez une marge pour l'espace entre les carrés */
 }
+
+.next-player-container {
+    background-color: #ffffff;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.2em;
+    color: #333;
+    transition: background-color 0.3s, color 0.3s;
+}

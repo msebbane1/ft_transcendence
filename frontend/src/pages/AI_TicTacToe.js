@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+//import { Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import "./AI_TicTacToe.css"
 
 function Square({value, onSquareClick}) {//ancien
@@ -32,6 +34,11 @@ function AITicTacToe(){
         aiSymbol: (player.playerSymbol === 'X' ? 'O' : 'X'), //choisi en fonction du symbole du player
         aiAlias: "AI",
     });
+
+    const handleRefresh = () => {
+        window.location.href = "/ai-tictactoe"; 
+        window.location.reload();
+    }
     useEffect(() => {
         if (!xIsNext && !calculateWinner(squares, lines)) {
                 const aiMove = AI(squares); // Récupère le mouvement de l'IA
@@ -41,7 +48,7 @@ function AITicTacToe(){
                 setSquares(nextSquares);
                 setXIsNext(true);
         }
-    }, [xIsNext, squares, aiSymbol]);
+    }, [xIsNext, squares, ai.aiSymbol]);
 
     function handleClick(i) {
         if (calculateWinner(squares, lines) || squares[i]) {
@@ -149,11 +156,28 @@ function AITicTacToe(){
         return index;
     }
 
-    return ( // lien util: https://popupsmart.com/blog/react-popup
+    return (
         <>
-        	<div className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>
+        	{/* <div className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>
                 {status}
-            </div>
+            </div> */}
+            {(winner || tie) && (
+                <div className="popup-container">
+                    <div className="popup">
+                        <div className="alert alert-success" role="alert">
+                            <h4 className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>{status}</h4>
+                            <div className="linker">
+                                <Link to="/ai-tictactoe">
+                                    <button type="button" class="btn btn-secondary" onClick={() => handleRefresh()}>Play Again</button>
+                                </Link>
+                                <Link to="/modetictactoe">
+                                    <button type="button" class="btn btn-secondary">Change Mode</button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="board">
                 <div className="board-row">
                     {[0, 1, 2].map(i => (
@@ -171,11 +195,6 @@ function AITicTacToe(){
                     ))}
                 </div>
             </div>
-            {/* if(winner){
-                <div class="alert alert-light" role="alert">
-                    Reset game
-                </div>
-            } */}
         </>
     );
 }

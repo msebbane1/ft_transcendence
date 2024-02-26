@@ -15,7 +15,7 @@ function ModeTicTacToe() {
           <button class="example_g">Player vs Player</button>
         </Link>
       </div>
-      <div className='Dashboard'>Dashboard</div>
+      <div className='Dashboard'> Affichage du Dashboard du joeur</div>
     </div>
   );
 }
