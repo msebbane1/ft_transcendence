@@ -98,7 +98,7 @@ function AITicTacToe(){
     
     function chooseCase(emptySquares){ //fonction qui choisie quel coup l'IA doit jouer
 
-        for(let i = 0; i < lines.length; i++){
+        for(let i = 0; i < lines.length; i++){ // donne la priorité a l'IA pour gagner
             let aiCount = 0;
             let playerCount = 0;
             let emptyCount = 0;
