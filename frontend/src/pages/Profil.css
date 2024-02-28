@@ -128,6 +128,18 @@
 
 
 }
+.icon-key {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-image: url('../../public/key.svg');
+  background-size: 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  outline: none;
+  box-shadow: none;
+}
 
 .profile-2{
   	/*width: 850px;*/

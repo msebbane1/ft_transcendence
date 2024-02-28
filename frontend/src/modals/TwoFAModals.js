@@ -65,11 +65,11 @@ const TwoFAModals = () => {
       {/* Button to open the modal */}
 	  {!session.get("status_2FA") ? (
                  <Button className="Button-settings-2FA-ON" onClick={handleShowModal}>
-                 Turn on 2FA
+                 Turn on 2FA App
       		</Button>
               ) : (
                 <Button className="Button-settings-2FA-OFF" onClick={handleDesactivation}>
-                  Turn off 2FA
+                  Turn off 2FA App
                 </Button>
               )}
       {/* Bootstrap Modal */}

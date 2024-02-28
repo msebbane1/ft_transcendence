@@ -73,7 +73,7 @@
 .active-indicator {
   position: absolute;
   top: 85%;
-  left: 55%;
+  left: 58%;
   transform: translate(-50%, -50%);
   bottom: 1px;
   /*right: 50%;*/

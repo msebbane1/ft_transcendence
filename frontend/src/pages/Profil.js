@@ -20,7 +20,7 @@ const Profil = () => {
 return (
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc bg-white ?*/}
         <div>
-          {/* Section Titre Settings */}
+          {/* Section Titre Profile */}
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-profile1"></div>
@@ -44,7 +44,8 @@ return (
                 </div>
               )}*/}
 	 </div>
-                <p className="profile-info-text">{user.get("username")}</p>
+                <p className="profile-info-text">@{user.get("username")}</p>
+		<p className="profile-info-text">{user.get("pseudo")}</p>
               </div>
              </div>
               {/* Section Stats */}

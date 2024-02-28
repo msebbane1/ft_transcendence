@@ -38,7 +38,7 @@
 .status-indicator {
   position: absolute;
   top: 85%;
-  left: 96.5%;
+  left: 60%;
   transform: translate(-50%, -50%);
   bottom: 1px;
   /*right: 50%;*/

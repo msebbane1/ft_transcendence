@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import LogoutModals from '../modals/LogoutModals';
+import PictureNav from './PictureNav';
 
 function NavBar() {
   const user = useUser("user");
@@ -59,11 +60,7 @@ function NavBar() {
       <Link to="/settings">Settings</Link>
       <div className="logout-link" onClick={openModal}></div>
       <div class="img-fluid">
-        {imageProfile ? (
-          <img src={imageProfile} alt="Image de profil" className="rounded-circle pic-nav" />
-        ) : (
-          <div className="default-avatar-nav"></div>
-        )}
+        < PictureNav />
 	  {/*<div className="status-indicator"></div>*/}
       </div>
      <LogoutModals showModal={showModal} handleClose={closeModal} />

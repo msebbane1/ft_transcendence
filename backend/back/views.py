@@ -249,6 +249,14 @@ def usernameAlreadyUse(new_username):
         return user_count > 0
     except User.DoesNotExist:
         return False
+
+def pseudoAlreadyUse(new_username):
+    try:
+        user_count = User.objects.filter(username=new_username).count()
+        return user_count > 0
+    except User.DoesNotExist:
+        return False
+
 ######################################################## UPDATE USERNAME ############################################
 @csrf_exempt
 def update_username(request, id):
@@ -265,6 +273,8 @@ def update_username(request, id):
         if not new_username.isalpha():
             return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
         if (usernameAlreadyUse(new_username)):
+            return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
+        if (pseudoAlreadyUse(new_username)):
             return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
 
         try:
@@ -293,7 +303,8 @@ def create_password_tournament(request, id):
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
         try:
             user = User.objects.get(id=id)
-            user.password_tournament = hash_password(new_password)
+            user.password_tournament = make_password(new_password)
+            #user.password = make_password(new_password)
             user.save()
 
             return JsonResponse({'message': 'Le mot de passe Tournois mis à jour avec succès'}, status=200)
@@ -316,7 +327,10 @@ def signup(request):
         repeat_password = data.get('repeatPassword')
 
         
-        existing_users = User.objects.filter(username=username) #reprendre fonction
+        existing_users = User.objects.filter(pseudo=username) #reprendre fonction // ou username
+        existing_username = User.objects.filter(username=username)
+        if existing_username.exists():
+            return JsonResponse({'error': 'Username already exists'}, status=400)
         if existing_users.exists():
             return JsonResponse({'error': 'Username already exists'}, status=400)
         if len(username) < 5:
@@ -333,6 +347,7 @@ def signup(request):
     
         user = User.objects.create(
             username=username,
+            pseudo=username,
             password=make_password(password),
             password_tournament=make_password(password),
             register=True,
@@ -355,7 +370,7 @@ def signin(request):
         password = data.get('password')
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=400)
 
@@ -363,13 +378,14 @@ def signin(request):
 
         #if hashed_password != user.password:
             #return JsonResponse({'error': 'Invalid password'}, status=400)
-        if not check_password(password, user.password):
+        if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
 
         return JsonResponse({
             'id': user.id,
             'register': user.register,
             'username': user.username,
+            'pseudo': user.pseudo,
             '2FA_secret': user.secret_2auth,
             '2FA_valid': False,
             'status_2FA': user.has_2auth,
