@@ -8,7 +8,7 @@ function Home() {
 	  {/* <Link to="/play" className="centered-container blinking-text">
           PLAY
         </Link>*/}
-	<Link to="/play" className="container0 container-1">
+	      <Link to="/modePong" className="container0 container-1">
           Pong
         </Link>
         <Link to="/modetictactoe" className="container0 container-2">

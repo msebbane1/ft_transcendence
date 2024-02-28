@@ -1,0 +1,19 @@
+/* Style pour le bouton gagnant lorsque game.winner est vrai */
+.winner-button {
+    display: block;
+    margin: 0 auto; /* Pour centrer horizontalement */
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #4caf50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    border: none; /* Supprimer la bordure */
+    border-radius: 5px; /* Ajouter des coins arrondis */
+    cursor: pointer; /* Changer le curseur au survol */
+  }
+  
+  /* Style pour le bouton gagnant désactivé */
+  .winner-button:disabled {
+    opacity: 0.5; /* Réduire l'opacité pour indiquer que le bouton est désactivé */
+    pointer-events: none; /* Désactiver les événements de clic */
+  }
+  

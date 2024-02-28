@@ -1,29 +1,43 @@
 import React, { useEffect, useRef, useState } from 'react';
 import "./pongGame.css"
+import useUser from "../hooks/useUserStorage";
 const PLAYER_HEIGHT = 100;
 const PLAYER_WIDTH = 12;
 const CANVAS_HEIGHT = 500;
 const CANVAS_WIDTH = 1000;
+const TOWIN = 1;
 var colorsArrows = {
   i : 0,
   Value : ['white','red','green','yellow']
 };
 
-const PongGame = () => {
+const PongGameIa = () => {
+
+  const user = useUser("user");
+  const p1 = user.get("username");
   const canvasRef = useRef(null);
   const [game, setGame] = useState({
     feature: {
-      on: true,
+      on: false,
+    },
+    play:false,
+    winner:false,
+    winnerN:'',
+    keysPressed: {
+      player:{
+        ArrowUp:false,
+        ArrowDown:false,
+      },
     },
     player: {
       y: CANVAS_HEIGHT / 2 - PLAYER_HEIGHT / 2,
       score: 0,
-      name: "Marco",
+      name: p1,
     },
     computer: {
       y: CANVAS_HEIGHT / 2 - PLAYER_HEIGHT / 2,
       score: 0,
-      name: "Jeannot",
+      name: "AI",
     },
     ball: {
       x: CANVAS_WIDTH / 2,
@@ -60,8 +74,6 @@ const PongGame = () => {
     }
   };
 
-  let animId
-
   const ballMove = () => {
     const canvas = canvasRef.current;
     const { ball } = game;
@@ -85,48 +97,34 @@ const PongGame = () => {
         y: prevGame.ball.y + prevGame.ball.speed.y,
       },
     }));
-    if(ball.speed.y > 0)
-    {
-      setGame((prevGame) => ({  //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    setGame((prevGame) => ({  //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
         ...prevGame,
         computer: {
           ...prevGame.computer,
-          y: Math.min(CANVAS_HEIGHT - PLAYER_HEIGHT, prevGame.computer.y += ball.speed.y),
+          y: Math.min(CANVAS_HEIGHT - PLAYER_HEIGHT, prevGame.computer.y += ball.speed.y * 0.65),
         },
       }));
-    }
-    else
-    {
-      setGame((prevGame) => ({  //||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-        ...prevGame,
-        computer: {
-          ...prevGame.computer,
-          y: Math.max(CANVAS_HEIGHT - PLAYER_HEIGHT, prevGame.computer.y += ball.speed.y),
-        },
-      }));
-    }
-    draw();
-    if (ball.x + ball.r > canvas.width - PLAYER_WIDTH) {
+    if (ball.x + ball.r/2 >= canvas.width - PLAYER_WIDTH) {
+      ball.x = canvas.width - PLAYER_WIDTH - ball.r/2 - 1;
       collide(game.computer);
     }
-    else if (ball.x - ball.r < PLAYER_WIDTH) {
+    else if (ball.x - ball.r /2 <= PLAYER_WIDTH) {
+      ball.x = PLAYER_WIDTH + ball.r/2 + 1;
       collide(game.player);
     }
+    playerMove();
   };
 
+  const pongPad = (playerPosition) => {
+    var impact = game.ball.y - playerPosition - PLAYER_HEIGHT / 2;
+    var ratio = 100 / (PLAYER_HEIGHT / 2);
+    game.ball.speed.y = Math.round(impact * ratio / 10);
+}
 
   const collide = (Who) => {
-    var canvas = canvasRef.current;
     const { ball } = game;
     if (game.ball.y < Who.y || game.ball.y > Who.y + PLAYER_HEIGHT) {
-      cancelAnimationFrame(animId);
-      game.ball.x = canvas.width / 2;
-      game.ball.y = canvas.height / 2;
-      game.player.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-      game.computer.y = canvas.height / 2 - PLAYER_HEIGHT / 2;
-      draw();
-      game.ball.speed.x = 6;
-      game.ball.speed.y = 6;
+      resetCanva();
       if (Who !== game.computer) {
           game.computer.score++;
       } else {
@@ -141,10 +139,11 @@ const PongGame = () => {
           ...prevGame.ball,
           speed: {
             ...prevGame.ball.speed,
-            x: ball.speed.x * -1,
+            x: ball.speed.x * -1.2,
           },
         },
       }));
+      pongPad(Who.y);
       setGame((prevGame) => ({
         ...prevGame,
         ball: {
@@ -153,47 +152,67 @@ const PongGame = () => {
           y: prevGame.ball.y + prevGame.ball.speed.y,
         },
       }));
-      draw();
     }
   };
 
-  const stop = () => {
-    cancelAnimationFrame(animId);
-    // Reset game state
+
+
+  const playerMove = () => {
+
+    if(game.keysPressed.player.ArrowUp == true)
+    {
+      setGame((prevGame) => ({
+        ...prevGame,
+        player: {
+          ...prevGame.player,
+          y: Math.max(0, prevGame.player.y - PLAYER_HEIGHT/5),
+        },
+      }));
+    }
+    else if(game.keysPressed.player.ArrowDown == true)
+    {
+      setGame((prevGame) => ({
+        ...prevGame,
+        player: {
+          ...prevGame.player,
+          y: Math.min(CANVAS_HEIGHT - PLAYER_HEIGHT, prevGame.player.y + PLAYER_HEIGHT/5),
+        },
+      }));
+    }
+  }
+
+  const handleKeyDown = (event) => {
+    switch (event.key) {
+      case 'ArrowUp':
+        game.keysPressed.player.ArrowUp = true;
+        break;
+      case 'ArrowDown':
+        game.keysPressed.player.ArrowDown = true;
+        break;
+    }
+  };
+
+  const handleKeyUp = (event) => {
+    switch (event.key) {
+      case 'ArrowUp':
+        game.keysPressed.player.ArrowUp = false;
+        break;
+      case 'ArrowDown':
+        game.keysPressed.player.ArrowDown = false;
+        break;
+    }
   };
 
   useEffect(() => {
-    const handleKeyDown = (event) => {
-      // Vérifier la touche de clavier appuyée
-      switch (event.key) {
-        case 'ArrowUp':
-          setGame((prevGame) => ({
-            ...prevGame,
-            player: {
-              ...prevGame.player,
-              y: Math.max(0, prevGame.player.y - PLAYER_HEIGHT/5),
-            },
-          }));
-          break;
-        case 'ArrowDown':
-          setGame((prevGame) => ({
-            ...prevGame,
-            player: {
-              ...prevGame.player,
-              y: Math.min(CANVAS_HEIGHT - PLAYER_HEIGHT, prevGame.player.y + PLAYER_HEIGHT/5),
-            },
-          }));
-          break;
-        default:
-          break;
-      }
-    };
 
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
     return () => {
+      document.removeEventListener('keyup', handleKeyUp);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
+
 
   useEffect(() => {
     let lastFrameTime = performance.now();
@@ -210,19 +229,55 @@ const PongGame = () => {
           colorsArrows.i = 0;
         else
           colorsArrows.i += 1;
+
         draw(); // a verifier ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+        if(game.play == true){
         ballMove();
+
+      }
         lastFrameTime = currentTime - (deltaTime % frameInterval);
       }
       animId = requestAnimationFrame(update);
     };
-  
-    update();
-  
+    if(game.computer.score == TOWIN)
+    {
+      resetCanva();
+      draw();
+      game.winner= true;
+      game.winnerN = game.computer.name;
+    }
+    else if(game.player.score == TOWIN)
+    {
+      resetCanva();
+      draw();
+      game.winner = true;
+      game.winnerN = game.player.name;
+    }
+    else
+      update();
     return () => {
       cancelAnimationFrame(animId);
     };
-  }, [game.ball.x]);
+  }, [game.ball.x, game.play]);
+
+  const handlePlay = () => {
+    if(game.play == true)
+    {
+      setGame((prevGame) => ({
+        ...prevGame,
+        play:false,
+      }));
+    }
+    else
+    {
+      setGame((prevGame) => ({
+        ...prevGame,
+        play:true,
+      }));
+    }
+    console.log(game.play);
+  };
+
 
   const handleFeature = () => {
     if(game.feature.on == true)
@@ -247,15 +302,70 @@ const PongGame = () => {
     }
   };
 
+  // RESPONSIIIIIIIVEEEEEEE
+
+  useEffect(() => {
+    function handleResize() {
+      const canvas = canvasRef.current;
+      const context = canvas.getContext('2d');
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      game.ball.y = game.ball.y /canvas.height * window.innerHeight * 0.5149330587;
+      game.ball.x = game.ball.x / canvas.width * window.innerWidth * 0.52083;
+      game.player.y = game.player.y / canvas.height * window.innerHeight * 0.5149330587;
+      game.computer.y = game.computer.y / canvas.height * window.innerHeight * 0.5149330587;
+      canvas.height = window.innerHeight * 0.5149330587;
+      canvas.width = window.innerWidth * 0.52083;
+      draw();
+    };
+  window.addEventListener('resize', handleResize);
+  return () => {
+    window.removeEventListener('resize', handleResize);
+  };
+  }, [window.innerWidth, window.innerHeight]);
+
+  const resetCanva =() => {
+    const canvas = canvasRef.current;
+    setGame((prevGame) => ({
+      ...prevGame,
+      player:{
+        ...prevGame.player,
+        y:canvas.height/2 - PLAYER_HEIGHT / 2,
+      },
+      player3:{
+        ...prevGame.player3,
+        y:canvas.height /2 - PLAYER_HEIGHT,
+      },
+      computer:{
+        ...prevGame.computer,
+        y:canvas.height / 2 - PLAYER_HEIGHT / 2,
+      },
+      ball: {
+        ...prevGame.ball,
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        speed: {
+          ...prevGame.ball.speed,
+          x:6,
+          y:6,
+        },
+      },
+    }));
+  }
+
   return (
     <div className = "canvas">
       <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
-      {/* <button onClick={stop}>Stop</button> */}
+      {game.winner && (
+          <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+            {game.winnerN} won the Match ! <a href="/modepong" class="alert-link">Back</a> 
+          </div>
+      )}
       <div className = "scorej1">{game.player.name} : {game.player.score}</div>
       <div className = "scorej2">{game.computer.name} : {game.computer.score}</div>
       <button id = "featureB" className = "Feature" onClick={handleFeature}>Feature ON/OFF</button>
+      <button id = "play" className = "play" onClick={handlePlay}>Play!</button>
     </div>
   );
 };
 
-export default PongGame;
+export default PongGameIa;

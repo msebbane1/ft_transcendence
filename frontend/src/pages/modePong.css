@@ -1,0 +1,89 @@
+.mode{
+    text-align: center;
+    color:#ffffff;
+    font-size: x-large;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+
+.linker{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5%;
+    margin-top: 200px;
+    text-decoration: none;
+}
+
+.example_g {
+    align-items: center;
+    font-family: 'Poppins';
+    width: 320px;
+    height: 50px;
+    border: none;
+    outline: none;
+    color: #494949;
+    background: #974949;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 4px;
+    cursor: pointer;
+    position: relative;
+    z-index: 0;
+    transition: 0.5s ease-in-out;
+}
+
+.example_g:before {
+    content: '';
+    background: linear-gradient(45deg, #FF0000, #FFF700, #FF7000, #FF00FE, #3FF4EB, #9E00FF, #00BEFF, #FF00DD, #FF0000);
+    position: absolute;
+    top: -4px;
+    left:-2px;
+    background-size: 400%;
+    z-index: -1;
+    filter: blur(5px);
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    animation: glowing 20s linear infinite;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+}
+
+.example_g:active {
+    color: #000
+}
+
+.example_g:active:after {
+    background: transparent;
+}
+
+.example_g:hover {
+    transform: scale(1.05);
+}
+
+.example_g:hover:before {
+    opacity: 1;
+}
+
+.example_g:after {
+    z-index: -1;
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    left: 0;
+    top: 0;
+}
+
+.example_g.large {
+    width: calc(3 * (320px + 5%)); /* Largeur de trois boutons plus les espaces entre eux */
+    height: 100px; /* Deux fois la hauteur d'un bouton */
+}
+
+
+@keyframes glowing {
+    0% { background-position: 0 0; }
+    50% { background-position: 400% 0; }
+    100% { background-position: 0 0; }
+}
