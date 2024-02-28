@@ -31,6 +31,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import TicTacToeGame from './pages/TicTacToe'; //jeu Cassandra Player vs Player
 import AITicTacToe from './pages/AI_TicTacToe'; // Player vs AI
 import ModeTicTacToe from './pages/modeTicTacToe'; //choix du mode de jeu
+import Matchmaking from './pages/matchmakingTicTacToe';
 //import TwoFAuthRoute from './routes/TwoFAuthRoute';
 
 
@@ -58,6 +59,7 @@ const backgroundStyle = {
   	<Route path="/modetictactoe" element={<PrivateRoute><div><Navbar /><ModeTicTacToe /></div></PrivateRoute>} />
   	<Route path="/ai-tictactoe" element={<PrivateRoute><div><Navbar /><AITicTacToe /></div></PrivateRoute>} />
   	<Route path="/tictactoe" element={<PrivateRoute><div><Navbar /><TicTacToeGame /></div></PrivateRoute>} />
+    <Route path="/matchmaking" element={<PrivateRoute><div><Navbar /><Matchmaking /></div></PrivateRoute>} />
     <Route path="/tournament" element={<PrivateRoute><div><Navbar /><Tournament/></div></PrivateRoute>} />
     <Route path="/tournamentPong" element={<PrivateRoute><div><Navbar /><TournamentPong/></div></PrivateRoute>} />
     <Route path="/modepong" element={<PrivateRoute><div><Navbar /><ModePong/></div></PrivateRoute>} />
