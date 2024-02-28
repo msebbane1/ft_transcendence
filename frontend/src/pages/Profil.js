@@ -4,48 +4,18 @@ import './Profil.css';
 import useUser from '../hooks/useUserStorage';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
+import ProfilePicture from '../components/ProfilePicture';
 import "./Settings.css"
 /*MODALS*/
 import TwoFA from '../modals/TwoFAModals';
 
 const Profil = () => {
+  const user = useUser("user");
   const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
   const [profilePicture, setProfilePicture] = useState('');
-  const user = useUser("user");
-
-  const handleActivation = () => {
-  };
-
-  useEffect(() => {
-    const accessToken = user.get("access_token");
-    console.log("token :", accessToken);
-
-    if (accessToken) {
-      axios.post('https://localhost:8080/api/userinfos/', {}, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          console.log('data:', response.data);
-          setProfileData(response.data);
-
-          const imageUrl = response.data.image.link;
-
-          if (imageUrl) {
-            console.log('image url:', imageUrl);
-            user.set("ProfileAvatar", imageUrl);
-          } else {
-            setError('Aucune image de profil');
-          }
-        })
-        .catch((error) => {
-          setError(error.message);
-        });
-    }
-  }, []);
+  const [profilePictureURL, setProfilePictureURL] = useState(user.get("Profilepic"));
+  const [imageUrl, setImageUrl] = useState('');
 
 return (
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc bg-white ?*/}
@@ -61,18 +31,19 @@ return (
 	{/* Section Photo et nom */}
              <div className="row mb-0">
               <div className="col text-center position-relative">
-               {user.has("ProfileAvatar") &&
-               ( <div className="position-relative">
-          <img
-            className="rounded-circle larger-profile-pic"
-            src={user.get("ProfileAvatar")}
-            alt="Image de profil"
-          />
+		<div className="position-relative">
 
-          <div
-            className="animate-ping position-absolute translate middle rounded-circle active-indicator"></div>
-        </div>
-      )}
+		<ProfilePicture/>
+
+	{/* 
+		{profilePictureURL ? (
+                <ProfilePicture />
+              ) : (
+                <div className="default-avatar">
+                  <div className="animate-ping position-absolute translate middle rounded-circle active-indicator"></div>
+                </div>
+              )}*/}
+	 </div>
                 <p className="profile-info-text">{user.get("username")}</p>
               </div>
              </div>

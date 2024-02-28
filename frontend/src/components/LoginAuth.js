@@ -22,7 +22,10 @@ export const handleAuthentification = async (user, setLoading, navigate) => {
 
       const data = response.data;
       const accessToken = response.data.access_token;
+
       user.setAll(data);
+
+
       console.log("token1:", accessToken);
     } catch (error) {
       console.error('Error while fetching access token:', error);

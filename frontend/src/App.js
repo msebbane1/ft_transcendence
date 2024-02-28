@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import TwoFA from './pages/2FA';
 import Settings from './pages/Settings';
 import Profil from './pages/Profil';
+import Avatar from './pages/Avatarpage';
 
 import Navbar from './components/Navbar';
 import CallbackPage from './components/LoginAuthorize';
@@ -43,10 +44,11 @@ const backgroundStyle = {
 	<Route path="/play" element={<PrivateRoute><div><Navbar /><PongGame /></div></PrivateRoute>} />
 	<Route path="/settings" element={<PrivateRoute><div><Navbar /><Settings /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
+	<Route path="/avatar" element={<PrivateRoute><div><Navbar /><Avatar /></div></PrivateRoute>} />
 	<Route path="*" element={<NoRoute />} />
-  <Route path="/modetictactoe" element={<PrivateRoute><div><Navbar /><ModeTicTacToe /></div></PrivateRoute>} />
-  <Route path="/ai-tictactoe" element={<PrivateRoute><div><Navbar /><AITicTacToe /></div></PrivateRoute>} />
-  <Route path="/tictactoe" element={<PrivateRoute><div><Navbar /><TicTacToeGame /></div></PrivateRoute>} />
+  	<Route path="/modetictactoe" element={<PrivateRoute><div><Navbar /><ModeTicTacToe /></div></PrivateRoute>} />
+  	<Route path="/ai-tictactoe" element={<PrivateRoute><div><Navbar /><AITicTacToe /></div></PrivateRoute>} />
+  	<Route path="/tictactoe" element={<PrivateRoute><div><Navbar /><TicTacToeGame /></div></PrivateRoute>} />
       </Routes>
 	</div>
     </BrowserRouter>

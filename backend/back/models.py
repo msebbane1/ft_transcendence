@@ -8,25 +8,27 @@ from django.contrib import admin
 class User(models.Model):
     username = models.CharField(max_length=50)
     pseudo = models.CharField(max_length=50)
-    password = models.CharField(max_length=50, null=True)
+    password = models.CharField(max_length=200, null=True)
     register = models.BooleanField(default=False)
     secret_2auth = models.CharField(max_length=100)
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)
     wins = models.SmallIntegerField()
     loses = models.SmallIntegerField()
+    avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
+    password_tournament = models.CharField(max_length=200, null=True)
 
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
         return output
 
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
+class Avatar(models.Model):
+    image = models.ImageField(upload_to="avatars", max_length=100)
+    image_url_42 = models.URLField(default="")
+    avatar_update = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.username
-
+        return f'Avatar {self.id}'
 
 class Tournament(models.Model):
 	title = models.CharField(max_length=30)

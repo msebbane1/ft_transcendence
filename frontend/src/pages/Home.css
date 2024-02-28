@@ -24,8 +24,8 @@
 
 .container-home {
   display: grid;
-  grid-template-columns: 300px 300px 300px;
-  grid-template-rows:300px 200px;
+  /*grid-template-columns: 300px 300px 300px;*/
+  /*grid-template-rows:300px 200px;*/
   gap: 50px;
   margin-top: 3%;
   justify-content: center;
@@ -52,6 +52,7 @@
   transform: scale(1.1);
 }
 
+/*PONG GAME*/
 .container-1 {
   width: 280px;
   height: 250px;
@@ -65,13 +66,14 @@
   box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   background-position: center;
   grid-row: 1;
-  justify-self: center;
+  grid-column: 2;
 }
 .container-1:hover, .container-2:hover, .container-3:hover, .container-4:hover, .container-5:hover {
   color: #f088a0;
   background-color: #f9f4da;
 }
 
+/*TIC TAC TOE*/
 .container-2 {
   width: 280px;
   height: 250px;
@@ -84,7 +86,7 @@
   border-radius: 5px;
   box-shadow: 0px 20px 100px rgba(0, 0, 0, 0.3);
   background-position: center;
-  grid-row: 1;
+  grid-row: 2;
   justify-self: center;
 }
 

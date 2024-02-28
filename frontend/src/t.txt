@@ -1,6 +1,50 @@
 
 ​
 
-Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components.
+Warning: `value` prop on `input` should not be null. Consider using an empty string to clear the component or `undefined` for uncontrolled components /profile_pictures/profile-icon-design-free-vector_GFTYPUV.jpg
+https://localhost:8080/profile_pictures/profile-icon-design-free-vector_xNZy3X7.jpg
 
-arning: A component is changing a controlled input to be uncontrolled. This is likely caused by the value changing from a defined to undefined, which should not happen. Decide between using a controlled or uncontrolled input element for the lifetime of the component. More info: https://reactjs.org/link/controll
+https://localhost:3000/media/https%3A/cdn.intra.42.fr/users/a53e8cc205d2
+
+
+url image /media/avatars/game-elements-award.svg
+
+https://localhost:3000/media/avatars/game-elements-award.svg
+
+
+
+GET
+https://localhost:3000/media/avatars/defaultpic.jpg
+
+GET
+https://localhost:3000/media/avatars/defaultpic.jpg
+[HTTP/1.1 304 Not Modified 0ms
+
+GET
+https://localhost:3000/fond2.jpg
+
+GET
+https://localhost:3000/media/avatars/defaultpic.jpg
+
+	
+GET
+	https://localhost:3000/media/avatars/defaultpic.jpg
+Transferred0 GB (0 GB size)
+Referrer Policystrict-origin-when-cross-origin
+Request PriorityLow
+
+	
+Accept
+	image/avif,image/webp,*/*
+Accept-Encoding
+	gzip, deflate, br
+Accept-Language
+	en-US,en;q=0.5
+Host
+	localhost:3000
+Referer
+	https://localhost:3000/avatar
+User-Agent
+	Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0
+GET
+

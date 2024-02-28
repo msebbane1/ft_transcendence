@@ -10,11 +10,16 @@ const useUserStorage = (name, defaults = {}) => {
 const setAll = (attributes) => {
     let local = { ...storage };
     Object.keys(attributes).forEach((key) => {
-      // Convertir les valeurs booléennes en chaînes lors du stockage
+      
       //local[key] = typeof attributes[key] === 'boolean' ? String(attributes[key]) : attributes[key];
       local[key] = attributes[key];
     });
     setStorage(local);
+    const test = local.avatar_update;
+    if(test == true)
+      localStorage.setItem("image", "true");
+    else
+      localStorage.setItem("image", "false");
     console.log("After setAll:", local);
   };
  /* const setAll = (attributes) => {
@@ -24,22 +29,21 @@ const setAll = (attributes) => {
     console.log("After setAll:", local);
   };*/
 
-  // Fonction pour vérifier si une propriété existe pour l'utilisateur
   const has = (key) => {
     return Object.keys(storage).indexOf(key) > -1;
   };
 
-  // Fonction pour obtenir la valeur d'une propriété de l'utilisateur
+  
   const get = (key) => {
     return storage[key] !== undefined ? storage[key] : null;
   };
 
-  // Fonction pour effacer toutes les propriétés de l'utilisateur
+  
   const clear = () => {
     setStorage({});
   };
 
-  // Retourne un objet avec toutes les fonctions et les données actuelles de l'utilisateur
+  
   return {
     attributes: storage,
     set,

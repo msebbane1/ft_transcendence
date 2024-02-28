@@ -1,8 +1,18 @@
 from pathlib import Path
 import os
 
+# Définition du répertoire racine de votre projet Django
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+# Configuration des paramètres MEDIA pour le stockage des fichiers médias
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+# Autres paramètres de configuration...
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+#BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_gpjt-re1vo^qvm%*t4zpx5f6jc(%u(^0l6-q9b4l!e!gi0*cu'

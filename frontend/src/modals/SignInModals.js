@@ -31,6 +31,8 @@ const SignInModals = () => {
       console.log('Server response:', response.data);
 
       user.setAll(data);
+    
+  
 
       setUsername('');
       setPassword('');

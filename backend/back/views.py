@@ -21,15 +21,25 @@ from dotenv import load_dotenv
 ### AUTH
 from .auth_access_token import get_access_token
 from .auth_user_infos import get_user_info
-from .jwt_generator import generate_jwt
+#from .jwt_generator import generate_jwt
 from .two_factor_auth import generate_secret, check_valid_code, qrcode_generator
 import os
 from django.http import HttpResponse
 import base64
 import pyotp
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import User, UserProfile
+from .models import User, Avatar
 import random
+import base64
+from django.core.files.base import ContentFile
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseNotFound, FileResponse
+from .convert import get_base64_from_buffer, get_base64_from_uri
+from django.forms.models import model_to_dict
+from django.core.serializers.json import DjangoJSONEncoder
+from .hash_password import hash_password
+import hashlib
+from django.contrib.auth.hashers import make_password, check_password
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -95,20 +105,26 @@ def get_all_user_data(request):
         access_token = get_access_token(CLIENT_ID, CLIENT_SECRET, code, REDIRECT_URI)
 
         user_info = get_user_info(access_token)
+        user_picture = user_info.get('image', {}).get('link', None)
 
         try:
             user = User.objects.filter(pseudo=user_info.get('login')).first()
             first_access = False
         
             if not user:
+                avatar = Avatar()
+                avatar.image_url_42 = user_picture
+                avatar.save()
+
+
                 user, created = User.objects.get_or_create(
                 pseudo=user_info.get('login'),
                 defaults={
-                    'id': user_info.get('id'),
                     'username': user_info.get('login'),
                     'secret_2auth': generate_secret(access_token),
                     'wins': 0,
-                    'loses': 0,}
+                    'loses': 0,
+                    'avatar': avatar,}
                 )
                 refresh = RefreshToken.for_user(user)
                 first_access = True
@@ -116,6 +132,8 @@ def get_all_user_data(request):
             
             refresh = RefreshToken.for_user(user)
             jwt_token = str(refresh.access_token)
+
+            
             # AJOUTER image + image id dans user + color ball + token refresh + color paddle + score ??
             return JsonResponse({
                 'id': user.id,
@@ -123,9 +141,11 @@ def get_all_user_data(request):
                 'pseudo': user.pseudo,
                 '2FA_secret': user.secret_2auth,
                 '2FA_valid': False,
+                'avatar_update': user.avatar.avatar_update,
                 'status_2FA': user.has_2auth,
                 'first_access': first_access,
                 'access_token': access_token,
+                'avatar_id': user.avatar.id,
                 'jwt_token': jwt_token
 })
 
@@ -258,10 +278,34 @@ def update_username(request, id):
 
     return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 
+
+#################################################### PASSWORD TOURNAMENT ####################################
+
+@csrf_exempt
+def create_password_tournament(request, id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        new_password = data.get('new_password')
+        repeat_new_password = data.get('repeatPassword')
+
+
+        if new_password != repeat_new_password:
+            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+        try:
+            user = User.objects.get(id=id)
+            user.password_tournament = hash_password(new_password)
+            user.save()
+
+            return JsonResponse({'message': 'Le mot de passe Tournois mis à jour avec succès'}, status=200)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 ############################################# AUTH SIGN IN SIGN UP ##########################################
 
-#def generate_unique_id(length=8):
- #   return ''.join(random.choices('0123456789', k=length))
+#def hashed_password(password):
+ #   return hashlib.sha256(password.encode()).hexdigest()
 
 @csrf_exempt
 def signup(request):
@@ -272,16 +316,27 @@ def signup(request):
         repeat_password = data.get('repeatPassword')
 
         
-        existing_users = User.objects.filter(username=username) #reprendre fc
+        existing_users = User.objects.filter(username=username) #reprendre fonction
         if existing_users.exists():
             return JsonResponse({'error': 'Username already exists'}, status=400)
+        if len(username) < 5:
+            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
+        if len(username) > 10:
+            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
+        if len(password) < 5:
+            return JsonResponse({'error': 'Le mot de passe doit contenir au moins 5 caractères'}, status=400)
         if password != repeat_password:
             return JsonResponse({'error': 'Passwords do not match'}, status=400)
+
+        avatar = Avatar()
+        avatar.save()
     
         user = User.objects.create(
             username=username,
-            password=password,
+            password=make_password(password),
+            password_tournament=make_password(password),
             register=True,
+            avatar=avatar,
             wins=0,
             loses=0
         )
@@ -304,7 +359,11 @@ def signin(request):
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=400)
 
-        if password != user.password:
+        #hashed_password = make_password(password)
+
+        #if hashed_password != user.password:
+            #return JsonResponse({'error': 'Invalid password'}, status=400)
+        if not check_password(password, user.password):
             return JsonResponse({'error': 'Invalid password'}, status=400)
 
         return JsonResponse({
@@ -315,28 +374,49 @@ def signin(request):
             '2FA_valid': False,
             'status_2FA': user.has_2auth,
             'wins': user.wins,
+            'avatar_id': user.avatar.id,
+            'avatar_update': user.avatar.avatar_update,
             'loses': user.loses
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
+
+#################################################### PROFILE PICTURE ####################################
+def get_avatar42_image(request, avatar_id):
+    avatar = get_object_or_404(Avatar, id=avatar_id)
+    image_url42 = avatar.image_url_42
+
+    return JsonResponse({'image_url': image_url42})
+
+def get_avatar_image(request, avatar_id):
+    avatar = get_object_or_404(Avatar, id=avatar_id)
+    image_url = request.build_absolute_uri(avatar.image.url)
+
+    return JsonResponse({'image_url': image_url})
+
 @csrf_exempt
-def update_profile_picture(request, id):
+def update_avatar_image(request, avatar_id):
+    avatar = get_object_or_404(Avatar, id=avatar_id)
+
     if request.method == 'POST':
-        try:
-            user_profile = UserProfile.objects.get(id=id)
-        except UserProfile.DoesNotExist:
-            return JsonResponse({'error': 'Profil utilisateur non trouvé'}, status=404)
+        
+        image_file = request.FILES.get('image')
+        if image_file:
+            
+            avatar.image = image_file
+            avatar.avatar_update = True
+            avatar.save()
+        
+            #image_url = os.path.join(settings.MEDIA_URL, str(avatar.image))
+            image_url = avatar.image.url
+            return JsonResponse({'message': 'Image updated successfully', 'image_url': image_url})
+        
+        else:
+            return JsonResponse({'error': 'No image provided'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=405)
 
-        if 'profile_picture' not in request.FILES:
-            return JsonResponse({'error': 'Aucune image envoyée'}, status=400)
 
-        profile_picture = request.FILES['profile_picture']
-        user_profile.profile_picture = profile_picture
-        user_profile.save()
-
-        return JsonResponse({'message': 'Image de profil mise à jour avec succès'}, status=200)
-
-    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
 

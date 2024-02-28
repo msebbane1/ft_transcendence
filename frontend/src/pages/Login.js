@@ -39,7 +39,7 @@ const LoginPage = () => {
     if (connected && not_2FA){
 	
 	setTimeout(() => {
-		navigate(user.get("first_access") ? "/settings" : "/home");
+		navigate("/home");
 	}, 1000)
     }
 
