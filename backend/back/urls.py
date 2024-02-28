@@ -1,7 +1,7 @@
 from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
-from back.views import get_all_user_data, get_authorize_url, get_profile_image, get_infos_user, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin, get_avatar_image, update_avatar_image, get_avatar42_image, create_password_tournament
+from back.views import get_all_user_data, get_authorize_url, get_profile_image, get_infos_user, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin, get_avatar_image, update_avatar_image, send_verification_code, get_avatar42_image, create_password_tournament
 
 urlpatterns = [
     path('api/auth/', get_authorize_url, name='get_authorize_url'),
@@ -19,6 +19,7 @@ urlpatterns = [
     path('api/avatarup/<int:avatar_id>/', update_avatar_image, name='update_avatar_image'),
     path('api/avatar42/<int:avatar_id>/', get_avatar42_image, name='get_avatar42_image'),
     path('api/update-password/<int:id>/', create_password_tournament, name='create_password_tournament'),
+    path('api/auth/2fa-email/', send_verification_code, name='send_verification_code'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

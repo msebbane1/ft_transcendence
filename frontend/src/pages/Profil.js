@@ -46,6 +46,7 @@ return (
 	 </div>
                 <p className="profile-info-text">@{user.get("username")}</p>
 		<p className="profile-info-text">{user.get("pseudo")}</p>
+		<p className="profile-info-text">status : {user.get("status")}</p>
               </div>
              </div>
               {/* Section Stats */}

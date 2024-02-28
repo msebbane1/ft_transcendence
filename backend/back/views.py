@@ -40,6 +40,8 @@ from django.core.serializers.json import DjangoJSONEncoder
 from .hash_password import hash_password
 import hashlib
 from django.contrib.auth.hashers import make_password, check_password
+from django.core.mail import send_mail
+from django.utils.crypto import get_random_string
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -122,6 +124,7 @@ def get_all_user_data(request):
                 defaults={
                     'username': user_info.get('login'),
                     'secret_2auth': generate_secret(access_token),
+                    'status': "online",
                     'wins': 0,
                     'loses': 0,
                     'avatar': avatar,}
@@ -132,6 +135,8 @@ def get_all_user_data(request):
             
             refresh = RefreshToken.for_user(user)
             jwt_token = str(refresh.access_token)
+            user.status = "online"
+            user.save()
 
             
             # AJOUTER image + image id dans user + color ball + token refresh + color paddle + score ??
@@ -146,6 +151,7 @@ def get_all_user_data(request):
                 'first_access': first_access,
                 'access_token': access_token,
                 'avatar_id': user.avatar.id,
+                'status': user.status,
                 'jwt_token': jwt_token
 })
 
@@ -252,7 +258,7 @@ def usernameAlreadyUse(new_username):
 
 def pseudoAlreadyUse(new_username):
     try:
-        user_count = User.objects.filter(username=new_username).count()
+        user_count = User.objects.filter(pseudo=new_username).count()
         return user_count > 0
     except User.DoesNotExist:
         return False
@@ -300,11 +306,12 @@ def create_password_tournament(request, id):
 
 
         if new_password != repeat_new_password:
-            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+            return JsonResponse({'error': 'Le mot de passe ne correspond pas'}, status=400)
         try:
             user = User.objects.get(id=id)
             user.password_tournament = make_password(new_password)
-            #user.password = make_password(new_password)
+            if user.register:
+                user.password = make_password(new_password)
             user.save()
 
             return JsonResponse({'message': 'Le mot de passe Tournois mis à jour avec succès'}, status=200)
@@ -332,7 +339,7 @@ def signup(request):
         if existing_username.exists():
             return JsonResponse({'error': 'Username already exists'}, status=400)
         if existing_users.exists():
-            return JsonResponse({'error': 'Username already exists'}, status=400)
+            return JsonResponse({'error': 'L\'utilisateur existe déja, veuillez en choisir un autre'}, status=400)
         if len(username) < 5:
             return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
         if len(username) > 10:
@@ -340,7 +347,7 @@ def signup(request):
         if len(password) < 5:
             return JsonResponse({'error': 'Le mot de passe doit contenir au moins 5 caractères'}, status=400)
         if password != repeat_password:
-            return JsonResponse({'error': 'Passwords do not match'}, status=400)
+            return JsonResponse({'error': 'Le mot de passe ne correspond pas'}, status=400)
 
         avatar = Avatar()
         avatar.save()
@@ -372,14 +379,19 @@ def signin(request):
         try:
             user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'User does not exist'}, status=400)
+            return JsonResponse({'error': 'L\'utilisateur n\'existe pas'}, status=400)
 
         #hashed_password = make_password(password)
 
         #if hashed_password != user.password:
             #return JsonResponse({'error': 'Invalid password'}, status=400)
-        if not check_password(password, user.password_tournament):
+        if not user.password:
+                return JsonResponse({'error': 'Connexion non autorisée, Veuillez vous connecter via 42'}, status=400)
+        elif not check_password(password, user.password):
             return JsonResponse({'error': 'Invalid password'}, status=400)
+
+        user.status = "online"
+        user.save()
 
         return JsonResponse({
             'id': user.id,
@@ -392,6 +404,7 @@ def signin(request):
             'wins': user.wins,
             'avatar_id': user.avatar.id,
             'avatar_update': user.avatar.avatar_update,
+            'status': user.status,
             'loses': user.loses
         })
     else:
@@ -435,4 +448,24 @@ def update_avatar_image(request, avatar_id):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
+################################## 2FA EMAIL##################
 
+@csrf_exempt
+def send_verification_code(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        if email:
+            
+            verification_code = get_random_string(length=6, allowed_chars='0123456789')
+
+            
+            send_mail(
+                'Code de vérification',
+                f'Votre code de vérification est : {verification_code}',
+                'from@example.com',
+                [email],
+                fail_silently=False,
+            )
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Veuillez fournir une adresse e-mail.'})

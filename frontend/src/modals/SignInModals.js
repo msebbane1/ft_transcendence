@@ -31,14 +31,11 @@ const SignInModals = () => {
       console.log('Server response:', response.data);
 
       user.setAll(data);
-    
-  
-
       setUsername('');
       setPassword('');
 	 setTimeout(() => navigate("/home"), 500);
     } catch (error) {
-      console.error('Error submitting form:', error);
+      //console.error('Error submitting form:', error);
       if (error.response) {
         
         console.log('Server error:', error.response.data.error);

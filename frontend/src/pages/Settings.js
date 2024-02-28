@@ -11,6 +11,7 @@ import TwoFAModals from '../modals/TwoFAModals';
 import EditUsernameModals from '../modals/EditUsernameModals';
 import EditAvatarModals from '../modals/EditAvatarModals';
 import EditPasswordModals from '../modals/EditPasswordModals';
+import TwoFAEmailModals from '../modals/TwoFAEmailModals';
 
 
 const Settings = () => {
@@ -87,9 +88,14 @@ return (
 
           {/* Section 2FA */}
           <div className="row mb-2">
-            <div className="col text-center">
-              <TwoFAModals/>
-          </div>
+           <div className="col text-center">
+            <div className="d-inline-block">
+            <TwoFAModals/>
+            </div>
+             <div className="d-inline-block mx-2">
+             <TwoFAEmailModals/>
+             </div>
+            </div>
           </div>
          </div>
 

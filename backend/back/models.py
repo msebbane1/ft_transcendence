@@ -17,6 +17,7 @@ class User(models.Model):
     loses = models.SmallIntegerField()
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
+    status = models.CharField(max_length=20, default="offline")
 
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
