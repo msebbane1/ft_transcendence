@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Profil.css';
 import useUser from '../hooks/useUserStorage';
 import { Link } from 'react-router-dom';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert, Form } from 'react-bootstrap';
 import ProfilePicture from '../components/ProfilePicture';
 import "./Settings.css"
 /*MODALS*/
@@ -17,9 +17,9 @@ const Profil = () => {
   const [profilePictureURL, setProfilePictureURL] = useState(user.get("Profilepic"));
   const [imageUrl, setImageUrl] = useState('');
 
-  const   [showModal, setShowModal] = useState(false);
-  const   [baliseTexte, setBaliseTexte] = useState('');
-  const   [popupInfo, setPopupInfo] = useState({message: '', variant:'success'});
+  const [showModal, setShowModal] = useState(false);
+  const [baliseTexte, setBaliseTexte] = useState('');
+  const [popupInfo, setPopupInfo] = useState({message: '', variant:'success'});
 
   const   handleShowModal = () => setShowModal(true);
   const   handleCloseModal = () => setShowModal(false);
@@ -28,47 +28,50 @@ const Profil = () => {
     setBaliseTexte(event.target.value);
   }
 
+  
+  
+
   const handleSubmitAdd = async () => {
-    try {
-        const response = await axios.post('https://127.0.0.1:8080/api/addFriend', 
-        {
-            user_to_add: baliseTexte,
-            username: user.get('username')
-        });
-        
-        if (response.data.message)
-            setPopupInfo({message: response.data.message, variant: 'success'});
-        else
-            setPopupInfo({message: response.data.error, variant: 'danger'})
-        console.log(response.data)
-        handleCloseModal()
-    } catch (error) {
-        console.error('Erreur lors de la requete au backend: ', error);
-        //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
-    }
-};
+        try {
+            const response = await axios.post('https://127.0.0.1:8080/api/addFriend', 
+            {
+                user_to_add: baliseTexte,
+                username: user.get('username')
+            });
+            
+            if (response.data.message)
+                setPopupInfo({message: response.data.message, variant: 'success'});
+            else
+                setPopupInfo({message: response.data.error, variant: 'danger'})
+            console.log(response.data)
+            handleCloseModal()
+        } catch (error) {
+            console.error('Erreur lors de la requete au backend: ', error);
+            //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
+        }
+    };
 
-const handleSubmitDel = async () => {
-    try {
-        const response = await axios.post('https://127.0.0.1:8080/api/delFriend', 
-        {
-            user_to_del: baliseTexte,
-            username: user.get('username')
-        });
-        
-        if (response.data.message)
-            setPopupInfo({message: response.data.message, variant: 'success'});
-        else
-            setPopupInfo({message: response.data.error, variant: 'danger'})
-        console.log(response.data)
-        handleCloseModal()
-    } catch (error) {
-        console.error('Erreur lors de la requete au backend: ', error);
-        //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
-    }
-};
+    const handleSubmitDel = async () => {
+        try {
+            const response = await axios.post('https://127.0.0.1:8080/api/delFriend', 
+            {
+                user_to_del: baliseTexte,
+                username: user.get('username')
+            });
+            
+            if (response.data.message)
+                setPopupInfo({message: response.data.message, variant: 'success'});
+            else
+                setPopupInfo({message: response.data.error, variant: 'danger'})
+            console.log(response.data)
+            handleCloseModal()
+        } catch (error) {
+            console.error('Erreur lors de la requete au backend: ', error);
+            //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
+        }
+    };
 
-return (
+  return (
   <>
   {popupInfo.message && (
       <div className="justify-content-md-center" class="popup">
@@ -123,12 +126,24 @@ return (
                   <p className="profile-info-text">{user.get("pseudo")}</p>
                   <p className="profile-info-text">status : {user.get("status")}</p>
                 </div>
-                <div className="col text-center d-flex justify-content-center align-items-center">
-                        <Button variant="light" size='sm' onClick={handleShowModal}>
-                            Gestion d'ami
-                        </Button>
+                
                 </div>
-              </div>
+                <div className="col text-center d-flex justify-content-center align-items-center">
+                    <Button variant="light" size='sm' onClick={handleShowModal}>
+                        Gestion d'ami
+                    </Button>
+                </div>
+                <div className="col text-center d-flex justify-content-center align-items-center">
+                <div className="icon-profile"/>
+                    <p class="title-profile">Liste d'ami</p>
+                </div>
+                <div className="col text-center d-flex justify-content-center align-items-center">
+                    {
+
+                    }
+                </div>
+
+
               {/* Section Stats */}
 
              <div className="col d-flex justify-content-center align-items-center">
