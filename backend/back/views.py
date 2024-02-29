@@ -517,10 +517,24 @@ def del_friend(request):
 def get_following(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        username_who_request = data.get('username')
+        u = data.get('username')
         try:
-            user = User.objects.get(username=username_who_request)
-            friends = user.getFollowing(user)
+            user = User.objects.get(username=u)
+            
         except User.DoesNotExist:
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
-        return (JsonResponse({'message': friends}, status=200))
+        friends = user.getFollowing()
+        lst_f = []
+        for f in friends:
+            lst_f.append(f.username)
+        return (JsonResponse({'message': ','.join(lst_f)}, status=200))
+
+
+################### STATS JOUEUR ##################
+
+# @csrf_exempt
+# def winrate(request):
+#     if request.method == 'POST':
+#         data = json.loads(request.body)
+#         u = data.get('username')
+        

@@ -20,6 +20,7 @@ const Profil = () => {
   const [showModal, setShowModal] = useState(false);
   const [baliseTexte, setBaliseTexte] = useState('');
   const [popupInfo, setPopupInfo] = useState({message: '', variant:'success'});
+  const [listFriend, setlistFriend] = useState('');
 
   const   handleShowModal = () => setShowModal(true);
   const   handleCloseModal = () => setShowModal(false);
@@ -28,7 +29,21 @@ const Profil = () => {
     setBaliseTexte(event.target.value);
   }
 
-  
+  useEffect(() => {
+      const response = axios.post('https://127.0.0.1:8080/api/getFriends', 
+      {
+        'username': user.get('username'),
+      }, 
+      {}).then((response) => {
+          if (response.data.error)
+            setlistFriend({"message": ""});
+          else
+            setlistFriend(response.data);
+          console.log('FRIENDS:', response.data);
+      }).catch((error) => {
+          setError(error.message);
+      });
+  }, []);
   
 
   const handleSubmitAdd = async () => {
@@ -65,7 +80,8 @@ const Profil = () => {
                 setPopupInfo({message: response.data.error, variant: 'danger'})
             console.log(response.data)
             handleCloseModal()
-        } catch (error) {
+            // setlistFriend();
+          } catch (error) {
             console.error('Erreur lors de la requete au backend: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
         }
@@ -139,7 +155,13 @@ const Profil = () => {
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
                     {
-
+                      listFriend && (
+                        <div>
+                          {listFriend.message.split(',').map((element, index) => (
+                            <p key={index} class='text-white'>{element}</p>
+                          ))}
+                        </div>
+                      )
                     }
                 </div>
 
