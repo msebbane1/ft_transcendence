@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link  } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 import useUser from "../hooks/useUserStorage";
 import axios from 'axios';
 import './TicTacToe.css';
@@ -191,25 +190,5 @@ function calculateWinner(squares) {
 	}
 	return null;
 }
-
-// Module majeur : Ajout d’un second jeu avec historique et "matchmaking".
-// Dans ce module majeur, l’objectif est d’introduire un nouveau jeu, distinct de
-// Pong, et d’y incorporer des fonctionnalités telles que l’historique de l’utilisateur et
-// le "matchmaking".
-// ◦ Développez un nouveau jeu pour diversifier l’offre de la plateforme et divertir
-// les utilisateurs.
-// ◦ Implémentez une gestion de l’historique de l’utilisateur pour enregistrer et afficher les statistiques individuelles du joueur.
-// ◦ Créez un système de "matchmaking" pour permettre aux utilisateurs de trouver
-// des adversaire afin de disputer des parties équitables et équilibrées.
-// ◦ Assurez vous que les données sur l’historique des parties et le "matchmaking"
-// sont stockées de manière sécuritaire et demeurent à jour.
-// ◦ Optimisez la performance et la réactivité du nouveau jeu afin de fournir une
-// expérience utilisateur agréable. Mettez à jour et maintenez régulièrement le jeu
-// afin de réparer les bogues, ajouter de nouvelles fonctionnalités et améliorer la
-// jouabilité.
-// Ce module majeur vise à développer votre plateforme en introduisant un nouveau jeu, améliorant ainsi l’engagement de l’utilisateur avec l’historique des parties,
-// et facilitant le "matchmaking" pour une expérience utilisateur agréable.
-
-// matchmaking:
 
 export default TicTacToeGame
