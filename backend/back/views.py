@@ -469,3 +469,58 @@ def send_verification_code(request):
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False, 'error': 'Veuillez fournir une adresse e-mail.'})
+
+############################ FRIENDS ###########################
+@csrf_exempt
+def add_friend(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username_who_request = data.get('username')
+        friend_to_add = data.get('user_to_add')
+
+        if (username_who_request == friend_to_add):
+            return (JsonResponse({'error': 'Faut vraiment un grain pour s\'ajouter soi-même... fin bref...'}, status=200))
+
+        try:
+            user = User.objects.get(username=username_who_request)
+            user_to_add = User.objects.get(username=friend_to_add)
+            if (user.friends.filter(pk=user_to_add.pk).exists()):
+                return (JsonResponse({'error': 'L\'utilisateur est déjà dans votre liste d\'ami.'}, status=200))
+            user.follow(user_to_add)
+            user.save()
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        return (JsonResponse({'message':f'L\'ami(e) {user_to_add.username} a été ajoute aux amis'}, status=200))
+
+@csrf_exempt
+def del_friend(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username_who_request = data.get('username')
+        friend_to_del = data.get('user_to_del')
+
+        if (username_who_request == friend_to_del):
+            return (JsonResponse({'error': 'Faut vraiment un grain pour se supprimer soi-même... fin bref...'}, status=200))
+
+        try:
+            user = User.objects.get(username=username_who_request)
+            user_to_del = User.objects.get(username=friend_to_del)
+            if (not user.friends.filter(pk=user_to_del.pk).exists()):
+                return (JsonResponse({'error': 'L\'utilisateur n\'est pas dans votre liste d\'ami.'}, status=200))
+            user.unfollow(user_to_del)
+            user.save()
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        return (JsonResponse({'message':f'L\'ami(e) {user_to_del.username} a été supprimé des amis'}, status=200))
+
+@csrf_exempt
+def get_following(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username_who_request = data.get('username')
+        try:
+            user = User.objects.get(username=username_who_request)
+            friends = user.getFollowing(user)
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        return (JsonResponse({'message': friends}, status=200))

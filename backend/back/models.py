@@ -18,10 +18,28 @@ class User(models.Model):
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
+    friends = models.ManyToManyField('self', through='Friendship' ,symmetrical=False)
 
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
         return output
+	
+    def follow(self, other_user):
+        if not self.friends.filter(pk=other_user.pk).exists() and other_user is not self:
+            Friendship.objects.create(from_f=self, to_f=other_user)
+
+    def unfollow(self, other_user):
+        Friendship.objects.filter(from_f=self, to_f=other_user).delete()
+
+    def getFollowing(self):
+        return User.objects.filter(to_f__from_f=self.id) # <==> self.friends.all()
+
+class Friendship(models.Model):
+	from_f = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_f', null=True, blank=True)
+	to_f = models.ForeignKey(User, on_delete=models.CASCADE, related_name='to_f', null=True, blank=True)
+
+	def __str__(self):
+		return (f"{self.from_f} follow {self.to_f}")
 
 class Avatar(models.Model):
     image = models.ImageField(upload_to="avatars", max_length=100)

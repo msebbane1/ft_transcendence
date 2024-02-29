@@ -1,5 +1,13 @@
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+.popup {
+  margin-top: 2%;
+  margin-bottom: -1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .profile-grid1 {
   	display: grid;
   	/*align-items: center;*/
