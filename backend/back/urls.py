@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import LoginView
-from back.views import login42, get_authorize_url, get_profile_image, get_infos_user, get_jwt_token, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin, signintournament, checkalias, get_avatar_image, get_avatar, update_avatar_image, send_verification_code, get_avatar42_image, create_password_tournament, signout, add_friend, del_friend, get_following, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory
+from back.views import login42, get_authorize_url, get_profile_image, get_infos_user, get_jwt_token, validate_2fa, enable_2fa, disable_2fa, get_qrcode, update_username, signup, signin, signintournament, checkalias, get_avatar_image, get_avatar, update_avatar_image, send_verification_code, get_avatar42_image, create_password_tournament, signout, add_friend, del_friend, get_following, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory, stats_games, list_games
 
 urlpatterns = [
     path('api/auth/authorize-url-42', get_authorize_url, name='get_authorize_url'),
@@ -28,6 +28,8 @@ urlpatterns = [
     path('api/addFriend', add_friend, name='add_friend'),
     path('api/delFriend', del_friend, name='del_friend'),
     path('api/getFriends', get_following, name='get_following'),
+    path('api/statsGames', stats_games, name='stats_games'),
+    path('api/listGames', list_games, name='list_games'),
     path('api/signintournament/', signintournament, name='signintournament'),
     path('api/checkalias/', checkalias, name='checkalias'),
     path('api/begintournament/', begintournament, name='begintournament'),

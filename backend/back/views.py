@@ -6,6 +6,7 @@ from oauth2_provider.models import Application
 from requests import post
 from django.conf import settings
 import json
+from datetime import datetime, date
 from json.decoder import JSONDecodeError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -132,8 +133,6 @@ def login42(request):
                     'username': user_info.get('login'),
                     'secret_2auth': generate_secret(access_token),
                     'status': "online",
-                    'wins': 0,
-                    'loses': 0,
                     #'token_auth': access_token,
                     'register': False,
                     'avatar': avatar,}
@@ -206,8 +205,6 @@ def signup(request):
             password_tournament=make_password(password),
             register=True,
             avatar=avatar,
-            wins=0,
-            loses=0
         )
         user.token_jwt = generate_jwt_token(user)
         user.secret_2auth = generate_secret(str(user.id))
@@ -251,12 +248,10 @@ def signin(request):
             '2FA_secret': user.secret_2auth,
             '2FA_valid': False,
             'status_2FA': user.has_2auth,
-            'wins': user.wins,
             'avatar_id': user.avatar.id,
             'avatar_update': user.avatar.avatar_update,
             'status': user.status,
             #'jwt_token': user.token_jwt,
-            'loses': user.loses
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -601,6 +596,103 @@ def get_following(request):
         for f in friends:
             lst_f.append(f.username)
         return (JsonResponse({'message': ','.join(lst_f)}, status=200))
+
+################### STATS JOUEUR ##################
+
+@csrf_exempt
+def stats_games(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        u = data.get('username')
+        
+        try:
+            user = User.objects.get(username=u)
+            nb_win_tot = user.getCountWinsPong() + user.getCountWinsTTT()
+            nb_lose_tot = user.getCountLosesPong() + user.getCountLosesTTT()
+            nb_win_pong = user.getCountWinsPong()
+            nb_lose_pong = user.getCountLosesPong()
+            nb_win_ttt = user.getCountWinsTTT()
+            nb_lose_ttt = user.getCountLosesTTT()
+            nb_draw_ttt = user.getCountDrawTTT()
+            if (nb_win_pong + nb_lose_pong == 0):
+                wr_pong = '0'
+            else:
+                wr_pong = (nb_win_pong / (nb_win_pong + nb_lose_pong)) * 100
+            if (nb_win_ttt + nb_lose_ttt == 0):
+                wr_ttt = '0'
+            else:
+                wr_ttt = (nb_win_ttt / (nb_win_ttt + nb_lose_ttt + nb_draw_ttt)) * 100
+            if (nb_win_tot + nb_lose_tot == 0):
+                wr_tot = '0'
+            else:
+                wr_tot = (nb_win_tot / (nb_win_tot + nb_lose_tot)) * 100
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        
+        return (JsonResponse(
+            {
+                'total_win': nb_win_tot,
+                'total_lose': nb_lose_tot,
+                'pong_win': nb_win_pong,
+                'pong_lose': nb_lose_pong,
+                'ttt_win': nb_win_ttt,
+                'ttt_lose': nb_lose_ttt,
+                'tot_wr': str(wr_tot)[:5],
+                'pong_wr': str(wr_pong)[:5],
+                'ttt_wr': str(wr_ttt)[:5],
+                'draw_ttt': nb_draw_ttt
+            }
+        ))
+
+@csrf_exempt
+def list_games(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        u = data.get('username')
+
+        try:
+            user = User.objects.get(username=u)
+            list_games = []
+            tmp = user.winnerpong.all().union(user.loserpong.all(), user.loserpong2.all() )
+            for g in tmp:
+                list_games.append(
+                    {
+                        'type_game': 'PONG',
+                        'winner': g.winner.username,
+                        'loser': g.loser.username,
+                        'loser2': g.loser2.username if g.loser2 else '',
+                        'date': g.date,
+                        'score': g.score,
+                        'tournament': f'{g.tournament.creator}\'s tournament' if g.tournament else '', 
+                    })
+            tmp = user.winnerttt.all().union(user.loserttt.all())
+            for g in tmp:
+                list_games.append(
+                    {
+                        'type_game': 'TICTACTOES',
+                        'winner': g.winner.username,
+                        'loser': g.loser.username,
+                        'date': g.date,
+                    })
+            tmp = user.draw_user1.all().union(user.draw_user2.all())
+            for g in tmp:
+                list_games.append(
+                    {
+                        'type_game': 'TICTACTOES',
+                        'draw_user1': g.draw_user1.username,
+                        'draw_user2': g.draw_user2.username,
+                        'date': g.date,
+                    }
+                )
+            lst = sorted(list_games, key=lambda x: datetime.strptime(x['date'], '%d/%m/%Y %H:%M'), reverse=True)
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+
+        return (JsonResponse(
+                {
+                    'list_object': lst
+                }
+            ))
 
 #################################################### SIGNINTOURNAMENT ####################################
 @csrf_exempt

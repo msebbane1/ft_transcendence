@@ -3,7 +3,7 @@ import axios from 'axios';
 import './Profil.css';
 import useUser from '../hooks/useUserStorage';
 import { Link } from 'react-router-dom';
-import { Modal, Button, Alert, Form } from 'react-bootstrap';
+import { Modal, Button, Alert, Form, Table } from 'react-bootstrap';
 import ProfilePicture from '../components/ProfilePicture';
 import "./Settings.css"
 /*MODALS*/
@@ -21,6 +21,8 @@ const Profil = () => {
   const [baliseTexte, setBaliseTexte] = useState('');
   const [popupInfo, setPopupInfo] = useState({message: '', variant:'success'});
   const [listFriend, setlistFriend] = useState('');
+  const [statsGames, setStatsGames] = useState('');
+  const [listGames, setListGames] = useState('');
 
   const   handleShowModal = () => setShowModal(true);
   const   handleCloseModal = () => setShowModal(false);
@@ -43,6 +45,31 @@ const Profil = () => {
       }).catch((error) => {
           setError(error.message);
       });
+      const res_stat = axios.post('https://localhost:8080/api/statsGames',
+      {
+        'username': user.get('username'),
+      },
+      {}).then((res_stat) => {
+        if (res_stat.data.error)
+          setStatsGames({'message': ""});
+        else
+          setStatsGames(res_stat.data);
+      }).catch((error) => {
+        setError(error.message);
+      });
+      const res_match_histo = axios.post('https://localhost:8080/api/listGames',
+      {
+        'username': user.get('username'),
+      },
+      {}).then((res_match_histo) => {
+          if (res_match_histo.data.error)
+            setListGames({'message': ''});
+          else
+            setListGames(res_match_histo.data);
+          console.log('MATCH', res_match_histo);
+      }).catch((error) => {
+        setError(error.message);
+      });
   }, []);
   
 
@@ -55,11 +82,14 @@ const Profil = () => {
             });
             
             if (response.data.message)
-                setPopupInfo({message: response.data.message, variant: 'success'});
+            {
+              setlistFriend({"message": listFriend.message + ',' + baliseTexte});
+              setPopupInfo({message: response.data.message, variant: 'success'});
+            }
             else
                 setPopupInfo({message: response.data.error, variant: 'danger'})
-            console.log(response.data)
-            handleCloseModal()
+            setBaliseTexte('');
+            handleCloseModal();
         } catch (error) {
             console.error('Erreur lors de la requete au backend: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
@@ -74,12 +104,14 @@ const Profil = () => {
             });
             
             if (response.data.message)
-                setPopupInfo({message: response.data.message, variant: 'success'});
+            {
+              setlistFriend({"message": listFriend.message.replace(baliseTexte, '')});
+              setPopupInfo({message: response.data.message, variant: 'success'});
+            }
             else
                 setPopupInfo({message: response.data.error, variant: 'danger'})
-            console.log(response.data)
-            handleCloseModal()
-            // setlistFriend();
+            setBaliseTexte('');
+            handleCloseModal();
           } catch (error) {
             console.error('Erreur lors de la requete au backend: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
@@ -157,7 +189,9 @@ const Profil = () => {
                       listFriend && (
                         <div>
                           {listFriend.message.split(',').map((element, index) => (
-                            <p key={index} class='text-white'>{element}</p>
+                            element.trim() !== '' && (
+                              <p key={index} class='text-white'>{element}</p>
+                            )
                           ))}
                         </div>
                       )
@@ -171,13 +205,100 @@ const Profil = () => {
               <div className="icon-stats"></div>
               <p class="title-profile">Statistics</p>
              </div>
+             <div className="col text-center d-flex justify-content-center align-items-center">
 
-          {/* Section Titre 2FA */}
+              {statsGames && (
+                  <Table striped bordered hover size='sm'>
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Victoires</th>
+                        <th>Défaites</th>
+                        <th>Egalites</th>
+                        <th>Total</th>
+                        <th>Winrate</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>PONG</td>
+                        <td>{statsGames.pong_win}</td>
+                        <td>{statsGames.pong_lose}</td>
+                        <td>/</td>
+                        <td>{statsGames.pong_win + statsGames.pong_lose}</td>
+                        <td>{statsGames.pong_wr}%</td>
+                      </tr>
+                      <tr>
+                        <td>TICTACTOES</td>
+                        <td>{statsGames.ttt_win}</td>
+                        <td>{statsGames.ttt_lose}</td>
+                        <td>{statsGames.draw_ttt}</td>
+                        <td>{statsGames.ttt_win + statsGames.ttt_lose + statsGames.draw_ttt}</td>
+                        <td>{statsGames.ttt_wr}%</td>
+                      </tr>
+                      <tr>
+                        <td>Total</td>
+                        <td>{statsGames.total_win}</td>
+                        <td>{statsGames.total_lose}</td>
+                        <td>{statsGames.draw_ttt}</td>
+                        <td>{statsGames.total_win + statsGames.total_lose + statsGames.draw_ttt}</td>
+                        <td>{statsGames.tot_wr}%</td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                )
+              }
 
-          <div className="col d-flex justify-content-center align-items-center">
-            <div className="icon-leader"></div>
-            <p class="title-profile">Match History</p>
-        </div>
+              </div>
+
+              {/* Section Titre 2FA */}
+
+              <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-leader"/>
+              <p class="title-profile">Match History</p>
+              </div>
+              <div className="col d-flex justify-content-center align-items-center">
+              {
+              listGames && (
+              <div>
+                {
+                  listGames.list_object.map((element, index) => (
+                    <div className='container mask-custom'>
+                      <div className='row' keys={index}>
+                        {element.tournament && element.tournament !== '' && (
+                          <p class="title-profile">{element.tournament}</p>
+                        )
+                        }
+                        <p class="title-profile">{element.loser2 ? element.type_game + " 3Players" : (element.type_game == 'PONG' ? element.type_game + " 2Players": element.type_game)}</p>
+                        {element.winner && (
+                          <p class="title-profile">Winner: {element.winner}</p>
+                        )
+                        }
+                        {element.score && (
+                          <p class="title-profile">{element.score}</p>
+                        )
+                        }
+                        {element.loser && (
+                          <p class="title-profile">Loser: {element.loser}</p>
+                        )
+                        }
+                        {element.loser2 && (
+                          <p class="title-profile">Loser: {element.loser2}</p>
+                        )
+                        }
+                        {element.draw_user1 && element.draw_user2 && (
+                          <p class="title-profile">Draw between {element.draw_user1} and {element.draw_user2}</p>
+                        )
+                        }
+                        <p class="title-profile">{element.date}</p>
+                      </div>
+                    </div>
+                  ))
+                }
+              </div>
+              )
+              }
+            </div>
       </div>
     </div>
     </>

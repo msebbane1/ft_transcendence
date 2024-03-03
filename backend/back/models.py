@@ -1,21 +1,17 @@
-import datetime
 from django.db import models
-from django.utils import timezone
-from django.contrib import admin
 
 
 
 class User(models.Model):
-    username = models.CharField(max_length=50)
-    pseudo = models.CharField(max_length=50)
+    aliasname = models.CharField(max_length=15, default='')
+    username = models.CharField(max_length=15)
+    pseudo = models.CharField(max_length=15)
     password = models.CharField(max_length=200, null=True)
     register = models.BooleanField(default=False)
     secret_2auth = models.CharField(max_length=100)
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)
     token_jwt = models.CharField(max_length=1000, default='')
-    wins = models.SmallIntegerField()
-    loses = models.SmallIntegerField()
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
@@ -34,6 +30,22 @@ class User(models.Model):
 
     def getFollowing(self):
         return User.objects.filter(to_f__from_f=self.id) # <==> self.friends.all()
+	
+    def getCountWinsPong(self):
+        return int(self.winnerpong.all().count())
+    
+    def getCountWinsTTT(self):
+        return int(self.winnerttt.all().count())
+    
+    def getCountLosesPong(self):
+        return int(self.loserpong.all().count() + self.loserpong2.all().count())
+    
+    def getCountLosesTTT(self):
+        return int(self.loserttt.all().count())
+    
+    def getCountDrawTTT(self):
+        return int(self.draw_user1.all().count() + self.draw_user2.all().count())
+
 
 class Friendship(models.Model):
 	from_f = models.ForeignKey(User, on_delete=models.CASCADE, related_name='from_f', null=True, blank=True)
@@ -51,40 +63,40 @@ class Avatar(models.Model):
         return f'Avatar {self.id}'
 
 class Tournament(models.Model):
-	title = models.CharField(max_length=30)
-	list_player = models.ManyToManyField(User)
-	type_game = models.CharField(max_length=50)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='creator',  null=True, blank=True)
+    title = models.CharField(max_length=30, default="Default Tournament")
+    list_player_user = models.CharField(max_length=50, default='')
+    list_player_other = models.CharField(max_length=50, default='')
+    winner_t = models.ForeignKey(User, on_delete=models.CASCADE, related_name='winner_t', null=True, blank=True)
+
+    def __str__(self):
+        return (f"{self.creator}'s Tournament")
 
 
-class Game(models.Model):
-	list_player = models.ManyToManyField(User, db_column='list_player', related_name='list_player')
-	score = models.CharField(max_length=50)
-	date_game = models.DateTimeField()
-	duration_game = models.DurationField()
-	type_game = models.CharField(max_length=50)
-	in_game = models.BooleanField(default=False)
-	winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='winner')
-	losers = models.ManyToManyField(User, db_column='losers', related_name='losers')
-	tournament = models.ForeignKey(Tournament, default=None, on_delete=models.CASCADE)
+class GamePong(models.Model):
+    nb_players = models.SmallIntegerField(default=2)
+    score = models.CharField(max_length=10)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='winnerpong', default=None, null=True, blank=True)
+    loser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loserpong', default=None, null=True, blank=True)
+    loser2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loserpong2', default=None, null=True, blank=True)
+    tournament = models.ForeignKey(Tournament, on_delete=models.CASCADE, null=True, blank=True)
+    date = models.CharField(max_length=20, default='')
 
-	def __str__(self):
-		output = "Players : "
-		for player in self.list_player:
-			output += f"{player} - "
-		output = output[:len(output) - 2]
-		output += f"\nScore : {self.score}"
-		if (self.tournament != None):
-			output += f"\nTournament : {self.tournament}"
-		return (output)
+    def __str__(self):
+        l2_exist = f"and {self.loser2.username}" if self.loser2 else ''
+        return (f"{self.winner.username} wins {self.score} against {self.loser.username} {l2_exist}")
 
-	def is_game_complete(self):
-		if (self.score ==  None or self.score == ''):
-				return (False)
-		if (self.date_game == None):
-			return (False)
-		now = timezone.now()
-		if (self.type_game ==  None or self.type_game == ''):
-			return (False)
-		return (True)
-	
+
+class GameTTT(models.Model):
+    is_draw = models.BooleanField(default=False)
+    draw_user1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='draw_user1', default=None, null=True, blank=True)
+    draw_user2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='draw_user2', default=None, null=True, blank=True)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='winnerttt', default=None, null=True, blank=True)
+    loser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='loserttt', default=None, null=True, blank=True)
+    date = models.CharField(max_length=20, default='')
+
+    def __str__(self):
+        if self.is_draw:
+            return (f"Draw between {self.draw_user1} & {self.draw_user2}")
+        return (f"{self.winner} wins against {self.loser}")
 	
