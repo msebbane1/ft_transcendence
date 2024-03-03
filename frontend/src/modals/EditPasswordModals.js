@@ -17,12 +17,17 @@ const EditPasswordModal = () => {
 
   const handleSavePassword = async () => {
     try {
+
+      const responsejwt = await axios.post(
+        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+      );
+
       const response = await axios.post(
         `https://localhost:8080/api/update-password/${user.get("id")}/`,
         { new_password: newPassword, repeatPassword: confirmPassword },
         {
           headers: {
-            Authorization: `Bearer ${user.get("jwt_token")}`,
+            Authorization: `Bearer ${responsejwt.data.jwt_token}`,
             'Content-Type': 'application/json',
           },
         }

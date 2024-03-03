@@ -13,9 +13,10 @@ class User(models.Model):
     secret_2auth = models.CharField(max_length=100)
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)
-    wins = models.SmallIntegerField(default=0)
-    loses = models.SmallIntegerField(default=0)
-    avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True, default=None)
+    token_jwt = models.CharField(max_length=1000, default='')
+    wins = models.SmallIntegerField()
+    loses = models.SmallIntegerField()
+    avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
     friends = models.ManyToManyField('self', through='Friendship' ,symmetrical=False)
@@ -23,7 +24,7 @@ class User(models.Model):
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
         return output
-	
+
     def follow(self, other_user):
         if not self.friends.filter(pk=other_user.pk).exists() and other_user is not self:
             Friendship.objects.create(from_f=self, to_f=other_user)
@@ -85,4 +86,5 @@ class Game(models.Model):
 		if (self.type_game ==  None or self.type_game == ''):
 			return (False)
 		return (True)
+	
 	

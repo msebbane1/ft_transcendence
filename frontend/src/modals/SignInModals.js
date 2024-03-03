@@ -25,7 +25,12 @@ const SignInModals = () => {
       const response = await axios.post('https://localhost:8080/api/signin/', {
         username,
         password,
-      });
+      }, {
+        method: "POST",
+            headers: {
+                  'Content-Type': 'application/json',
+            },
+        });
 
       const data = response.data;
       console.log('Server response:', response.data);
@@ -33,7 +38,7 @@ const SignInModals = () => {
       user.setAll(data);
       setUsername('');
       setPassword('');
-	 setTimeout(() => navigate("/home"), 500);
+	    setTimeout(() => navigate("/home"), 500);
     } catch (error) {
       //console.error('Error submitting form:', error);
       if (error.response) {

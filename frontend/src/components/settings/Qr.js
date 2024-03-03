@@ -7,7 +7,7 @@ const Qr = ({ then, placeholder }: {
   then: (status: boolean) => void,
   placeholder: string
 }) => {
-  const session = useUser("user");
+  const user = useUser("user");
   const [error, setError] = useState(null);
   const [codes, setCodes] = useState(Array(6).fill(""));
 
@@ -19,7 +19,6 @@ const Qr = ({ then, placeholder }: {
       const newCodes = [...prevCodes];
       newCodes[index] = value;
 
-      // Déplacer la saisie à la case suivante s'il y en a une
       if (index < newCodes.length - 1 && value.length === 1) {
         const nextInput = document.getElementById(`input-${index + 1}`);
         if (nextInput) {
@@ -37,7 +36,10 @@ const Qr = ({ then, placeholder }: {
     e.preventDefault();
 
     try {
-	    const secret = session.get("2FA_secret");
+      const responsejwt = await axios.post(
+        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+      );
+	    const secret = user.get("2FA_secret");
     const code = codes.join("");
     console.log("Secret:", secret);
     console.log("Code:", code);
@@ -50,7 +52,7 @@ const Qr = ({ then, placeholder }: {
         {
           headers: {
             "Content-Type": "application/json",
-	    'Authorization': `Bearer ${session.get("jwt_token")}`,
+	          'Authorization': `Bearer ${responsejwt.data.jwt_token}`,
           },
         }
       );

@@ -14,13 +14,19 @@ const EditUsernameModal = ({ setUsername }) => {
   const handleCloseModal = () => setShowModal(false);
 
   const handleSaveUsername = async () => {
+
     try {
+
+      const responsejwt = await axios.post(
+        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+      );
+
       const response = await axios.post(
         `https://localhost:8080/api/update-username/${user.get("id")}/`,
         { username: newUsername },
         {
           headers: {
-            Authorization: `Bearer ${user.get("jwt_token")}`,
+            Authorization: `Bearer ${responsejwt.data.jwt_token}`,
             'Content-Type': 'application/json',
           },
         }

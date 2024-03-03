@@ -15,12 +15,13 @@ const setAll = (attributes) => {
       local[key] = attributes[key];
     });
     setStorage(local);
+    /*
     const test = local.avatar_update;
     if(test == true)
       localStorage.setItem("image", "true");
     else
       localStorage.setItem("image", "false");
-    console.log("After setAll:", local);
+    console.log("After setAll:", local);*/
   };
  /* const setAll = (attributes) => {
     let local = { ...storage };

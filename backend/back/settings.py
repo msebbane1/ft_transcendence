@@ -1,5 +1,6 @@
 from pathlib import Path
 import os
+import secrets
 
 # Définition du répertoire racine de votre projet Django
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,6 +23,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1'] 
 
+###### JWT #####
+JWT_SECRET_KEY = secrets.token_hex(32) # A METTRE DANS .ENV
+
+# Algorithme de signature JWT (par défaut, utilisez HS256)
+JWT_ALGORITHM = 'HS256'
 
 # Application definition
 
@@ -36,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'dj_rest_auth',
     'rest_framework',
+    'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'social_django',
     'dj_rest_auth.registration',
@@ -46,7 +53,7 @@ INSTALLED_APPS = [
 
 
 AUTHENTICATION_BACKENDS = [
-    'social_core.backends.42.EDXOAuth2',
+    #'social_core.backends.42.EDXOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
 
@@ -103,8 +110,18 @@ CORS_ALLOWED_ORIGINS = [
 
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:3000", 
+    "https://localhost:8080",
+]
 
-REST_USE_JWT = True
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'REST_USE_JWT' : True,
+}
+
 
 ROOT_URLCONF = 'back.urls'
 
@@ -184,6 +201,7 @@ SECURE_SSL_REDIRECT = True
 
 USE_SSL = True
 
+SITE_ID = 1
 # Paramètres de sécurité liés à HTTPS
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_BROWSER_XSS_FILTER = True

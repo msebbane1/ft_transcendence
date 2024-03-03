@@ -5,6 +5,7 @@ import useUser from '../hooks/useUserStorage';
 import { Link } from 'react-router-dom';
 import { Modal, Button } from 'react-bootstrap';
 import ProfilePicture from '../components/ProfilePicture';
+import Navbar from '../components/Navbar';
 import "./Settings.css"
 /*MODALS*/
 import TwoFAModals from '../modals/TwoFAModals';
@@ -18,13 +19,20 @@ const Settings = () => {
   const user = useUser("user");
   const [error, setError] = useState('');
   const [username, setUsername] = useState(user.get("username"));
-  const [profilePictureURL, setProfilePictureURL] = useState(user.get("Profilepic"));
+  const [profilePictureKey, setProfilePictureKey] = useState(0);
+
+  const refreshProfilePicture = () => {
+    setProfilePictureKey(prevKey => prevKey + 1);
+  };
   console.log("username(settings): ", user.get("avatar_update"));
   console.log("avatarurl(settings): ", user.get("Profilepic"));
   console.log("settings(image variable) ==== ", localStorage.getItem("image"));
 
 
 return (
+
+	<>
+	<Navbar refreshProfilePicture={refreshProfilePicture} />
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/}
         <div>
           {/* Section Titre Settings */}
@@ -40,7 +48,7 @@ return (
               <div className="col text-center">
                <div className="position-relative">
 
-			      <ProfilePicture/>
+			      <ProfilePicture key={profilePictureKey} refreshImage={refreshProfilePicture} />
             			
                 </div>
                 <p className="profile-info-text">@{username}</p>
@@ -61,7 +69,7 @@ return (
             <EditUsernameModals setUsername={setUsername}/>
             </div>
              <div className="d-inline-block mx-2">
-             <EditAvatarModals setProfilePictureURL={setProfilePictureURL}/>
+             <EditAvatarModals refreshProfilePicture={refreshProfilePicture} />
              </div>
             </div>
           </div>
@@ -101,6 +109,7 @@ return (
 
 
     </div>
+	</>
   );
 };
 

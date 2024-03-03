@@ -3,34 +3,18 @@ import axios from 'axios';
 import useUserStorage from "../hooks/useUserStorage";
 import "../pages/Settings.css";
 
-const PictureNav = () => {
+const PictureNav = ({ refreshImage }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const user = useUserStorage('user');
   
-  console.log("image_update :", user.get('avatar_update'));
+  console.log("id :", user.get('id'));
   console.log("avatar_image localstorage", localStorage.getItem("image"));
 
   useEffect(() => {
     const fetchAvatarImage = async () => {
       try {
-          let avatarUrl;
-          console.log("into", localStorage.getItem("image")); 
-          if (user.get("register") == null && localStorage.getItem("image") == "false") {  
-            avatarUrl = `https://localhost:8080/api/avatar42/${user.get("avatar_id")}/`;
-            console.log('if');
-          }
-          else if (localStorage.getItem("image") == "true")
-          {
-            avatarUrl = `https://localhost:8080/api/avatar/${user.get("avatar_id")}/`;
-            console.log("elif");
-          }
-          else
-          {
-            console.log("else");
-            return;
-          }
-        const response = await axios.get(avatarUrl);
+        const response = await axios.get(`https://localhost:8080/api/avatar/${user.get("id")}/${user.get("avatar_id")}/`);
         setImageUrl(response.data.image_url);
         user.set('Profilepic', response.data.image_url);
         console.log('pic userhook:', user.get('Profilepic'));
@@ -45,7 +29,7 @@ const PictureNav = () => {
     };
 
     fetchAvatarImage();
-  }, [localStorage.getItem("image")]);
+  }, [imageUrl, refreshImage]);
 
   return (
     <div className="position-relative">

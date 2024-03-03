@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import axios from 'axios';
 import useUser from '../hooks/useUserStorage';
 
-const EditAvatarModal = ({setProfilePictureURL}) => {
+const EditAvatarModal = ({refreshProfilePicture}) => {
   const [showModal, setShowModal] = useState(false);
   const user = useUser("user");
   const [error, setError] = useState('');
@@ -24,27 +24,24 @@ const EditAvatarModal = ({setProfilePictureURL}) => {
     formData.append('image', imageFile);
 
     try {
-        let avatarUrl;
 
-        avatarUrl = `https://localhost:8080/api/avatarup/${user.get("avatar_id")}/`;
-
-      const response = await axios.post(avatarUrl, formData, {
+      const responsejwt = await axios.post(
+        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+      );
+      
+      const response = await axios.post(`https://localhost:8080/api/avatarup/${user.get("avatar_id")}/`, formData, {
         headers: {
+          Authorization: `Bearer ${responsejwt.data.jwt_token}`,
           'Content-Type': 'multipart/form-data'
         }
       });
 
         if (response.data.image_url) {
-      
-        console.log("avatar == ", localStorage.getItem("avatar_update"));
-        //localStorage.setItem('avatar_update', true);
-        localStorage.setItem("image", "true");
-        console.log("avatar == ", localStorage.getItem("avatar_update"));
-        console.log("New image URL:", response.data.image_url);
-        user.set('Profilepic', response.data.image_url);
-        //localStorage.setItem('Profilepic', response.data.image_url);
-        setProfilePictureURL(response.data.image_url);
-        handleCloseModal();
+          user.set('Profilepic', response.data.image_url);
+          //setProfilePictureURL(response.data.image_url);
+	  refreshProfilePicture()
+          handleCloseModal();
+          //window.location.reload();
       }
     } catch (error) {
 	setError(error.response.data.error);
