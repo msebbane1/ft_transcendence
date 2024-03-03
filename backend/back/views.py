@@ -540,7 +540,8 @@ def signintournament(request):
             user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=400)
-        
+        if not user.password_tournament:
+            return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
         if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
         user.status = "online"
@@ -588,8 +589,14 @@ def checkalias(request):
 def begintournament(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        playersUsers = data.get('playersUsers')
-        playersAlias = data.get('playerAlias')
+        playersUsers = data.get('playersUser')
+        playersAlias = data.get('playersAlias')
+        tournamentID = 1
+        return JsonResponse({
+            'tournamentID': tournamentID
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def updatetournament(request):
@@ -599,6 +606,11 @@ def updatetournament(request):
         player1 = data.get('p1')
         player2 = data.get('p2')
         winner = data.get('winnerN')
+        return JsonResponse({
+            'tournamentID': tournamentID
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def endtournament(request):
@@ -606,7 +618,11 @@ def endtournament(request):
         data = json.loads(request.body)
         tournamentID = data.get('tournamentID')
         Winner = data.get('winnerN')
-
+        return JsonResponse({
+            'tournamentID': tournamentID
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def pong2phistory(request):
@@ -618,6 +634,11 @@ def pong2phistory(request):
         p2score = data.get('p2score')
         p2State = data.get('p2State')
         winner = data.get('winnerN')
+        return JsonResponse({
+            'player1': player1
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
 def pong3phistory(request):
@@ -632,6 +653,11 @@ def pong3phistory(request):
         p2state = data.get('p2state')
         p3state = data.get('p3state')
         winner = data.get('winnerN')
+        return JsonResponse({
+            'player1': player1
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 ################### STATS JOUEUR ##################
 

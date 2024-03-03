@@ -19,7 +19,7 @@ const matchType = "";
 var  matches = [];
 var  players = [];
 var winnerN = "";
-var tournamentID  = "";
+var tournamentID  = "23";
 var maxSpeed = 25;
 var x = 0;
 var colorsArrows = {
@@ -32,7 +32,7 @@ var colorsArrows = {
 //window.location.href = '/pongGame';
 const createTournament = () => {
 
-  axios.post('https://localhost:8080/api/createtournament/', {
+  axios.post('https://localhost:8080/api/begintournament/', {
       playersUser,
       playersAlias,
     })
@@ -101,6 +101,7 @@ const setupTournament = () => {
         }
         //else add user value recuperee depuis la connexion et stockee dans le localstorage pour la partie
     }
+
     createTournament();
     matches.push([players[0].name, players[1].name, "-", "-"]);
     matches.push([players[2].name, players[3].name, "-", "-"]);
@@ -652,7 +653,7 @@ const playerMove = () => {
           <button type="button" class="btn btn-primary"onClick={handleMatch}>Next Match :{matches[MATCHN + 1][0]} vs {matches[MATCHN + 1][1]}</button>
         </div>
       )}
-      {tournOver && totOver && endTournament() && (
+      {tournOver && totOver && updateTournament && endTournament &&(
         <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
         {winnerN} is the tournament Winner ! <a href="/modepong" class="alert-link">Back</a> 
       </div>
