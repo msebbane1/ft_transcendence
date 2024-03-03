@@ -529,6 +529,109 @@ def get_following(request):
             lst_f.append(f.username)
         return (JsonResponse({'message': ','.join(lst_f)}, status=200))
 
+#################################################### SIGNINTOURNAMENT ####################################
+@csrf_exempt
+def signintournament(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        try:
+            user = User.objects.get(pseudo=username)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
+        
+        if not check_password(password, user.password_tournament):
+            return JsonResponse({'error': 'Invalid password'}, status=400)
+        user.status = "online"
+        user.save()
+        return JsonResponse({
+            'id': user.id,
+            'register': user.register,
+            'username': user.username,
+            'pseudo': user.pseudo,
+            '2FA_secret': user.secret_2auth,
+            '2FA_valid': False,
+            'status_2FA': user.has_2auth,
+            'wins': user.wins,
+            'avatar_id': user.avatar.id,
+            'avatar_update': user.avatar.avatar_update,
+            'status': user.status,
+            'loses': user.loses
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+####################################################  CHECK ALIAS ###############################################
+
+@csrf_exempt
+def checkalias(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        # userExist = User.objects.get(username=username)
+        # if(userExist)
+        #     return JsonResponse({'error': 'Someone already\'s using this Pseudo'}, status=400)
+        if len(username) < 5:
+            return JsonResponse({'error': 'The alias must contain at least 5 characters'}, status=400)
+        if len(username) > 10:
+            return JsonResponse({'error': 'The alias must contain at most 10 characters'}, status=400)
+        if not username.isalpha():
+            return JsonResponse({'error': 'The alias can only contain alpha characters'}, status=400)
+        return JsonResponse({
+            'username': username
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+def begintournament(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        playersUsers = data.get('playersUsers')
+        playersAlias = data.get('playerAlias')
+
+@csrf_exempt
+def updatetournament(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        tournamentID = data.get('tournamentID')
+        player1 = data.get('p1')
+        player2 = data.get('p2')
+        winner = data.get('winnerN')
+
+@csrf_exempt
+def endtournament(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        tournamentID = data.get('tournamentID')
+        Winner = data.get('winnerN')
+
+
+@csrf_exempt
+def pong2phistory(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        player1 = data.get('p1')
+        player2 = data.get('p2')
+        p1score = data.get('p1score')
+        p2score = data.get('p2score')
+        p2State = data.get('p2State')
+        winner = data.get('winnerN')
+
+@csrf_exempt
+def pong3phistory(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        player1 = data.get('p1')
+        player2 = data.get('p2')
+        player3 = data.get('p3')
+        p1score = data.get('p1score')
+        p2score = data.get('p2score')
+        p3score = data.get('p3score')
+        p2state = data.get('p2state')
+        p3state = data.get('p3state')
+        winner = data.get('winnerN')
 
 ################### STATS JOUEUR ##################
 

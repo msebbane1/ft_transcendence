@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import useUser from "../hooks/useUserStorage";
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import "./pongGame.css"
 import "./modePong"
 
@@ -8,6 +9,9 @@ const CANVAS_HEIGHT = window.innerHeight * 0.5149330587;
 const CANVAS_WIDTH = window.innerWidth* 0.52083;
 const PLAYER_HEIGHT = CANVAS_HEIGHT / 5;
 const PLAYER_WIDTH = CANVAS_WIDTH * 0.012;
+var winnerN = '';
+var p2State = '';
+var maxSpeed = 25;
 var players =[];
 var x = 0;
 
@@ -18,9 +22,10 @@ const setupPlayers = () => {
     if(aliascheck)
       var alias = aliascheck.split("@+");
     if (aliascheck) {
+        if(i == 2)
+          p2State = alias[1];
         players.push({name : alias[0], wins : 0, log: alias[1]});
-        console.log("player", i, " = ", players[i - 1 ].name);
-        }
+      }
     }
   }
 
@@ -36,10 +41,11 @@ const PongGame = () => {
   const user = useUser("user");
   const p1 = user.get("username");
   const p2 = players[1].name;
+  const [axiosCalled, setAxiosCalled] = useState(false);
   const canvasRef = useRef(null);
   const [game, setGame] = useState({
     feature: {
-      on: true,
+      on: false,
     },
     keysPressed:{
       player:{
@@ -201,16 +207,32 @@ const PongGame = () => {
       }
     }
     else {
-      setGame((prevGame) => ({
-        ...prevGame,
-        ball: {
-          ...prevGame.ball,
-          speed: {
-            ...prevGame.ball.speed,
-            x: ball.speed.x * -1.2,
+      if(ball.speed.x > 0)
+      {
+        setGame((prevGame) => ({
+          ...prevGame,
+          ball: {
+            ...prevGame.ball,
+            speed: {
+              ...prevGame.ball.speed,
+              x: Math.max(-maxSpeed, ball.speed.x * -1.2),
+            },
           },
-        },
-      }));
+        }));
+      }
+      else
+      {
+        setGame((prevGame) => ({
+          ...prevGame,
+          ball: {
+            ...prevGame.ball,
+            speed: {
+              ...prevGame.ball.speed,
+              x: Math.min(maxSpeed, ball.speed.x * -1.2),
+            },
+          },
+        }));
+      }
       pongPad(Who.y);
       setGame((prevGame) => ({
         ...prevGame,
@@ -297,14 +319,14 @@ const PongGame = () => {
       resetCanva();
       draw();
       game.winner= true;
-      game.winnerN = game.computer.name;
+      winnerN = game.computer.name;
     }
     else if(game.player.score == 1)
     {
       resetCanva();
       draw();
       game.winner = true;
-      game.winnerN = game.player.name;
+      winnerN = game.player.name;
     }
     else
       update();
@@ -353,6 +375,31 @@ const PongGame = () => {
       }));
     }
   };
+
+  useEffect(() => { //historique fin de partie2p
+    let p1score = game.player.score;
+    let p2score = game.computer.score;
+    if (game.winner && !axiosCalled) {
+      axios.post('https://localhost:8080/api/pong2phistory/', {
+          p1,
+          p2,
+          winnerN,
+          p1score,
+          p2score,
+          p2State,
+          winnerN,
+        })
+        .then(response => {
+          const data = response.data;
+        })
+        .catch(error => {
+          if (error.response && error.response.data) {
+              alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+          } else {
+              alert("An error occurred while processing your request.");
+          }});
+    }
+}, [game.winner, axiosCalled]);
 
   useEffect(() => {
     return () => {
@@ -420,7 +467,7 @@ const PongGame = () => {
 
       {game.winner && (
         <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
-        {game.winnerN} won the Match !<a href="/modepong" class="alert-link">Back</a>
+        {winnerN} won the Match !<a href="/modepong" class="alert-link">Back</a>
       </div>
       )}
       <div className = "scorej1">{game.player.name} : {game.player.score}</div>

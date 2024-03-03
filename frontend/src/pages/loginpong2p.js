@@ -29,53 +29,62 @@ const Login2p = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const toadd = 'alias' + playerN;
-    var  tocheck = username.trim();
+    var  tocheck = username;
     if(loginMethod == 'Alias')
     {
-
-      if(username && areValuesUnique(userArray[0][1], userArray[1][1], tocheck))
-      {
-        localStorage.setItem(toadd, tocheck+"@+Alias");
-        userArray[playerN-1][1] = tocheck;
-        playerN += 1;
-        console.log(userArray);
-      }
-      else{
-        alert("User/Alias doesn't exist or already in use");
-      }
-      setUsername('');
-      setPassword('');
-      setLoginMethod('');
-      if(playerN == 3)
-        settingOver = true;
-  }
-  else if (loginMethod === 'User')
-  {
-      try {
-        const response = await axios.post('https://localhost:8080/api/signin/', {
+      axios.post('https://localhost:8080/api/checkalias/', {
         username,
-        password,
-        });
+      })
+      .then(response => {
         const data = response.data;
         setUsername('');
         setPassword('');
         setLoginMethod('');
-      } 
-      catch (error) {
-        console.error('Error submitting form:', error);
+        if(username && areValuesUnique(userArray[0][1], userArray[1][1], data.username)) {
+          localStorage.setItem(toadd, data.username+"@+User");
+          userArray[playerN-1][1] = data.username;
+          playerN += 1;
+          console.log(userArray);
+        } else {
+          alert("Alias/Username already in use.");
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.data) {
+            alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+        } else {
+            alert("An error occurred while processing your request.");
+        }});
+    }
+    else if (loginMethod === 'User')
+    {
+      axios.post('https://localhost:8080/api/signintournament/', {
+        username,
+        password,
+      })
+      .then(response => {
+        const data = response.data;
+        setUsername('');
+        setPassword('');
+        setLoginMethod('');
+        
+        if(username && areValuesUnique(userArray[0][1], userArray[1][1], data.username)) {
+          localStorage.setItem(toadd, data.username+"@+User");
+          userArray[playerN-1][1] = data.username;
+          playerN += 1;
+          console.log(userArray);
+        } else {
+          console.log("Adakor");
           alert("User/Alias doesn't exist or already in use.");
-          return;
-        } 
-      if(username && areValuesUnique(userArray[0][1], userArray[1][1], tocheck))
-      {
-        localStorage.setItem(toadd, tocheck+"@+User");
-        userArray[playerN-1][1] = tocheck;
-        playerN += 1;
-        console.log(userArray);
-      }
-      else
-        alert("User/Alias doesn't exist or already in use.");
-    };
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.data) {
+            alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+        } else {
+            alert("An error occurred while processing your request.");
+        }});
+      };
   }
   return (
     <div className="container">

@@ -30,7 +30,7 @@ const Profil = () => {
   }
 
   useEffect(() => {
-      const response = axios.post('https://127.0.0.1:8080/api/getFriends', 
+      const response = axios.post('https://localhost:8080/api/getFriends', 
       {
         'username': user.get('username'),
       }, 
@@ -48,7 +48,7 @@ const Profil = () => {
 
   const handleSubmitAdd = async () => {
         try {
-            const response = await axios.post('https://127.0.0.1:8080/api/addFriend', 
+            const response = await axios.post('https://localhost:8080/api/addFriend', 
             {
                 user_to_add: baliseTexte,
                 username: user.get('username')
@@ -65,10 +65,9 @@ const Profil = () => {
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
         }
     };
-
     const handleSubmitDel = async () => {
         try {
-            const response = await axios.post('https://127.0.0.1:8080/api/delFriend', 
+            const response = await axios.post('https://localhost:8080/api/delFriend', 
             {
                 user_to_del: baliseTexte,
                 username: user.get('username')
@@ -90,7 +89,7 @@ const Profil = () => {
   return (
   <>
   {popupInfo.message && (
-      <div className="justify-content-md-center" class="popup">
+      <div className="col d-flex justify-content-center align-items-center">
           <Alert variant={popupInfo.variant} onClose={() => setPopupInfo({message: '', variant: 'success'})} dismissible>
               {popupInfo.message}
           </Alert>
@@ -142,7 +141,7 @@ const Profil = () => {
                   <p className="profile-info-text">{user.get("pseudo")}</p>
                   <p className="profile-info-text">status : {user.get("status")}</p>
                 </div>
-                
+
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
                     <Button variant="light" size='sm' onClick={handleShowModal}>

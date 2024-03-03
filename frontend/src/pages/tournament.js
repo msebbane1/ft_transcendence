@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import './tournament.css';
 
 var   playerN = 2;
-var   settingOver = false;
 var   userArray = [];
 
 userArray.push(['alias1', "- ", "user"]);
@@ -22,12 +21,7 @@ const Tournament = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginMethod, setLoginMethod] = useState('');
-  // useEffect (() => {
 
-  //   return () => {
-  //     userArray = null; 
-  //   }
-  // }, []);
 
   const areValuesUnique = (value1, value2, value3, value4, value5) => {
     return value1 !== value2 && value1 !== value3 && value1 !== value4 &&
@@ -40,53 +34,61 @@ const Tournament = () => {
     e.preventDefault();
     console.log("Yo");
     const toadd = 'alias' + playerN;
-    var  tocheck = username.trim();
+    var  tocheck = username;
     if(loginMethod == 'Alias')
     {
-
-      if(username && areValuesUnique(userArray[0][1], userArray[1][1], userArray[2][1], userArray[3][1], tocheck))
-      {
-        localStorage.setItem(toadd, tocheck+"@+Alias");
-        userArray[playerN-1][1] = tocheck;
-        playerN += 1;
-        console.log(userArray);
-      }
-      else{
-        alert("User/Alias doesn't exist or already in use");
-      }
-      setUsername('');
-      setPassword('');
-      setLoginMethod('');
-      if(playerN == 4)
-        settingOver = true;
-  }
-  else if (loginMethod === 'User')
-  {
-    console.log("onpasse");
-      try {
-        const response = await axios.post('https://localhost:8080/api/signin/', {
+      axios.post('https://localhost:8080/api/checkalias/', {
         username,
-        password,
-        });
+      })
+      .then(response => {
         const data = response.data;
         setUsername('');
         setPassword('');
         setLoginMethod('');
-      } 
-      catch (error) {
-        console.error('Error submitting form:', error);
-          alert("User/Alias doesn't exist or already in use.");
-          return;
-        } 
-      if(username && areValuesUnique(userArray[0][1], userArray[1][1], userArray[2][1], userArray[3][1], tocheck))
-      {
-        localStorage.setItem(toadd, tocheck+"@+User");
-        userArray[playerN-1][1] = tocheck;
+        if(username && areValuesUnique(userArray[0][1], userArray[1][1], userArray[2][1], userArray[3][1], data.username)) {
+          localStorage.setItem(toadd, data.username+"@+User");
+          userArray[playerN-1][1] = data.username;
+          playerN += 1;
+          console.log(userArray);
+        } else {
+          alert("Alias/Username already in use.");
+        }
+      })
+      .catch(error => {
+        if (error.response && error.response.data) {
+            alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+        } else {
+            alert("An error occurred while processing your request.");
+        }});
+  }
+  else if (loginMethod === 'User')
+  {
+    axios.post('https://localhost:8080/api/signintournament/', {
+      username,
+      password,
+    })
+    .then(response => {
+      const data = response.data;
+      setUsername('');
+      setPassword('');
+      setLoginMethod('');
+      
+      if(username && areValuesUnique(userArray[0][1], userArray[1][1], userArray[2][1], userArray[3][1], data.username)) {
+        localStorage.setItem(toadd, data.username+"@+User");
+        userArray[playerN-1][1] = data.username;
         playerN += 1;
         console.log(userArray);
-      }
-      else
+      } else {
+        console.log("Adakor");
         alert("User/Alias doesn't exist or already in use.");
+      }
+    })
+    .catch(error => {
+      if (error.response && error.response.data) {
+          alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+      } else {
+          alert("An error occurred while processing your request.");
+      }});
     };
   }
   return (
