@@ -14,7 +14,6 @@ class User(models.Model):
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
     friends = models.ManyToManyField('self', through='Friendship' ,symmetrical=False)
-    aliasname = models.CharField(max_length=15, default='')
 
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"
