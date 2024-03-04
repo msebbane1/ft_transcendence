@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const handleAuthentification = async (user, setLoading) => {
+export const handleAuthentification42 = async (user, setLoading) => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get('code');
   const { protocol, hostname} = window.location;

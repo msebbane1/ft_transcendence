@@ -5,7 +5,7 @@ import useUser from '../hooks/useUserStorage';
 import { useNavigate } from 'react-router-dom'
 import "../pages/Settings.css"
 import './modals.css';
-import LoginAuthorize from '../components/LoginAuthorize';
+import LoginAuthorizeUrl from '../components/LoginAuthorizeUrl';
 
 const SignInModals = () => {
   const user = useUser("user");
@@ -97,7 +97,7 @@ const SignInModals = () => {
 	  
 	  
 	</Form>
-            <LoginAuthorize />
+            <LoginAuthorizeUrl />
 
          
         </Modal.Body>

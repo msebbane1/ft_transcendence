@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css/animate.min.css';
 
 
-const LoginAuthorize = () => {
+const LoginAuthorizeUrl = () => {
 
     const { protocol, hostname} = window.location;
 
@@ -35,4 +35,4 @@ const LoginAuthorize = () => {
   );
 };
 
-export default LoginAuthorize;
+export default LoginAuthorizeUrl;

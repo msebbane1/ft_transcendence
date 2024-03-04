@@ -6,7 +6,7 @@ import './Login42.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css/animate.min.css';
 import SignInModals from '../modals/SignInModals';
-import { handleAuthentification } from '../components/LoginAuth';
+import { handleAuthentification42 } from '../components/LoginHandleAuth42';
 
 const LoginPage = () => {
   const user = useUser("user");
@@ -15,7 +15,7 @@ const LoginPage = () => {
 
  //Set toute les infos dans user
   useEffect(() => {
-    handleAuthentification(user, setLoading);
+    handleAuthentification42(user, setLoading);
   }, []);
 
   useEffect(() => { 

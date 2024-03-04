@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Route, Routes, useNavigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter, Route, Routes} from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './global.css';
 //PAGES
@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import TwoFA from './pages/2FA';
 import Settings from './pages/Settings';
 import Profil from './pages/Profil';
-import Avatar from './pages/Avatarpage';
 //Component
 import Navbar from './components/Navbar';
 //PongGame
@@ -51,7 +50,6 @@ const backgroundStyle = {
         <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
 	<Route path="/settings" element={<PrivateRoute><div><Settings /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
-	<Route path="/avatar" element={<PrivateRoute><div><Navbar /><Avatar /></div></PrivateRoute>} />
   	<Route path="/modetictactoe" element={<PrivateRoute><div><Navbar /><ModeTicTacToe /></div></PrivateRoute>} />
   	<Route path="/ai-tictactoe" element={<PrivateRoute><div><Navbar /><AITicTacToe /></div></PrivateRoute>} />
   	<Route path="/tictactoe" element={<PrivateRoute><div><Navbar /><TicTacToeGame /></div></PrivateRoute>} />

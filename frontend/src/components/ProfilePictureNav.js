@@ -3,7 +3,7 @@ import axios from 'axios';
 import useUserStorage from "../hooks/useUserStorage";
 import "../pages/Settings.css";
 
-const PictureNav = ({ refreshImage }) => {
+const ProfilePictureNav = ({ refreshImage }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(true);
   const user = useUserStorage('user');
@@ -58,5 +58,5 @@ const PictureNav = ({ refreshImage }) => {
   );
 };
 
-export default PictureNav;
+export default ProfilePictureNav;
 

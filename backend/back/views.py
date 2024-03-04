@@ -6,7 +6,6 @@ from oauth2_provider.models import Application
 from requests import post
 from django.conf import settings
 import json
-from datetime import datetime, date
 from json.decoder import JSONDecodeError
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -34,7 +33,6 @@ import base64
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseNotFound, FileResponse
-from .convert import get_base64_from_buffer, get_base64_from_uri
 from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 from .hash_password import hash_password
@@ -49,6 +47,7 @@ from .generate_jwt_token import generate_jwt_token
 import jwt
 from .decorators import jwt_token_required, refresh_token_required, oauth2_token_required
 from django.contrib.auth import authenticate, login
+from datetime import datetime, date
 
 ######################################################### .ENV #########################################################
 load_dotenv()
@@ -204,7 +203,7 @@ def signup(request):
             password=make_password(password),
             password_tournament=make_password(password),
             register=True,
-            avatar=avatar,
+            avatar=avatar
         )
         user.token_jwt = generate_jwt_token(user)
         user.secret_2auth = generate_secret(str(user.id))
@@ -693,6 +692,7 @@ def list_games(request):
                     'list_object': lst
                 }
             ))
+
 
 #################################################### SIGNINTOURNAMENT ####################################
 @csrf_exempt

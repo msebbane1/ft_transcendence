@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Button, Form, Alert} from 'react-bootstrap';
+import { Button, Alert} from 'react-bootstrap';
 import "./signup.css";
-import LoginAuthorize from '../components/LoginAuthorize';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useUser from '../hooks/useUserStorage';

@@ -1,13 +1,11 @@
 import React, { useEffect, useState} from 'react';
-import axios from 'axios';
 import './Navbar.css';
 import useUser from '../hooks/useUserStorage';
 import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import LogoutModals from '../modals/LogoutModals';
-import EditAvatarModals from '../modals/EditAvatarModals';
-import PictureNav from './PictureNav';
+import ProfilePictureNav from './ProfilePictureNav';
 
 function NavBar() {
   const user = useUser("user");
@@ -36,7 +34,7 @@ function NavBar() {
       <Link to="/settings">Settings</Link>
       <div className="logout-link" onClick={openModal}></div>
       <div class="img-fluid">
-        < PictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>
+        < ProfilePictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>
 	  {/*<div className="status-indicator"></div>*/}
       </div>
      <LogoutModals showModal={showModal} handleClose={closeModal} />
