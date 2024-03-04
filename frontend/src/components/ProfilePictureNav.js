@@ -14,7 +14,7 @@ const ProfilePictureNav = ({ refreshImage }) => {
   useEffect(() => {
     const fetchAvatarImage = async () => {
       try {
-        const response = await axios.get(`https://localhost:8080/api/avatar/${user.get("id")}/${user.get("avatar_id")}/`);
+        const response = await axios.get(`https://localhost:8080/api/user/avatar/${user.get("id")}/${user.get("avatar_id")}/`);
         setImageUrl(response.data.image_url);
         user.set('Profilepic', response.data.image_url);
         console.log('pic userhook:', user.get('Profilepic'));

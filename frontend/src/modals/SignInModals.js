@@ -22,7 +22,7 @@ const SignInModals = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://localhost:8080/api/signin/', {
+      const response = await axios.post('https://localhost:8080/api/auth/signin/', {
         username,
         password,
       }, {

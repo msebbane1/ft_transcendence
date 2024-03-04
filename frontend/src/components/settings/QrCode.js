@@ -15,7 +15,7 @@ const QrCode = (props) => {
       try {
 
         const responsejwt = await axios.post(
-          `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+          `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
         );
         const response = await fetch("https://localhost:8080/api/auth/qrcode/", {
           method: "POST",

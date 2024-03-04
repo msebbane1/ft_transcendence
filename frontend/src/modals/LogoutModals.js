@@ -12,7 +12,7 @@ const LogoutModals = ({ showModal, handleClose }) => {
     const handleLogout = async () => {
         try {
 
-            const response = await axios.post(`https://localhost:8080/api/signout/${user.get("id")}/`);
+            const response = await axios.post(`https://localhost:8080/api/auth/logout/${user.get("id")}/`);
             if (response) {
                 user.clear();
                 setTimeout(() => navigate("/"), 500);
@@ -25,6 +25,12 @@ const LogoutModals = ({ showModal, handleClose }) => {
             setLogoutError('Une erreur s\'est produite lors de la déconnexion.');
         }
     };
+
+    /*
+    const handleLogout = async () => {
+                user.clear();
+                setTimeout(() => navigate("/"), 500);
+    };*/
 
     return (
         <Modal show={showModal} onHide={handleClose}>

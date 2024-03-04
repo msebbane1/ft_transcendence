@@ -37,7 +37,7 @@ const Qr = ({ then, placeholder }: {
 
     try {
       const responsejwt = await axios.post(
-        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+        `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
       );
 	    const secret = user.get("2FA_secret");
     const code = codes.join("");

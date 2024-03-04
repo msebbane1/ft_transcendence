@@ -9,7 +9,7 @@ export const handleAuthentification42 = async (user, setLoading) => {
   if (code) {
     setLoading(true);
     try {
-      const response = await axios.post(`${protocol}//${hostname}:8080/api/auth/login42`,
+      const response = await axios.post(`${protocol}//${hostname}:8080/api/auth/login42/`,
         { code },
         {
           headers: {

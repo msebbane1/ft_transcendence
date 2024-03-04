@@ -11,7 +11,7 @@ const LoginAuthorizeUrl = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await axios.post(`${protocol}//${hostname}:8080/api/auth/authorize-url-42`, {}, {
+            const response = await axios.post(`${protocol}//${hostname}:8080/api/auth/authorize-url-42/`, {}, {
 		        method: "POST",
                 headers: {
                     	'Content-Type': 'application/json',

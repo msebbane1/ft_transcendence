@@ -26,10 +26,10 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
     try {
 
       const responsejwt = await axios.post(
-        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+        `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
       );
       
-      const response = await axios.post(`https://localhost:8080/api/avatarup/${user.get("avatar_id")}/`, formData, {
+      const response = await axios.post(`https://localhost:8080/api/user/update-avatar/${user.get("avatar_id")}/`, formData, {
         headers: {
           Authorization: `Bearer ${responsejwt.data.jwt_token}`,
           'Content-Type': 'multipart/form-data'

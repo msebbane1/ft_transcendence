@@ -1,7 +1,5 @@
 import { useState } from "react";
 import useUser from "../hooks/useUserStorage";
-import styles from "../styles/2FA_module.scss";
-import settingsStyles from "../styles/Settings.module.scss";
 import QrCodeValidator from "../components/settings/Qr";
 import { useNavigate } from "react-router-dom";
 import './2FA.css';

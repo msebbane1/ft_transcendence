@@ -18,11 +18,11 @@ const EditUsernameModal = ({ setUsername }) => {
     try {
 
       const responsejwt = await axios.post(
-        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+        `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
       );
 
       const response = await axios.post(
-        `https://localhost:8080/api/update-username/${user.get("id")}/`,
+        `https://localhost:8080/api/user/update-username/${user.get("id")}/`,
         { username: newUsername },
         {
           headers: {

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Modal } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
 import QrCode from '../components/settings/QrCode';
 import QrCodeValidator from "../components/settings/Qr";
 import useUser from '../hooks/useUserStorage';
-import styles from '../styles/Settings.module.scss';
 import '../pages/Settings.css';
 import axios from 'axios';
 
@@ -32,7 +31,7 @@ const TwoFAModals = () => {
       try {
 
         const responsejwt = await axios.post(
-          `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+          `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
         );
 
         const response = await axios.post(
@@ -95,7 +94,7 @@ const TwoFAModals = () => {
 			"Saisissez le code à 6 chiffres généré par votre app Google Authentificator."}</p></p>
 	  	    
               {/* QR Code Validator Section */}
-              {error && <strong className={styles.settingsFeatureError}>{error}</strong>}
+              {error && <Alert variant="danger">{error}</Alert>}
               {!user.get("status_2FA") ? (
                 <QrCodeValidator
                   then={handleActivation}
@@ -104,7 +103,7 @@ const TwoFAModals = () => {
               ) : (
                 <Button
                   onClick={handleDesactivation}
-                  className={styles.settingsFeatureDesactivate}
+                  className="Button-settings-2FA-OFF"
                 >
                   Désactiver
                 </Button>

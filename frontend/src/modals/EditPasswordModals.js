@@ -19,11 +19,11 @@ const EditPasswordModal = () => {
     try {
 
       const responsejwt = await axios.post(
-        `https://localhost:8080/api/get-tokenjwt/${user.get("id")}/`, {},{}
+        `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
       );
 
       const response = await axios.post(
-        `https://localhost:8080/api/update-password/${user.get("id")}/`,
+        `https://localhost:8080/api/user/update-password/${user.get("id")}/`,
         { new_password: newPassword, repeatPassword: confirmPassword },
         {
           headers: {

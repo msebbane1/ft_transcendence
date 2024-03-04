@@ -27,7 +27,7 @@ const ProfilePicture = ({ refreshImage }) => {
             console.log("else");
             return;
           }*/
-        const response = await axios.get(`https://localhost:8080/api/avatar/${user.get("id")}/${user.get("avatar_id")}/`);
+        const response = await axios.get(`https://localhost:8080/api/user/avatar/${user.get("id")}/${user.get("avatar_id")}/`);
         setImageUrl(response.data.image_url);
 
       } catch (error) {
