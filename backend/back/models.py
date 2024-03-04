@@ -1,19 +1,15 @@
-import datetime
 from django.db import models
-from django.utils import timezone
-from django.contrib import admin
 
 class User(models.Model):
-    username = models.CharField(max_length=50)
-    pseudo = models.CharField(max_length=50)
+    aliasname = models.CharField(max_length=15, default='')
+    username = models.CharField(max_length=15)
+    pseudo = models.CharField(max_length=15)
     password = models.CharField(max_length=200, null=True)
     register = models.BooleanField(default=False)
     secret_2auth = models.CharField(max_length=100)
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)
     token_jwt = models.CharField(max_length=1000, default='')
-    wins = models.SmallIntegerField(default=0)
-    loses = models.SmallIntegerField(default=0)
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")

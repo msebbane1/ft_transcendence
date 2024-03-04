@@ -41,7 +41,6 @@ const Profil = () => {
             setlistFriend({"message": ""});
           else
             setlistFriend(response.data);
-          console.log('FRIENDS:', response.data);
       }).catch((error) => {
           setError(error.message);
       });
@@ -66,7 +65,6 @@ const Profil = () => {
             setListGames({'message': ''});
           else
             setListGames(res_match_histo.data);
-          console.log('MATCH', res_match_histo);
       }).catch((error) => {
         setError(error.message);
       });
