@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 import requests
 import os
 from django.http import HttpResponse
-from .models import User, GamePong, GameTTT, Avatar
+from .models import User, GamePong, GameTTT, Tournament, Avatar
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
@@ -238,11 +238,32 @@ def checkalias(request):
 def begintournament(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        creator_t = data.get('creator')
         playersUsers = data.get('playersUser')
         playersAlias = data.get('playersAlias')
-        tournamentID = 1
+
+        try:
+            trnmt = Tournament.objects.create(
+                 creator = User.objects.get(username=creator_t),
+                 title = f'{creator_t}\'s tournament',
+                 list_player_user = ','.join([username for username in playersUsers]),
+                 list_player_alias = ','.join([alias for alias in playersAlias]),
+             )
+            trnmt.save()
+            for guest in playersAlias:
+                try:
+                    User.objects.get(aliasname=guest)
+                except User.DoesNotExist:
+                    user_tmp = User.objects.create(
+                        aliasname = guest,
+                        username='',
+                        pseudo='',
+                    )
+                    user_tmp.save()
+        except :
+            return JsonResponse({'error': 'Error happened when prepared Tournament.'}, status=400)
         return JsonResponse({
-            'tournamentID': tournamentID
+            'tournamentID': trnmt.id
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -254,7 +275,55 @@ def updatetournament(request):
         tournamentID = data.get('tournamentID')
         player1 = data.get('p1')
         player2 = data.get('p2')
-        winner = data.get('winnerN')
+        winnerG = data.get('winnerN')
+
+        try:
+            p1 = User.objects.get(username=player1)
+        except User.DoesNotExist:
+            p1 = User.objects.get(aliasname=player1)
+
+        try:
+            p2 = User.objects.get(username=player2)
+        except User.DoesNotExist:
+            p2 = User.objects.get(aliasname=player2)
+
+        loserG = p1
+        wG = p2
+        if player1 == winnerG:
+            loserG = p2
+            wG = p1
+
+        gp = GamePong(
+            score = "1-0",
+            winner = wG,
+            loser = loserG,
+            tournament = tournamentID,
+            date = datetime.now().strftime("%d/%m/%Y %H:%M"),
+        )
+        gp.save()
+
+        return JsonResponse({
+            'tournamentID': tournamentID
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def endtournament(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        tournamentID = data.get('tournamentID')
+        winnerG = data.get('winnerN')
+        try:
+            t = Tournament.objects.get(id=tournamentID)
+            try:
+                u = User.objects.get(username=winnerG)
+            except User.DoesNotExist:
+                u = User.objects.get(aliasname=winnerG)
+            t.winner_t = u
+            t.save()
+        except Tournament.DoesNotExist:
+            return (JsonResponse({'error', 'Tournament does not exist.'}, status=400))
         return JsonResponse({
             'tournamentID': tournamentID
         })

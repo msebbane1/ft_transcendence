@@ -383,7 +383,6 @@ const PongGame = () => {
       axios.post('https://localhost:8080/api/pong2phistory/', {
           p1,
           p2,
-          winnerN,
           p1score,
           p2score,
           p2State,

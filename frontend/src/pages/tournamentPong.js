@@ -33,6 +33,7 @@ var colorsArrows = {
 const createTournament = () => {
 
   axios.post('https://localhost:8080/api/begintournament/', {
+      creator: playersUser[0],
       playersUser,
       playersAlias,
     })

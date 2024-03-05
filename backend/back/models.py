@@ -13,8 +13,6 @@ class User(models.Model):
     has_2auth = models.BooleanField(default=False)
     token_auth = models.CharField(max_length=100)
     token_jwt = models.CharField(max_length=1000, default='')
-    wins = models.SmallIntegerField(default=0)
-    loses = models.SmallIntegerField(default=0)
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
