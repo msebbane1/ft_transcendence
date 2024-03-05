@@ -30,7 +30,6 @@ const Settings = () => {
 return (
 
 	<>
-	<Navbar refreshProfilePicture={refreshProfilePicture} />
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/}
         <div>
           {/* Section Titre Settings */}
