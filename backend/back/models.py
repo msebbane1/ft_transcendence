@@ -5,8 +5,8 @@ from django.contrib import admin
 
 class User(models.Model):
     aliasname = models.CharField(max_length=15, default='')
-    username = models.CharField(max_length=50)
-    pseudo = models.CharField(max_length=50)
+    username = models.CharField(max_length=15)
+    pseudo = models.CharField(max_length=15)
     password = models.CharField(max_length=200, null=True)
     register = models.BooleanField(default=False)
     secret_2auth = models.CharField(max_length=100)
@@ -19,7 +19,6 @@ class User(models.Model):
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
     friends = models.ManyToManyField('self', through='Friendship' ,symmetrical=False)
-    #aliasname = models.CharField(max_length=15, default='')
 
     def __str__(self):
         output = f"Pseudo: {self.pseudo} ; 2auth: {self.has_2auth}"

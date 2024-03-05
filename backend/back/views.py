@@ -11,7 +11,7 @@ from django.views.decorators.http import require_POST
 import requests
 import os
 from django.http import HttpResponse
-from .models import User, Avatar
+from .models import User, GamePong, GameTTT, Avatar
 from django.core.files.base import ContentFile
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.hashers import make_password, check_password
@@ -274,6 +274,51 @@ def endtournament(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
+def ttt2phistory(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        player1 = data.get('p1')
+        player2 = data.get('p2')
+        p2State = data.get('p2State')
+        gameState = data.get('gameState')
+        winnerG = data.get('winnerN')
+
+        p1 = User.objects.get(username=player1)
+        if (p2State == 'Alias' or p2State == 'IA'):
+            try:
+                p2 = User.objects.get(aliasname=player2)
+            except User.DoesNotExist:
+                p2 = User.objects.create(
+                    aliasname=player2,
+                    username='',
+                    pseudo='',
+                )
+        else:
+            p2 = User.objects.get(username=player2)
+
+        w = p2
+        l = p1
+        if gameState != "draw" and player1 == winnerG:
+            w = p1
+            l = p2
+
+        gt = GameTTT.objects.create(
+            is_draw = True if gameState == "draw" else False,
+            draw_user1 = p1 if gameState == "draw" else None,
+            draw_user2 = p2 if gameState == "draw" else None,
+            winner = w if gameState != "draw" else None,
+            loser = l if gameState != "draw" else None,
+            date = datetime.now().strftime("%d/%m/%Y %H:%M"),
+        )
+        gt.save()
+        return (JsonResponse({
+            'player1', player1
+        }))
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
 def pong2phistory(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -282,8 +327,40 @@ def pong2phistory(request):
         p1score = data.get('p1score')
         p2score = data.get('p2score')
         p2State = data.get('p2State')
-        winner = data.get('winnerN')
+        winnerG = data.get('winnerN')
+
+        p1 = User.objects.get(username=player1)
+        if (p2State == 'Alias' or p2State == 'IA'):
+            try:
+                p2 = User.objects.get(aliasname=player2)
+            except User.DoesNotExist:
+                p2 = User.objects.create(
+                    aliasname=player2,
+                    username='',
+                    pseudo='',
+                )
+        else:
+            p2 = User.objects.get(username=player2)
+
+        w = p2
+        l = p1
+        if player1 == winnerG:
+            w = p1
+            l = p2
+
+        res = f"{p1score}-{p2score}"
+        if p1score<p2score:
+            res = f"{p2score}-{p1score}"
+
+        gp = GamePong(
+            score = res,
+            winner = w,
+            loser = l,
+            date = datetime.now().strftime("%d/%m/%Y %H:%M"),
+        )
+        gp.save()
         return JsonResponse({
+            # 'message': f'Game has been saved. GG to {w.username if w.username != '' else w.aliasname}',
             'player1': player1
         })
     else:
@@ -302,16 +379,72 @@ def pong3phistory(request):
         p2state = data.get('p2state')
         p3state = data.get('p3state')
         winner = data.get('winnerN')
+
+        p1 = User.objects.get(username=player1)
+        if (p2state == 'Alias'):
+            try:
+                p2 = User.objects.get(aliasname=player2)
+            except User.DoesNotExist:
+                p2 = User.objects.create(
+                    aliasname=player2,
+                    username='',
+                    pseudo='',
+                )
+        else:
+            p2 = User.objects.get(username=player2)
+        if (p3state == 'Alias'):
+            try:
+                p3 = User.objects.get(aliasname=player2)
+            except User.DoesNotExist:
+                p3 = User.objects.create(
+                    aliasname=player3,
+                    username='',
+                    pseudo='',
+                )
+        else:
+            p3 = User.objects.get(username=player3)
+
+        tab = [p1score, p2score, p3score]
+        tab = tab.sort(reverse=True)
+
+        w = p3
+        l = 'p3'
+        if player1 == winner:
+            w = p1
+            l = 'p1'
+        elif player2 == winner:
+            w = p2
+            l = 'p2'
+
+        if l == 'p1':
+            l1 = p3
+            l2 = p2
+            if p2score > p3score:
+                l1 = p2
+                l2 = p3
+        elif l == 'p2':
+            l1 = p3
+            l2 = p1
+            if p1score > p3score:
+                l1 = p1
+                l2 = p3
+        elif l == 'p3':
+            l1 = p2
+            l2 = p1
+            if p1score > p2score:
+                l1 = p1
+                l2 = p2
+
+        gp = GamePong.objects.create(
+            score = f"{tab[0]}-{tab[1]}-{tab[2]}",
+            winner = w,
+            loser = l1,
+            loser1 = l2,
+            date = datetime.now().strftime("%d/%m/%Y %H:%M"),
+        )
+        gp.save()
         return JsonResponse({
             'player1': player1
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
-
-################### STATS JOUEUR ##################
-
-# @csrf_exempt
-# def winrate(request):
-#     if request.method == 'POST':
-#         data = json.loads(request.body)
-#         u = data.get('username')
