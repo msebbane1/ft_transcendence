@@ -24,7 +24,7 @@ const QrCode = (props) => {
             "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            username: user.get("username"),
+            pseudo: user.get("pseudo"),
             secret: user.get("2FA_secret")
           })
         });

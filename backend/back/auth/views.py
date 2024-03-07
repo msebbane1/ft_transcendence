@@ -157,6 +157,8 @@ def signup(request):
             return JsonResponse({'error': 'Username already exists'}, status=400)
         if existing_users.exists():
             return JsonResponse({'error': 'L\'utilisateur existe déja, veuillez en choisir un autre'}, status=400)
+        if not username.isalpha():
+            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
         if len(username) < 5:
             return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
         if len(username) > 10:
@@ -196,7 +198,8 @@ def signin(request):
             user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
             return JsonResponse({'error': 'L\'utilisateur n\'existe pas'}, status=400)
-
+        if not username.isalpha():
+            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
         if not user.password:
                 return JsonResponse({'error': 'Connexion non autorisée, Veuillez vous connecter via 42'}, status=400)
         elif not check_password(password, user.password):
@@ -323,10 +326,10 @@ def disable_2fa(request):
 def get_qrcode(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        username = data.get('username')
+        pseudo = data.get('pseudo')
         secret = data.get('secret')
 
-        image_content = qrcode_generator(username, secret)
+        image_content = qrcode_generator(pseudo, secret)
         buffer = base64.b64decode(image_content)
 
         response = HttpResponse(buffer, content_type="image/png")
@@ -351,3 +354,24 @@ def get_jwt_token(request, id):
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+def get_jwt_tokenCookies(request, id):
+    if request.method == 'POST':
+        try:
+            user = User.objects.get(id=id)
+            if user.token_jwt:
+                response = JsonResponse({'jwt_token': user.token_jwt})
+                
+                response.set_cookie('jwt', user.token_jwt, httponly=True)
+                #cookies.set('jwt', jwt, { path: '/', httpOnly: true, sameSite: 'None', secure: true });
+                
+                return response
+            else:
+                return JsonResponse({'error': 'no jwt token'}, status=404)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+

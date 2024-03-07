@@ -71,7 +71,7 @@ const SignUpPage = () => {
 		
 	   {error && <p className="text-danger">{error}</p>}
           <form onSubmit={handleSubmit}>
-      	    <label class="control-label"  for="username">Username</label>
+      	    <label className="control-label"  htmlFor="username">Username</label>
             <div className="form-group input-group mb-3">
               <input 
                 className="form-control" 
@@ -81,7 +81,7 @@ const SignUpPage = () => {
                 onChange={(e) => setUsername(e.target.value)}
               />
             </div>
-	  <label class="control-label" for="password">Password</label>
+	  <label className="control-label" htmlFor="password">Password</label>
             <div className="form-group input-group mb-3">
               <input 
                 className="form-control" 
@@ -91,7 +91,7 @@ const SignUpPage = () => {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-		 <label class="control-label"  for="password_confirm">Password (Confirm)</label>
+		 <label className="control-label"  htmlFor="password_confirm">Password (Confirm)</label>
             <div className="form-group input-group mb-3">
               <input 
                 className="form-control" 

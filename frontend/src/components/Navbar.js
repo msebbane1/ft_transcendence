@@ -9,10 +9,10 @@ import ProfilePictureNav from './ProfilePictureNav';
 
 function NavBar() {
   const user = useUser("user");
-  const imageProfile = user.get("Profilepic");
   const navigate = useNavigate();
   const [showModal, setShowModal] = React.useState(false);
   const [profilePictureKey, setProfilePictureKey] = useState(0);
+  
 
   const refreshProfilePicture = () => {
     setProfilePictureKey(prevKey => prevKey + 1);
@@ -30,10 +30,10 @@ function NavBar() {
         </p>
       </div>
       <Link to="/home">Home</Link>
-      <Link to="/profile">Profile</Link> 
-      <Link to="/settings">Settings</Link>
+      <a href="/profile">Profile</a> 
+      <a href="/settings">Settings</a>
       <div className="logout-link" onClick={openModal}></div>
-      <div class="img-fluid">
+      <div className="img-fluid">
         < ProfilePictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>
 	  {/*<div className="status-indicator"></div>*/}
       </div>

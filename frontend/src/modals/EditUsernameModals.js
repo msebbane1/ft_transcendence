@@ -35,6 +35,7 @@ const EditUsernameModal = ({ setUsername }) => {
       if (response.data) {
         user.set('username', newUsername);
         setUsername(newUsername);
+        //refreshUsername();
         setNewUsername('');
         handleCloseModal();
       }

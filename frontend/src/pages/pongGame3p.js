@@ -394,6 +394,8 @@ const pongPad3p = (playerPosition) => {
     let animId;
   
     const update = () => {
+      user.set("pongAccess", 'fin');
+      console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
   

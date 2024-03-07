@@ -30,8 +30,8 @@ const TwoFactorAuth = () => {
          <div className="container2FA">
 	    <div className="authContainer">
             {loading ? (
-                <div class="loading-2FA">
-      		<p class="loading-2FA-text" >Authentification en cours...</p>
+                <div className="loading-2FA">
+      		<p className="loading-2FA-text" >Authentification en cours...</p>
     		</div>
             ) : (
                 <div>

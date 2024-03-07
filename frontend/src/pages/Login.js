@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'animate.css/animate.min.css';
 import SignInModals from '../modals/SignInModals';
 import { handleAuthentification42 } from '../components/LoginHandleAuth42';
+import { RedirectLogin } from '../components/RedirectApp';
 
 const LoginPage = () => {
   const user = useUser("user");
@@ -18,27 +19,9 @@ const LoginPage = () => {
     handleAuthentification42(user, setLoading);
   }, []);
 
-  useEffect(() => { 
-    const code2FA_is_activate = user.get("status_2FA");
-    const connected = user.has("access_token");
-    const code2FA_is_valid = user.get("2FA_valid");
-    const not_2FA = !code2FA_is_activate || code2FA_is_valid;
-    
-    console.log("2FA auth: ", not_2FA);
-    console.log("2FA Secret =", user.has("2FA_secret"));
-    console.log("1ere connection :", user.get("first_access"));
-    console.log("User connected :", user.has("access_token"));
-
-    if (connected && not_2FA){
-	        setTimeout(() => {
-		          navigate("/home");
-	        }, 1000)
-    }
-
-    if (connected && !not_2FA) {
-      	navigate("/2fa");
-    }
-  }, [user]);
+  if (user.has("access_token")) {
+    return <RedirectLogin user={user}/>;
+  }
 
 return (
     <div>

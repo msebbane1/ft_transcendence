@@ -58,7 +58,7 @@ const SignInModals = () => {
 
       <Modal show={showModal} onHide={handleClose} className="custom-modal rounded">
         <Modal.Header className="p-4 text-center">
-          <Modal.Title class=" w-100 fw-bold mb-2 text-uppercase" style={{ fontSize: '30px' }}>LOGIN</Modal.Title>
+          <Modal.Title className=" w-100 fw-bold mb-2 text-uppercase" style={{ fontSize: '30px' }}>LOGIN</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <p className="text-center">Please enter your login and password!</p>
@@ -66,7 +66,7 @@ const SignInModals = () => {
           <Form onSubmit={handleSubmit}>
 		
 	  <label>Username</label>
-            <Form.Group class= "mb-4">
+            <Form.Group className= "mb-4">
               <Form.Control
                 type="text"
                 placeholder="Username"
@@ -77,7 +77,7 @@ const SignInModals = () => {
             </Form.Group>
 	  
             <label className="control-label" htmlFor="password">Password</label>
-            <Form.Group class= "mb-4">
+            <Form.Group className= "mb-4">
               <Form.Control
                 type="password"
                 placeholder="Password"
@@ -88,10 +88,10 @@ const SignInModals = () => {
 
 
 	  <button className="sign-button mb-4" type="submit">SIGN IN</button>
-	   <p class="mb-0">Don't have an account? <a href="signup" class="text-white-50 fw-bold">Sign Up</a>
+	   <p className="mb-0">Don't have an account? <a href="signup" className="text-white-50 fw-bold">Sign Up</a>
 	  </p>
 		<p className="divider-text">
-		<span class="bg-dark mask-custom" style={{ padding: '0px' }} >OR</span>
+		<span className="bg-dark mask-custom" style={{ padding: '0px' }} >OR</span>
 	         </p>
 	  {/*//  <hr class="my-4"></hr>*/}
 	  

@@ -37,6 +37,9 @@ const Login2p = () => {
       })
       .then(response => {
         const data = response.data;
+        user.set("pongAccess", 'pongv2');
+        console.log("access dans choix = ", user.get("pongAccess"));
+        
         setUsername('');
         setPassword('');
         setLoginMethod('');
@@ -64,6 +67,8 @@ const Login2p = () => {
       })
       .then(response => {
         const data = response.data;
+        user.set("pongAccess", 'pongtournament');
+        console.log("access dans choix = ", user.get("pongAccess"));
         setUsername('');
         setPassword('');
         setLoginMethod('');

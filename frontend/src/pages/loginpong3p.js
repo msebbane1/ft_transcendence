@@ -40,6 +40,9 @@ const Login3p = () => {
       })
       .then(response => {
         const data = response.data;
+        user.set("pongAccess", 'pongv3');
+        console.log("access dans choix = ", user.get("pongAccess"));
+
         setUsername('');
         setPassword('');
         setLoginMethod('');
@@ -67,6 +70,8 @@ const Login3p = () => {
     })
     .then(response => {
       const data = response.data;
+      user.set("pongAccess", 'pongtournament');
+      console.log("access dans choix = ", user.get("pongAccess"));
       setUsername('');
       setPassword('');
       setLoginMethod('');

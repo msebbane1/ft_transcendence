@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
   return (
-    <div class="container-home">
+    <div className="container-home">
 	  {/* <Link to="/play" className="centered-container blinking-text">
           PLAY
         </Link>*/}

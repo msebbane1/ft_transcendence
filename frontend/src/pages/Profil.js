@@ -2,20 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Profil.css';
 import useUser from '../hooks/useUserStorage';
-import { Link } from 'react-router-dom';
 import { Modal, Button, Alert, Form, Table } from 'react-bootstrap';
 import ProfilePicture from '../components/ProfilePicture';
 import "./Settings.css"
-/*MODALS*/
-import TwoFA from '../modals/TwoFAModals';
+
 
 const Profil = () => {
   const user = useUser("user");
-  const [profileData, setProfileData] = useState(null);
   const [error, setError] = useState(null);
-  const [profilePicture, setProfilePicture] = useState('');
-  const [profilePictureURL, setProfilePictureURL] = useState(user.get("Profilepic"));
-  const [imageUrl, setImageUrl] = useState('');
 
   const [showModal, setShowModal] = useState(false);
   const [baliseTexte, setBaliseTexte] = useState('');
@@ -23,6 +17,10 @@ const Profil = () => {
   const [listFriend, setlistFriend] = useState('');
   const [statsGames, setStatsGames] = useState('');
   const [listGames, setListGames] = useState('');
+ 
+
+  console.log("username(profil): ", user.get("username"));
+
 
   const   handleShowModal = () => setShowModal(true);
   const   handleCloseModal = () => setShowModal(false);
@@ -140,7 +138,7 @@ const Profil = () => {
                 <div className="col text-center position-relative">
 		              <div className="position-relative">
 
-		                <ProfilePicture/>
+		                <ProfilePicture />
 
                     <Modal show={showModal} onHide={handleCloseModal}>
                         <Modal.Header closeButton>

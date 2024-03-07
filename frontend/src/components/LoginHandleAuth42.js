@@ -12,21 +12,18 @@ export const handleAuthentification42 = async (user, setLoading) => {
       const response = await axios.post(`${protocol}//${hostname}:8080/api/auth/login42/`,
         { code },
         {
+          method: "POST",
           headers: {
             'Content-Type': 'application/json',
           },
         }
       );
       const data = response.data;
-      //const accessToken = response.data.access_token;
-
       user.setAll(data);
-      //console.log("token1:", accessToken);
+      
     } catch (error) {
       console.error('Error while fetching access token:', error);
     }
-  } else {
-    console.error('No code parameter found in the URL.');
   }
 };
 

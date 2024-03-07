@@ -42,6 +42,9 @@ const Tournament = () => {
       })
       .then(response => {
         const data = response.data;
+        user.set("pongAccess", 'pongtournament');
+        console.log("access dans choix = ", user.get("pongAccess"));
+
         setUsername('');
         setPassword('');
         setLoginMethod('');
@@ -69,6 +72,8 @@ const Tournament = () => {
     })
     .then(response => {
       const data = response.data;
+      user.set("pongAccess", 'pongtournament');
+      console.log("access dans choix = ", user.get("pongAccess"));
       setUsername('');
       setPassword('');
       setLoginMethod('');

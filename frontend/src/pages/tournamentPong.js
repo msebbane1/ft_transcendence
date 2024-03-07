@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import useUser from "../hooks/useUserStorage";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import "./pongGame.css"
@@ -33,7 +34,7 @@ var colorsArrows = {
 const createTournament = () => {
 
   axios.post('https://localhost:8080/api/begintournament/', {
-      creator: playersUser[0],
+      creator:playersUser[0],    
       playersUser,
       playersAlias,
     })
@@ -117,6 +118,8 @@ const setupTournament = () => {
 
 // PONG GAME  A LANCER UNE FOIS TOUT SETU
 const TournamentPong = () => {
+  
+  const user = useUser("user");
   if(x == 0)
   {
     setupTournament();
@@ -439,6 +442,8 @@ const playerMove = () => {
     const targetFPS = 200;
     const frameInterval = 1 / targetFPS;
     const update = () => {
+      user.set("pongAccess", 'fin');
+      console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
       if (deltaTime >= frameInterval) {

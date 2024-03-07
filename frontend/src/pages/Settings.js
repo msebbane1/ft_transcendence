@@ -16,27 +16,35 @@ import EditPasswordModals from '../modals/EditPasswordModals';
 const Settings = () => {
   const user = useUser("user");
   const [error, setError] = useState('');
-  const [username, setUsername] = useState(user.get("username"));
-  const [profilePictureKey, setProfilePictureKey] = useState(0);
+  //const [username, setUsername] = useState(user.get("username"));
+  const [userData, setUserData] = useState({
+    username: user.get("username"),
+    profilePictureKey: 0
+  });
 
-  const refreshProfilePicture = () => {
-    setProfilePictureKey(prevKey => prevKey + 1);
+  console.log("username(settings1): ", userData.username);
+
+  const updateUserProfile = (newUsername, newProfilePictureKey) => {
+    user.set("username", newUsername);
+    setUserData(prevData => ({
+      ...prevData,
+      username: newUsername,
+      profilePictureKey: newProfilePictureKey
+    }));
   };
-  console.log("username(settings): ", user.get("avatar_update"));
-  console.log("avatarurl(settings): ", user.get("Profilepic"));
-  console.log("settings(image variable) ==== ", localStorage.getItem("image"));
 
 
 return (
 
 	<>
+   
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/}
         <div>
           {/* Section Titre Settings */}
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-settings"></div>
-              <p class="title-profile-settings">SETTINGS</p>
+              <p className="title-profile-settings">SETTINGS</p>
              </div>
             </div>
 
@@ -45,17 +53,17 @@ return (
               <div className="col text-center">
                <div className="position-relative">
 
-			      <ProfilePicture key={profilePictureKey} refreshImage={refreshProfilePicture} />
+			      <ProfilePicture key={userData.profilePictureKey} refreshImage={() => updateUserProfile(userData.username, userData.profilePictureKey + 1)} />
             			
                 </div>
-                <p className="profile-info-text">@{username}</p>
+                <p className="profile-info-text">@{userData.username}</p>
 	{/*<p class="profile-info-text" >{user.get("status_2FA") ? "2FA: On" : "2FA: Off"}</p>*/}
               </div>
              </div>
               {/* Section Titre User */}
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-profile"></div>
-              <p class="title-profile">AVATAR/USERNAME</p>
+              <p className="title-profile">AVATAR/USERNAME</p>
              </div>
 
 
@@ -63,10 +71,11 @@ return (
           <div className="row mb-2">
   	   <div className="col text-center">
             <div className="d-inline-block">
-            <EditUsernameModals setUsername={setUsername}/>
+            <EditUsernameModals  setUsername={newUsername => updateUserProfile(newUsername, userData.profilePictureKey)} />
+
             </div>
              <div className="d-inline-block mx-2">
-             <EditAvatarModals refreshProfilePicture={refreshProfilePicture} />
+             <EditAvatarModals refreshProfilePicture={() => updateUserProfile(userData.username, userData.profilePictureKey + 1)} />
              </div>
             </div>
           </div>
@@ -74,7 +83,7 @@ return (
 
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-key"></div>
-              <p class="title-profile"> PASSWORD TOURNAMENT </p>
+              <p className="title-profile"> PASSWORD TOURNAMENT </p>
              </div>
 
           {/* Section password tournament */}
@@ -88,7 +97,7 @@ return (
 
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-secure"></div>
-              <p class="title-profile">TWO-FACTOR-AUTH</p>
+              <p className="title-profile">TWO-FACTOR-AUTH</p>
              </div>
 
           {/* Section 2FA */}

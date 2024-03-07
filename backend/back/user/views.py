@@ -92,7 +92,7 @@ def create_password_tournament(request, id):
 #################################################### PROFILE PICTURE ####################################
 
 def get_avatar(request, id, avatar_id):
-    
+  
     try:
         user = User.objects.get(id=id)
         avatar = get_object_or_404(Avatar, id=avatar_id)

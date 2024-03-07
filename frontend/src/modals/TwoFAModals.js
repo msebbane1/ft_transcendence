@@ -89,9 +89,9 @@ const TwoFAModals = () => {
                   <div className="card-body px-lg-5 py-lg-5 text-center">
                     <QrCode size="200px" />
                     <h2 className="text-info">2FA Security</h2>
-	  	    <p className="mb-4"><p>
+	  	    <p className="mb-4">
                 {user.get("status_2FA") ? "Two-factor authentication is enabled" : 
-			"Saisissez le code à 6 chiffres généré par votre app Google Authentificator."}</p></p>
+			"Saisissez le code à 6 chiffres généré par votre app Google Authentificator."}</p>
 	  	    
               {/* QR Code Validator Section */}
               {error && <Alert variant="danger">{error}</Alert>}

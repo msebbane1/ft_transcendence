@@ -1,20 +1,15 @@
-import React, { useEffect} from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { RedirectPublic } from '../components/RedirectApp';
 import useUser from '../hooks/useUserStorage';
 
-const PublicRoute = ({children}: {children: JSX.Element}) => {
-        const user = useUser("user");
-        const navigate = useNavigate();
-
-        useEffect(() => {
-		const two_factor_auth_is_activate = user.get("status_2FA");
-		const two_factor_auth_is_valid = user.get("2FA_valid");
-		const not_2FA = !two_factor_auth_is_activate || two_factor_auth_is_valid;
-		if ((user.has("access_token") || user.get("register")) && not_2FA)
-			navigate("/home");
-        }, [])
-
-        return <>{children}</>;
-}
+const PublicRoute = ({ children }) => {
+	const user = useUser("user");
+  return (
+    <>
+      <RedirectPublic user={user} />
+      {children}
+    </>
+  );
+};
 
 export default PublicRoute;
