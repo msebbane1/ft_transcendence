@@ -196,18 +196,8 @@ def signintournament(request):
         user.status = "online"
         user.save()
         return JsonResponse({
-            'id': user.id,
-            'register': user.register,
             'username': user.username,
             'pseudo': user.pseudo,
-            '2FA_secret': user.secret_2auth,
-            '2FA_valid': False,
-            'status_2FA': user.has_2auth,
-            'wins': user.wins,
-            'avatar_id': user.avatar.id,
-            'avatar_update': user.avatar.avatar_update,
-            'status': user.status,
-            'loses': user.loses
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -218,9 +208,6 @@ def checkalias(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         username = data.get('username')
-        # userExist = User.objects.get(username=username)
-        # if(userExist)
-        #     return JsonResponse({'error': 'Someone already\'s using this Pseudo'}, status=400)
         if len(username) < 5:
             return JsonResponse({'error': 'The alias must contain at least 5 characters'}, status=400)
         if len(username) > 10:
@@ -244,11 +231,11 @@ def begintournament(request):
 
         try:
             trnmt = Tournament.objects.create(
-                 creator = User.objects.get(username=creator_t),
-                 title = f'{creator_t}\'s tournament',
-                 list_player_user = ','.join([username for username in playersUsers]),
-                 list_player_alias = ','.join([alias for alias in playersAlias]),
-             )
+                creator = User.objects.get(username=creator_t),
+                title = f'{creator_t}\'s tournament',
+                list_player_user = ','.join([username for username in playersUsers]),
+                list_player_other = ','.join([alias for alias in playersAlias]),
+             ) 
             trnmt.save()
             for guest in playersAlias:
                 try:
@@ -276,7 +263,7 @@ def updatetournament(request):
         player1 = data.get('p1')
         player2 = data.get('p2')
         winnerG = data.get('winnerN')
-
+        tournament = Tournament.objects.get(id=tournamentID)
         try:
             p1 = User.objects.get(username=player1)
         except User.DoesNotExist:
@@ -297,11 +284,10 @@ def updatetournament(request):
             score = "1-0",
             winner = wG,
             loser = loserG,
-            tournament = tournamentID,
+            tournament = tournament,
             date = datetime.now().strftime("%d/%m/%Y %H:%M"),
         )
         gp.save()
-
         return JsonResponse({
             'tournamentID': tournamentID
         })
@@ -330,28 +316,17 @@ def endtournament(request):
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
-@csrf_exempt
-def endtournament(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        tournamentID = data.get('tournamentID')
-        Winner = data.get('winnerN')
-        return JsonResponse({
-            'tournamentID': tournamentID
-        })
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 @csrf_exempt
-def ttt2phistory(request):
+def ttthistory(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         player1 = data.get('p1')
         player2 = data.get('p2')
+
         p2State = data.get('p2State')
         gameState = data.get('gameState')
-        winnerG = data.get('winnerN')
-
+        winnerG = data.get('winningPlayer')
         p1 = User.objects.get(username=player1)
         if (p2State == 'Alias' or p2State == 'IA'):
             try:
@@ -370,7 +345,6 @@ def ttt2phistory(request):
         if gameState != "draw" and player1 == winnerG:
             w = p1
             l = p2
-
         gt = GameTTT.objects.create(
             is_draw = True if gameState == "draw" else False,
             draw_user1 = p1 if gameState == "draw" else None,
@@ -410,7 +384,7 @@ def pong2phistory(request):
                 )
         else:
             p2 = User.objects.get(username=player2)
-
+        p2.save()
         w = p2
         l = p1
         if player1 == winnerG:
@@ -472,7 +446,8 @@ def pong3phistory(request):
                 )
         else:
             p3 = User.objects.get(username=player3)
-
+        p2.save()
+        p3.save()
         tab = [p1score, p2score, p3score]
         tab = tab.sort(reverse=True)
 
@@ -517,3 +492,18 @@ def pong3phistory(request):
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+################################################### TTTHISTORY #############################################
+
+# @csrf_exempt
+# def ttthistory(request):
+#     if request.method == 'POST':
+#         data = json.loads(request.body)
+#         lost = data.get('loser')
+#         won = data.get('winningPlayer')
+#         return JsonResponse({
+#             'lost' : lost
+#         })
+#     else:
+#         return JsonResponse({'error': 'Invalid request method'}, status=400)

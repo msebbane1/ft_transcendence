@@ -20,7 +20,7 @@ const matchType = "";
 var  matches = [];
 var  players = [];
 var winnerN = "";
-var tournamentID  = "23";
+var tournamentID;
 var maxSpeed = 25;
 var x = 0;
 var colorsArrows = {
@@ -442,8 +442,8 @@ const playerMove = () => {
     const targetFPS = 200;
     const frameInterval = 1 / targetFPS;
     const update = () => {
-      user.set("pongAccess", 'fin');
-      console.log("access dans choix = ", user.get("pongAccess"));
+      // user.set("pongAccess", 'fin');
+      // console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
       if (deltaTime >= frameInterval) {

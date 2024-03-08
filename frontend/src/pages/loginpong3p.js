@@ -47,7 +47,7 @@ const Login3p = () => {
         setPassword('');
         setLoginMethod('');
         if(username && areValuesUnique(userArray[0][1], userArray[1][1], userArray[2][1], data.username)) {
-          localStorage.setItem(toadd, data.username+"@+User");
+          localStorage.setItem(toadd, data.username+"@+Alias");
           userArray[playerN-1][1] = data.username;
           playerN += 1;
           console.log(userArray);
