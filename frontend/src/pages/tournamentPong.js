@@ -75,6 +75,7 @@ const updateTournament = () => { //score gagnant perdant IDtournoi (update mid) 
 const endTournament = () => {
 
       axios.post('https://localhost:8080/api/endtournament/', {
+        playersUser,
         tournamentID,
         winnerN,
       })

@@ -38,7 +38,7 @@ const Profil = () => {
           if (response.data.error)
             setlistFriend({"message": ""});
           else
-            setlistFriend(response.data);
+            setlistFriend(response.data.message);
       }).catch((error) => {
           setError(error.message);
       });
@@ -71,21 +71,19 @@ const Profil = () => {
 
   const handleSubmitAdd = async () => {
         try {
-            const response = await axios.post('https://localhost:8080/api/addFriend', 
-            {
-                user_to_add: baliseTexte,
-                username: user.get('username')
-            });
-            
-            if (response.data.message)
-            {
-              setlistFriend({"message": listFriend.message + ',' + baliseTexte});
-              setPopupInfo({message: response.data.message, variant: 'success'});
-            }
-            else
-                setPopupInfo({message: response.data.error, variant: 'danger'})
-            setBaliseTexte('');
-            handleCloseModal();
+          const response = await axios.post('https://localhost:8080/api/addFriend', 
+          {
+              user_to_add: baliseTexte,
+              username: user.get('username')
+          });
+          
+          if (response.data.message)
+            setPopupInfo({message: response.data.message, variant: 'success'});
+          else
+            setPopupInfo({message: response.data.error, variant: 'danger'})
+          setBaliseTexte('');
+          handleCloseModal();
+          setTimeout(() => {window.location.reload();}, 2000);
         } catch (error) {
             console.error('Erreur lors de la requete au backend: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
@@ -93,22 +91,20 @@ const Profil = () => {
     };
     const handleSubmitDel = async () => {
         try {
-            const response = await axios.post('https://localhost:8080/api/delFriend', 
-            {
-                user_to_del: baliseTexte,
-                username: user.get('username')
-            });
-            
-            if (response.data.message)
-            {
-              setlistFriend({"message": listFriend.message.replace(baliseTexte, '')});
-              setPopupInfo({message: response.data.message, variant: 'success'});
-            }
-            else
-                setPopupInfo({message: response.data.error, variant: 'danger'})
-            setBaliseTexte('');
-            handleCloseModal();
-          } catch (error) {
+          const response = await axios.post('https://localhost:8080/api/delFriend', 
+          {
+              user_to_del: baliseTexte,
+              username: user.get('username')
+          });
+          
+          if (response.data.message)
+            setPopupInfo({message: response.data.message, variant: 'success'});
+          else
+              setPopupInfo({message: response.data.error, variant: 'danger'})
+          setBaliseTexte('');
+          handleCloseModal();
+          setTimeout(() => {window.location.reload();}, 2000);
+        } catch (error) {
             console.error('Erreur lors de la requete au backend: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
         }
@@ -184,9 +180,9 @@ const Profil = () => {
                     {
                       listFriend && (
                         <div>
-                          {listFriend.message.split(',').map((element, index) => (
-                            element.trim() !== '' && (
-                              <p key={index} class='text-white'>{element}</p>
+                          {listFriend.map((e, index) => (
+                            e.friend && (
+                              <p key={index} class='text-white'>{e.friend}</p>
                             )
                           ))}
                         </div>

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.db import models
 from django.utils import timezone
 from django.contrib import admin
@@ -16,6 +16,7 @@ class User(models.Model):
     avatar = models.ForeignKey('Avatar', on_delete=models.SET_NULL, null=True)
     password_tournament = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=20, default="offline")
+    limit_status = models.CharField(max_length=20, default=datetime.now().strftime("%H:%M"))
     friends = models.ManyToManyField('self', through='Friendship' ,symmetrical=False)
 
     def __str__(self):

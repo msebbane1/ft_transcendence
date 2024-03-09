@@ -71,14 +71,20 @@ def get_following(request):
         u = data.get('username')
         try:
             user = User.objects.get(username=u)
-
         except User.DoesNotExist:
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        
+        now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
         friends = user.getFollowing()
         lst_f = []
         for f in friends:
-            lst_f.append(f.username)
-        return (JsonResponse({'message': ','.join(lst_f)}, status=200))
+            dt_tmp = datetime.strptime(f.limit_status, "%H:%M")
+            diff = ((now_date - dt_tmp).seconds // 60) % 60
+            if (diff >= 5):
+                f.status = "offline"
+                f.save()
+            lst_f.append({'friend': f"{f.username}: {f.status}"})
+        return (JsonResponse({'message': lst_f}, status=200))
 
 ################### STATS JOUEUR ##################
 
@@ -141,20 +147,20 @@ def list_games(request):
                 list_games.append(
                     {
                         'type_game': 'PONG',
-                        'winner': g.winner.username,
-                        'loser': g.loser.username,
-                        'loser2': g.loser2.username if g.loser2 else '',
+                        'winner': g.winner.username if g.winner.username != '' else g.winner.aliasname,
+                        'loser': g.loser.username if g.loser.username != '' else g.loser.aliasname,
+                        'loser2': g.loser2.username if g.loser2 and g.loser2.username != '' else g.loser2.alias if g.loser2 else '',
                         'date': g.date,
                         'score': g.score,
-                        'tournament': f'{g.tournament.creator}\'s tournament' if g.tournament else '', 
+                        'tournament': f'{g.tournament.creator.username}\'s tournament' if g.tournament else '', 
                     })
             tmp = user.winnerttt.all().union(user.loserttt.all())
             for g in tmp:
                 list_games.append(
                     {
                         'type_game': 'TICTACTOES',
-                        'winner': g.winner.username,
-                        'loser': g.loser.username,
+                        'winner': g.winner.username if g.winner.username != '' else g.winner.aliasname,
+                        'loser': g.loser.username if g.loser.username != '' else g.loser.aliasname,
                         'date': g.date,
                     })
             tmp = user.draw_user1.all().union(user.draw_user2.all())
@@ -162,8 +168,8 @@ def list_games(request):
                 list_games.append(
                     {
                         'type_game': 'TICTACTOES',
-                        'draw_user1': g.draw_user1.username,
-                        'draw_user2': g.draw_user2.username,
+                        'draw_user1': g.draw_user1.username if g.draw_user1.username != '' else g.draw_user1.aliasname,
+                        'draw_user2': g.draw_user2.username if g.draw_user2.username != '' else g.draw_user2.aliasname,
                         'date': g.date,
                     }
                 )
@@ -229,13 +235,18 @@ def begintournament(request):
         playersUsers = data.get('playersUser')
         playersAlias = data.get('playersAlias')
 
+        for p in playersUsers:
+            tmp = User.objects.get(username=p)
+            tmp.status = "online"
+            tmp.save()
+
         try:
             trnmt = Tournament.objects.create(
-                creator = User.objects.get(username=creator_t),
-                title = f'{creator_t}\'s tournament',
-                list_player_user = ','.join([username for username in playersUsers]),
-                list_player_other = ','.join([alias for alias in playersAlias]),
-             ) 
+                 creator = User.objects.get(username=creator_t),
+                 title = f'{creator_t}\'s tournament',
+                 list_player_user = ','.join([username for username in playersUsers]),
+                 list_player_alias = ','.join([alias for alias in playersAlias]),
+             )
             trnmt.save()
             for guest in playersAlias:
                 try:
@@ -298,10 +309,21 @@ def updatetournament(request):
 def endtournament(request):
     if request.method == 'POST':
         data = json.loads(request.body)
+        lst_players = data.get('playersUser')
         tournamentID = data.get('tournamentID')
         winnerG = data.get('winnerN')
+
+        lst_players.pop(0)
+
         try:
             t = Tournament.objects.get(id=tournamentID)
+            t.creator.limit_status = datetime.now().strftime("%H:%M")
+            t.creator.list_players_status = lst_players
+            for p in lst_players:
+                tmp = User.objects.get(username=p)
+                tmp.status = "online"
+                tmp.limit_status = datetime.now().strftime("%H:%M")
+                tmp.save()
             try:
                 u = User.objects.get(username=winnerG)
             except User.DoesNotExist:
@@ -311,22 +333,22 @@ def endtournament(request):
         except Tournament.DoesNotExist:
             return (JsonResponse({'error', 'Tournament does not exist.'}, status=400))
         return JsonResponse({
-            'tournamentID': tournamentID
+            'lst_players': lst_players
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
 @csrf_exempt
-def ttthistory(request):
+def ttt2phistory(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         player1 = data.get('p1')
         player2 = data.get('p2')
-
         p2State = data.get('p2State')
         gameState = data.get('gameState')
-        winnerG = data.get('winningPlayer')
+        winnerG = data.get('winnerN')
+
         p1 = User.objects.get(username=player1)
         if (p2State == 'Alias' or p2State == 'IA'):
             try:
@@ -337,14 +359,22 @@ def ttthistory(request):
                     username='',
                     pseudo='',
                 )
+                p2.save()
         else:
             p2 = User.objects.get(username=player2)
+
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = 'online'
+        p2.save()
 
         w = p2
         l = p1
         if gameState != "draw" and player1 == winnerG:
             w = p1
             l = p2
+
         gt = GameTTT.objects.create(
             is_draw = True if gameState == "draw" else False,
             draw_user1 = p1 if gameState == "draw" else None,
@@ -382,9 +412,16 @@ def pong2phistory(request):
                     username='',
                     pseudo='',
                 )
+                p2.save()
         else:
             p2 = User.objects.get(username=player2)
+
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = 'online'
         p2.save()
+
         w = p2
         l = p1
         if player1 == winnerG:
@@ -433,6 +470,7 @@ def pong3phistory(request):
                     username='',
                     pseudo='',
                 )
+                p2.save()
         else:
             p2 = User.objects.get(username=player2)
         if (p3state == 'Alias'):
@@ -444,10 +482,19 @@ def pong3phistory(request):
                     username='',
                     pseudo='',
                 )
+                p3.save()
         else:
             p3 = User.objects.get(username=player3)
+
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = 'online'
         p2.save()
+        p3.limit_status = datetime.now().strftime("%H:%M")
+        p3.status = 'online'
         p3.save()
+
         tab = [p1score, p2score, p3score]
         tab = tab.sort(reverse=True)
 
