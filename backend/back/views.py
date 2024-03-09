@@ -83,7 +83,7 @@ def get_following(request):
             if (diff >= 5):
                 f.status = "offline"
                 f.save()
-            lst_f.append({'friend': f"{f.username}: {f.status}"})
+            lst_f.append({'friend': f"{f.username}", 'status': f"{f.status}"})
         return (JsonResponse({'message': lst_f}, status=200))
 
 ################### STATS JOUEUR ##################
