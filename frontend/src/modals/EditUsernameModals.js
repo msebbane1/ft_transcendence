@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import useUser from '../hooks/useUserStorage';
 import "../pages/Settings.css"
@@ -9,6 +9,7 @@ const EditUsernameModal = ({ setUsername }) => {
   const user = useUser("user");
   const [newUsername, setNewUsername] = useState('');
   const [error, setError] = useState('');
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -32,15 +33,32 @@ const EditUsernameModal = ({ setUsername }) => {
         }
       );
 
-      if (response.data) {
+      if (response.data.message) {
         user.set('username', newUsername);
         setUsername(newUsername);
         //refreshUsername();
         setNewUsername('');
-        handleCloseModal();
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+          handleCloseModal();
+        }, 2000);
       }
+      else {
+        if (response.data['empty'] === false)
+          setError("Veuillez entrer un nom d'utilisateur");
+        if (response.data['lenmin'] === false)
+          setError("Le nom d'utilisateur doit contenir au moins 5 caractères");
+        if (response.data['lenmax'] === false)
+          setError("Le nom d'utilisateur doit contenir au maximum 10 caractères");
+        if (response.data['alpha'] === false)
+          setError("Le nom d'utilisateur ne peut contenir que des lettres");
+        if (response.data['nameAlreadyUse'] === false)
+          setError("Le nom d'utilisateur est déjà utliser, veuillez en choisir un autre...");
+      setTimeout(() => setError(null), 2000);
+    }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
+      if (error.response) {
         setError(error.response.data.error);
         setTimeout(() => setError(null), 2000);
       }
@@ -65,7 +83,12 @@ const EditUsernameModal = ({ setUsername }) => {
           <Modal.Title>Modifier le nom d'utilisateur</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {error && <strong className="error-message">{error}</strong>}
+          {error && <Alert variant="danger">{error}</Alert>}
+          {showSuccessMessage && (
+            <Alert variant="success" onClose={() => setShowSuccessMessage(false)} dismissible>
+              Le pseudo a été mis à jour avec succès !
+            </Alert>
+          )}
           <Form>
             <Form.Group controlId="formNewUsername">
               <Form.Label>Nouveau nom d'utilisateur</Form.Label>

@@ -182,9 +182,11 @@ const Profil = () => {
                         <div>
                           {listFriend.map((e, index) => (
                             e.friend && (
-                              <p key={index} class='text-white'>{e.friend}: {e.status}</p>
-                            )
-                          ))}
+                              <p key={index} className='text-white'>
+                              <a href={`/profilefriends/${e.friend}`}>{e.friend}</a>
+                              </p>
+                              )
+                              ))}
                         </div>
                       )
                     }

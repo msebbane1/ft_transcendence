@@ -33,15 +33,26 @@ const EditPasswordModal = () => {
         }
       );
 
-      if (response.data) {
+      if (response.data.message) {
         setShowSuccessMessage(true);
         setTimeout(() => {
           setShowSuccessMessage(false);
           handleCloseModal();
         }, 2000);
       }
+      else{
+      if (response.data['empty'] === false)
+        setError("Veuillez entrer un mot de passe");
+      if (response.data['lenmin'] === false)
+        setError("Le mot de passe doit contenir au moins 5 caractères");
+      if (response.data['lenmax'] === false)
+        setError("Le mot de passe doit contenir au maximum 10 caractères");
+      if (response.data['repeat'] === false)
+        setError("Le mot de passe ne correspond pas");
+      setTimeout(() => setError(null), 2000);
+    }
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
+      if (error.response) {
         setError(error.response.data.error);
         setTimeout(() => setError(null), 2000);
       }

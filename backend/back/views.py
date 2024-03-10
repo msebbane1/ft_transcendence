@@ -74,17 +74,41 @@ def get_following(request):
         except User.DoesNotExist:
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
         
-        now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
+        #now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
         friends = user.getFollowing()
         lst_f = []
         for f in friends:
-            dt_tmp = datetime.strptime(f.limit_status, "%H:%M")
-            diff = ((now_date - dt_tmp).seconds // 60) % 60
-            if (diff >= 5):
-                f.status = "offline"
-                f.save()
-            lst_f.append({'friend': f"{f.username}", 'status': f"{f.status}"})
+            #dt_tmp = datetime.strptime(f.limit_status, "%H:%M")
+            #diff = ((now_date - dt_tmp).seconds // 60) % 60
+            #if (diff >= 5):
+                #f.status = "offline"
+                #f.save()
+            lst_f.append({'friend': f"{f.username}"})
         return (JsonResponse({'message': lst_f}, status=200))
+
+@csrf_exempt
+def get_user_infos(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        u = data.get('username')
+        try:
+            user = User.objects.get(username=u)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200)
+        
+        avatar_id = None
+        if user.avatar:
+            avatar_id = user.avatar.id
+        
+        user_info = {
+            'username': user.username,
+            'pseudo': user.pseudo,
+            'status': user.status,
+            'id': user.id,
+            'avatar_id': avatar_id,
+        }
+        
+        return JsonResponse({'message': user_info}, status=200)
 
 ################### STATS JOUEUR ##################
 
@@ -245,7 +269,7 @@ def begintournament(request):
                  creator = User.objects.get(username=creator_t),
                  title = f'{creator_t}\'s tournament',
                  list_player_user = ','.join([username for username in playersUsers]),
-                 list_player_alias = ','.join([alias for alias in playersAlias]),
+                 list_player_other = ','.join([alias for alias in playersAlias]),
              )
             trnmt.save()
             for guest in playersAlias:

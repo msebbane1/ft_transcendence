@@ -443,7 +443,7 @@ const playerMove = () => {
     const targetFPS = 200;
     const frameInterval = 1 / targetFPS;
     const update = () => {
-      // user.set("pongAccess", 'fin');
+      //user.set("pongAccess", 'fin');
       // console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;

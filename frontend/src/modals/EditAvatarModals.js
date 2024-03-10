@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import useUser from '../hooks/useUserStorage';
 
@@ -9,6 +9,7 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
   const [error, setError] = useState('');
   //const [profilePictureURL, setProfilePictureURL] = useState('');
   const [imageFile, setImageFile] = useState(null);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
@@ -39,21 +40,21 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
         if (response.data.image_url) {
           user.set('Profilepic', response.data.image_url);
           //setProfilePictureURL(response.data.image_url);
-	  refreshProfilePicture()
+          refreshProfilePicture()
+          setShowSuccessMessage(true);
+        setTimeout(() => {
+          setShowSuccessMessage(false);
           handleCloseModal();
-          //window.location.reload();
+        }, 2000);
+      }
+      else {
+        if (response.data['noimage'] === false)
+          setError("No image provided");
+        setTimeout(() => setError(null), 2000);
       }
     } catch (error) {
-	setError(error.response.data.error);
+	    setError(error.response.data.error);
       console.error('Error updating avatar image:', error);
-    }
-    
-  };
-
-const handleKeyDown = (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleSubmit();
     }
   };
 
@@ -68,7 +69,12 @@ const handleKeyDown = (e) => {
           <Modal.Title>Modifier l'avatar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-	 {error && <strong className="error-message">{error}</strong>}
+	      {error && <Alert variant="danger">{error}</Alert>}
+          {showSuccessMessage && (
+            <Alert variant="success" onClose={() => setShowSuccessMessage(false)} dismissible>
+              Le photo de profil a été mis à jour avec succès !
+            </Alert>
+          )}
           <form onSubmit={handleSubmit}>
             <input type="file" accept="image/*" onChange={handleImageChange} />
             <button type="submit">Update Avatar</button>

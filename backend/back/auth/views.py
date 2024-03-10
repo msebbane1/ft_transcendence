@@ -112,7 +112,7 @@ def login42(request):
                 user.save()
             
             refresh = RefreshToken.for_user(user)
-            #jwt_token = str(refresh.access_token)
+            #user.jwt_token = str(refresh.access_token) a essayer
             user.status = "online"
             user.register = False
             user.token_jwt = generate_jwt_token(user)
@@ -135,7 +135,7 @@ def login42(request):
 })
 
         except json.decoder.JSONDecodeError as e:
-            return JsonResponse({'error': 'Reponse JSON et access_token indisponible'}, status=500)
+            return JsonResponse({'error': 'Reponse JSON et access token indisponible'}, status=500)
 
     if request.method == 'GET':
         return JsonResponse({'message': 'GET request received'})

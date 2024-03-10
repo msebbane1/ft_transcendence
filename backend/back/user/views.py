@@ -34,19 +34,29 @@ def update_username(request, id):
         data = json.loads(request.body)
         new_username = data.get('username', '')
 
-        if not new_username:
-            return JsonResponse({'error': 'Veuillez entrer un nom d\'utilisateur'}, status=400)
-        if len(new_username) < 5:
-            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
-        if len(new_username) > 10:
-            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
-        if not new_username.isalpha():
-            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
-        if (usernameAlreadyUse(new_username)):
-            return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
-        if (pseudoAlreadyUse(new_username)):
-            return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
+        #if not new_username:
+        #    return JsonResponse({'error': 'Veuillez entrer un nom d\'utilisateur'}, status=400)
+        # if len(new_username) < 5:
+        #     return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
+        # if len(new_username) > 10:
+        #     return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
+        # if not new_username.isalpha():
+        #     return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
+        # if (usernameAlreadyUse(new_username)):
+        #     return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
+        # if (pseudoAlreadyUse(new_username)):
+        #     return (JsonResponse({'error': 'Le nom d\'utilisateur est déjà utliser, veuillez en choisir un autre...'}, status=400))
 
+        if not new_username:
+            return JsonResponse({'empty': False})
+        if len(new_username) < 5:
+            return JsonResponse({'lenmin': False})
+        if len(new_username) > 10:
+            return JsonResponse({'lenmax': False})
+        if not new_username.isalpha():
+            return JsonResponse({'alpha': False})
+        if (usernameAlreadyUse(new_username)) or (pseudoAlreadyUse(new_username)):
+            return (JsonResponse({'nameAlreadyUse': False}))
         try:
             user = User.objects.get(id=id)
             user.username = new_username
@@ -70,9 +80,14 @@ def create_password_tournament(request, id):
         new_password = data.get('new_password')
         repeat_new_password = data.get('repeatPassword')
 
-
+        if not new_password:
+            return JsonResponse({'empty': False})
+        if len(new_password) < 5:
+            return JsonResponse({'lenmin': False})
+        if len(new_password) > 10:
+            return JsonResponse({'lenmax': False})
         if new_password != repeat_new_password:
-            return JsonResponse({'error': 'Le mot de passe ne correspond pas'}, status=400)
+            return JsonResponse({'repeat': False})
         try:
             user = User.objects.get(id=id)
             user.password_tournament = make_password(new_password)
@@ -85,6 +100,7 @@ def create_password_tournament(request, id):
             return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 
 
@@ -129,7 +145,7 @@ def update_avatar_image(request, avatar_id):
             return JsonResponse({'message': 'Image updated successfully', 'image_url': image_url})
         
         else:
-            return JsonResponse({'error': 'No image provided'}, status=400)
+            return JsonResponse({'noimage': False})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 

@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import LoginView
-from back.views import signintournament, checkalias, add_friend, del_friend, get_following, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory, stats_games, list_games, ttt2phistory
+from back.views import signintournament, checkalias, add_friend, del_friend, get_following, get_user_infos, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory, stats_games, list_games, ttt2phistory
 
 urlpatterns = [
     path('api/auth/', include('back.auth.urls')),
@@ -12,6 +12,7 @@ urlpatterns = [
     path('api/addFriend', add_friend, name='add_friend'),
     path('api/delFriend', del_friend, name='del_friend'),
     path('api/getFriends', get_following, name='get_following'),
+    path('api/getUserInfos', get_user_infos, name='get_user_infos'),
     path('api/statsGames', stats_games, name='stats_games'),
     path('api/listGames', list_games, name='list_games'),
     path('api/signintournament/', signintournament, name='signintournament'),

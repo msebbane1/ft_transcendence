@@ -9,27 +9,27 @@ const LogoutModals = ({ showModal, handleClose }) => {
     const navigate = useNavigate();
     const [logoutError, setLogoutError] = useState(null);
 
-    // const handleLogout = async () => {
-    //     try {
+     const handleLogout = async () => {
+         try {
 
-    //         const response = await axios.post(`https://localhost:8080/api/auth/logout/${user.get("id")}/`);
-    //         if (response) {
-    //             user.clear();
-    //             setTimeout(() => navigate("/"), 500);
+             const response = await axios.post(`https://localhost:8080/api/auth/logout/${user.get("id")}/`);
+             if (response) {
+                 user.clear();
+                 setTimeout(() => navigate("/"), 500);
   
-    //         } else {
-    //             setLogoutError(response.data.error);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error during logout:', error);
-    //         setLogoutError('Une erreur s\'est produite lors de la déconnexion.');
-    //     }
-    // };
+             } else {
+                 setLogoutError(response.data.error);
+             }
+         } catch (error) {
+             console.error('Error during logout:', error);
+             setLogoutError('Une erreur s\'est produite lors de la déconnexion.');
+         }
+     };
 
-    const handleLogout = async () => {
+    /*const handleLogout = async () => {
                 user.clear();
                 setTimeout(() => navigate("/"), 500);
-    };
+    };*/
 
     return (
         <Modal show={showModal} onHide={handleClose}>

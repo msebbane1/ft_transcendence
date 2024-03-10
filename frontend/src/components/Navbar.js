@@ -11,12 +11,12 @@ function NavBar() {
   const user = useUser("user");
   const navigate = useNavigate();
   const [showModal, setShowModal] = React.useState(false);
-  const [profilePictureKey, setProfilePictureKey] = useState(0);
+  //const [profilePictureKey, setProfilePictureKey] = useState(0);
   
 
-  const refreshProfilePicture = () => {
-    setProfilePictureKey(prevKey => prevKey + 1);
-  };
+  // const refreshProfilePicture = () => {
+  //   setProfilePictureKey(prevKey => prevKey + 1);
+  // };
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
@@ -24,19 +24,22 @@ function NavBar() {
   return (
     <nav className="navbar">
       <div className="text-containerl">
-        <p>
+      <p>
+        <Link to="/home"> 
           <span className="text-pongl">pong</span>
+        </Link>
+        <Link to="/home">
           <span className="text-gamel">Game</span>
-        </p>
+        </Link>
+      </p>
       </div>
       <Link to="/home">Home</Link>
       <a href="/profile">Profile</a> 
       <a href="/settings">Settings</a>
       <div className="logout-link" onClick={openModal}></div>
-      <div className="img-fluid">
-        < ProfilePictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>
+     {/* <div className="img-fluid">*/}
+     {/*   < ProfilePictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>*/}
 	  {/*<div className="status-indicator"></div>*/}
-      </div>
      <LogoutModals showModal={showModal} handleClose={closeModal} />
     </nav>
   );
