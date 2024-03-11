@@ -92,9 +92,7 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
 			winningPlayer = player2.playerAlias;
 		}
 		findLoser(winningPlayer);
-		setClicked(true);
 		//setMatchAff(false);
-		setMatchUp(false);
     }
 
     function findLoser(winningPlayer) {
@@ -109,6 +107,12 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
 			loser = player1.playerAlias;
 			winningPlayer = player2.playerAlias;
 		}
+    }
+
+
+    function handleHist() {
+		setMatchUp(false);
+		setClicked(true);
     }
     //fonction pour communiquer aux back les infos de partie 
     useEffect(() => {
@@ -128,7 +132,6 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
             .then(response => {
                 const data = response.data;
 				winningPlayer = "";
-				setMatchUp(false);
             })
             .catch(error => {
                 if (error.response && error.response.data) {
@@ -146,7 +149,7 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
                     <div className="popup">
                         <div className="alert alert-success" role="alert">
                             <h4 className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>{status}</h4>
-                            <button type="button" class="btn btn-secondary">gg</button>
+                            <button type="button" class="btn btn-secondary" onClick={handleHist}>gg</button>
                         </div>
                     </div>
                 </div>

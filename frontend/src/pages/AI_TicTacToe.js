@@ -2,7 +2,11 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 //import { Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import useUser from "../hooks/useUserStorage";
+import axios from 'axios';
 import "./AI_TicTacToe.css"
+
+var winningPlayer = "";
 
 function Square({value, onSquareClick}) {//ancien
     return (
@@ -25,6 +29,8 @@ function AITicTacToe(){
 	];
 	const randomNum = Math.random(); //genere un num entre 0 et 1
     const [xIsNext, setXIsNext] = useState(true);
+    const user = useUser("user");
+    const p1 = user.get('username');
     const [squares, setSquares] = useState(Array(9).fill(null));
 	const [player, setPlayer] = useState({
         playerSymbol: (randomNum < 0.5 ? 'X' : 'O'),  // si rNum < 0.5 symbole = X et invercement
@@ -84,13 +90,16 @@ function AITicTacToe(){
 	if (winner) {
         if(winner === ai.aiSymbol){
             status = "AI wins!";
+            winningPlayer = "IA";
         }
         else if (winner === player.playerSymbol){
             status = "You win!";
+            winningPlayer = p1;
         }
 	} else {
         if(tie){
             status = "It's a Tie!";
+            winningPlayer = "draw";
 		} else {
             status = `Next player: ${xIsNext ? player.playerSymbol : ai.aiSymbol}`;
 		}
@@ -145,6 +154,33 @@ function AITicTacToe(){
         return emptySquares[randomIndex];
     }
 
+
+    useEffect(() => {
+        let p2State = "IA";
+        let p2 = "IA";
+        let gameState = winningPlayer;
+        if(winningPlayer != ""){
+            axios.post('https://localhost:8080/api/ttthistory/', {
+                p1,
+                p2,
+                p2State,
+                gameState,
+                winningPlayer,
+            })
+            .then(response => {
+                const data = response.data;
+                winningPlayer = "";
+                //setMatchUp(false);
+            })
+            .catch(error => {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+                } else {
+                    alert("An error occurred while processing your request.");
+                }});
+        }
+    }, [winningPlayer]);
+
     function AI(squares) { //faire une IA defensive 
         const emptySquares = squares.reduce((acc, curr, index) => {  
             if (curr === null) {
@@ -156,11 +192,9 @@ function AITicTacToe(){
         return index;
     }
 
+
     return (
         <>
-        	{/* <div className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>
-                {status}
-            </div> */}
             {(winner || tie) && (
                 <div className="popup-container">
                     <div className="popup">
@@ -168,10 +202,10 @@ function AITicTacToe(){
                             <h4 className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>{status}</h4>
                             <div className="linker">
                                 <Link to="/ai-tictactoe">
-                                    <button type="button" class="btn btn-secondary" onClick={() => handleRefresh()}>Play Again</button>
+                                    <button type="button" className="btn btn-secondary" onClick={() => handleRefresh()}>Play Again</button>
                                 </Link>
                                 <Link to="/modetictactoe">
-                                    <button type="button" class="btn btn-secondary">Change Mode</button>
+                                    <button type="button" className="btn btn-secondary">Change Mode</button>
                                 </Link>
                             </div>
                         </div>

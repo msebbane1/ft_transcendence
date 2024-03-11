@@ -25,9 +25,11 @@ function TicTacToeGame(){
 	const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+			const host = player1;
 			const response = await axios.post('https://localhost:8080/api/signintournament/', {
 			  username,
 			  password,
+			  host,
 			});
 			
 			const data = response.data;

@@ -139,6 +139,10 @@ def stats_games(request):
                 wr_tot = '0'
             else:
                 wr_tot = (nb_win_tot / (nb_win_tot + nb_lose_tot)) * 100
+            if wr_ttt == '0':
+                wrCheck = 0
+            else:
+                wrCheck = wr_ttt
         except User.DoesNotExist:
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
         
@@ -153,7 +157,8 @@ def stats_games(request):
                 'tot_wr': str(wr_tot)[:5],
                 'pong_wr': str(wr_pong)[:5],
                 'ttt_wr': str(wr_ttt)[:5],
-                'draw_ttt': nb_draw_ttt
+                'draw_ttt': nb_draw_ttt,
+                'wrCheck': wrCheck
             }
         ))
 
@@ -173,7 +178,7 @@ def list_games(request):
                         'type_game': 'PONG',
                         'winner': g.winner.username if g.winner.username != '' else g.winner.aliasname,
                         'loser': g.loser.username if g.loser.username != '' else g.loser.aliasname,
-                        'loser2': g.loser2.username if g.loser2 and g.loser2.username != '' else g.loser2.alias if g.loser2 else '',
+                        'loser2': g.loser2.username if g.loser2 and g.loser2.username != '' else g.loser2.aliasname if g.loser2 else '',
                         'date': g.date,
                         'score': g.score,
                         'tournament': f'{g.tournament.creator.username}\'s tournament' if g.tournament else '', 
@@ -215,6 +220,11 @@ def signintournament(request):
         data = json.loads(request.body)
         username = data.get('username')
         password = data.get('password')
+        host = data.get('host')
+        try:
+            host = User.objects.get(pseudo=host)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
         try:
             user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
@@ -223,7 +233,9 @@ def signintournament(request):
             return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
         if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
-        user.status = "online"
+        host.status = 'In game'
+        host.save()
+        user.status = "In game"
         user.save()
         return JsonResponse({
             'username': user.username,
@@ -261,7 +273,7 @@ def begintournament(request):
 
         for p in playersUsers:
             tmp = User.objects.get(username=p)
-            tmp.status = "online"
+            tmp.status = "In game"
             tmp.save()
 
         try:
@@ -336,16 +348,19 @@ def endtournament(request):
         lst_players = data.get('playersUser')
         tournamentID = data.get('tournamentID')
         winnerG = data.get('winnerN')
-
+        host = data.get('host')
         lst_players.pop(0)
-
+        try:
+            host = User.objects.get(pseudo=host)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
         try:
             t = Tournament.objects.get(id=tournamentID)
             t.creator.limit_status = datetime.now().strftime("%H:%M")
             t.creator.list_players_status = lst_players
             for p in lst_players:
                 tmp = User.objects.get(username=p)
-                tmp.status = "online"
+                tmp.status = "offline"
                 tmp.limit_status = datetime.now().strftime("%H:%M")
                 tmp.save()
             try:
@@ -356,6 +371,8 @@ def endtournament(request):
             t.save()
         except Tournament.DoesNotExist:
             return (JsonResponse({'error', 'Tournament does not exist.'}, status=400))
+        host.status = 'online'
+        host.save()
         return JsonResponse({
             'lst_players': lst_players
         })
@@ -364,15 +381,14 @@ def endtournament(request):
 
 
 @csrf_exempt
-def ttt2phistory(request):
+def ttthistory(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         player1 = data.get('p1')
         player2 = data.get('p2')
         p2State = data.get('p2State')
         gameState = data.get('gameState')
-        winnerG = data.get('winnerN')
-
+        winnerG = data.get('winningPlayer')
         p1 = User.objects.get(username=player1)
         if (p2State == 'Alias' or p2State == 'IA'):
             try:
@@ -383,22 +399,14 @@ def ttt2phistory(request):
                     username='',
                     pseudo='',
                 )
-                p2.save()
         else:
             p2 = User.objects.get(username=player2)
-
-        p1.limit_status = datetime.now().strftime("%H:%M")
-        p1.save()
-        p2.limit_status = datetime.now().strftime("%H:%M")
-        p2.status = 'online'
-        p2.save()
 
         w = p2
         l = p1
         if gameState != "draw" and player1 == winnerG:
             w = p1
             l = p2
-
         gt = GameTTT.objects.create(
             is_draw = True if gameState == "draw" else False,
             draw_user1 = p1 if gameState == "draw" else None,
@@ -407,10 +415,11 @@ def ttt2phistory(request):
             loser = l if gameState != "draw" else None,
             date = datetime.now().strftime("%d/%m/%Y %H:%M"),
         )
+        p1.status = "online"
+        p1.save()
+        p2.status = "offline"
         gt.save()
-        return (JsonResponse({
-            'player1', player1
-        }))
+        return JsonResponse({'player1': player1})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -441,9 +450,10 @@ def pong2phistory(request):
             p2 = User.objects.get(username=player2)
 
         p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.status = 'online'
         p1.save()
         p2.limit_status = datetime.now().strftime("%H:%M")
-        p2.status = 'online'
+        p2.status = 'offline'
         p2.save()
 
         w = p2
@@ -511,16 +521,17 @@ def pong3phistory(request):
             p3 = User.objects.get(username=player3)
 
         p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.status = 'online'
         p1.save()
         p2.limit_status = datetime.now().strftime("%H:%M")
-        p2.status = 'online'
+        p2.status = 'offline'
         p2.save()
         p3.limit_status = datetime.now().strftime("%H:%M")
-        p3.status = 'online'
+        p3.status = 'offline'
         p3.save()
 
         tab = [p1score, p2score, p3score]
-        tab = tab.sort(reverse=True)
+        tab.sort(reverse=True)
 
         w = p3
         l = 'p3'
@@ -554,7 +565,7 @@ def pong3phistory(request):
             score = f"{tab[0]}-{tab[1]}-{tab[2]}",
             winner = w,
             loser = l1,
-            loser1 = l2,
+            loser2 = l2,
             date = datetime.now().strftime("%d/%m/%Y %H:%M"),
         )
         gp.save()

@@ -72,12 +72,12 @@ const updateTournament = () => { //score gagnant perdant IDtournoi (update mid) 
           }});
       };
 
-const endTournament = () => {
-
+const endTournament = () => { 
       axios.post('https://localhost:8080/api/endtournament/', {
         playersUser,
         tournamentID,
         winnerN,
+        host:playersUser[0],
       })
       .then(response => {
         const data = response.data;
@@ -121,6 +121,7 @@ const setupTournament = () => {
 const TournamentPong = () => {
   
   const user = useUser("user");
+  var host = user.get('username');
   if(x == 0)
   {
     setupTournament();
@@ -636,6 +637,14 @@ const playerMove = () => {
     MATCHN = 6;
     resetGame();
   }
+  useEffect(() => {
+    if(totOver === true)
+    {
+      updateTournament();
+      setTimeout(100);
+      endTournament();
+    }
+  }, [totOver]);
 
   useEffect(() => {
     return () => {
@@ -660,7 +669,7 @@ const playerMove = () => {
           <button type="button" class="btn btn-primary"onClick={handleMatch}>Next Match :{matches[MATCHN + 1][0]} vs {matches[MATCHN + 1][1]}</button>
         </div>
       )}
-      {tournOver && totOver && updateTournament && endTournament &&(
+      {tournOver && totOver &&(
         <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
         {winnerN} is the tournament Winner ! <a href="/modepong" class="alert-link">Back</a> 
       </div>

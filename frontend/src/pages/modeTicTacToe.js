@@ -25,47 +25,6 @@ function ModeTicTacToe() {
           <button class="example_g">Matchmaking</button>
         </Link>
       </div>
-      <div className='History'>
-        <h2>History</h2>
-            <div className="row">
-                <div className="col-md-4">
-                    {/* Contenu du dashboard  modifier pour afficher en forme de doughtnut*/}
-                      <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Game played</h5>
-                            <p className="card-text">Description de la statistique 1.</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    {/* Contenu du dashboard */}
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Game won</h5>
-                            <p className="card-text">Description de la statistique 2.</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    {/* Contenu du dashboard */}
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Lose Game</h5>
-                            <p className="card-text">Description de la statistique 3.</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    {/* Contenu du dashboard */}
-                    <div className="card">
-                        <div className="card-body">
-                            <h5 className="card-title">Tie Game</h5>
-                            <p className="card-text">Description de la statistique 3.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
       </div>
     );
 }

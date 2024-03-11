@@ -61,9 +61,11 @@ const Login2p = () => {
     }
     else if (loginMethod === 'User')
     {
+      const host = p1;
       axios.post('https://localhost:8080/api/signintournament/', {
         username,
         password,
+        host,
       })
       .then(response => {
         const data = response.data;

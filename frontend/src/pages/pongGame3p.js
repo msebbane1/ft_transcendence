@@ -394,8 +394,8 @@ const pongPad3p = (playerPosition) => {
     let animId;
   
     const update = () => {
-      user.set("pongAccess", 'fin');
-      console.log("access dans choix = ", user.get("pongAccess"));
+      // user.set("pongAccess", 'fin');
+      // console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
   
@@ -497,6 +497,7 @@ const pongPad3p = (playerPosition) => {
     let p1score = game.player.score;
     let p2score = game.computer.score;
     let p3score = game.player3.score;
+    console.log(p1score, p2score, p3score);
     if (game.winner && !axiosCalled) {
       axios.post('https://localhost:8080/api/pong3phistory/', {
         p1,

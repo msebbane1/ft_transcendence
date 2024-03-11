@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link  } from 'react-router-dom';
+import axios from 'axios';
+
+var winningPlayer = "";
 
 function Square({value, onSquareClick}) {
     return (
@@ -57,21 +60,53 @@ function ShowTicTacToe(user, opponent){
 	if (winner) {
 		if(winner === player1.playerSymbol){
 			status = `Winner : ${player1.playerAlias}`;
+			winningPlayer = player1.playerAlias;
 		}
 		else if(winner === player2.playerSymbol){
 			status = `Winner : ${opponent}`;
+			winningPlayer = opponent;
 		}
 	} else {
 		if(tie){
 			status = "It's a Tie!";
+			winningPlayer = "draw";
 		} else{
 			nextPlayer = `Next player: ${xIsNext ? player1.playerAlias : opponent}`;
 		}
 	}
 
+	 //fonction pour communiquer aux back les infos de partie 
+	 useEffect(() => {
+		let p2State = "User";
+		let p1 = player1.playerAlias;
+		let p2 = opponent;
+		let gameState = winningPlayer;
+		console.log("p1 = ", p1, "p2 = ", p2, "p2State  = ", p2State, " gameState = ", gameState, " winningPlaye r= ", winningPlayer);
+        if(winningPlayer != ""){
+            axios.post('https://localhost:8080/api/ttthistory/', {
+				p1,
+				p2,
+				p2State,
+				gameState,
+				winningPlayer,
+            })
+            .then(response => {
+                const data = response.data;
+				winningPlayer = "";
+				//setMatchUp(false);
+            })
+            .catch(error => {
+                if (error.response && error.response.data) {
+                    alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+                } else {
+                    alert("An error occurred while processing your request.");
+                }});
+        }
+    }, [winningPlayer]);
+
     return(
         <>
-			{(winner || tie) &&(
+			{(winner || tie) && (
                 <div className="popup-container">
                     <div className="popup">
                         <div className="alert alert-success" role="alert">

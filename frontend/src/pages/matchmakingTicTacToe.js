@@ -37,8 +37,9 @@ function Matchmaking(){
     const [isInQueue, setIsInQueue] = useState(false);
     const [showForm, setShowForm] = useState(false);
     // const [ownwr, setOwnwr] = useState(user.get("winrate"));
+    const [statsGames, setStatsGames] = useState('');
+    const [statsGames2, setStatsGames2] = useState('');
     const user = useUser("user");
-    var host2  = user.get('username');
     const [host, setHost] = useState(user.get("username"));
     const [username, setUsername] = useState('');//recuperer le username en entrer
 	const [password, setPassword] = useState('');//recuperer le mot de passe en entrer
@@ -48,25 +49,25 @@ function Matchmaking(){
         players: [
             {
                 alias: '\0',
-                winrate: 0,
+                winrate: -1,
                 waitingTime: 0,
                 Matched: false,
             },
             {
                 alias: '\0',
-                winrate: 10,
+                winrate: -1,
                 waitingTime: 0,
                 matched: false,
             },
             {
                 alias: '\0',
-                winrate: 30,
+                winrate: -1,
                 waitingTime: 0,
                 matched: false,
             },
             {
                 alias: '\0',
-                winrate: 50,
+                winrate: -1,
                 waitingTime: 0,
                 matched: false,
             }
@@ -110,6 +111,7 @@ function Matchmaking(){
 
 
     const areValuesUnique = (value1, value2, value3, value4, value5) => {
+        console.log(value1, value2, value3, value4, value5);
         const nonEmptyValues = [value1, value2, value3, value4, value5].filter(value => value !== '\0');
         let test = new Set(nonEmptyValues);
         return nonEmptyValues.length === test.size;
@@ -128,6 +130,7 @@ function Matchmaking(){
         axios.post('https://localhost:8080/api/signintournament/', {
             username,
             password,
+            host,
           })
           .then(response => {
             const data = response.data;
@@ -139,6 +142,8 @@ function Matchmaking(){
           })
           .catch(error => {
             if (error.response && error.response.data) {
+                setUsername('');
+                setPassword('');
                 alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
             } else {
                 alert("An error occurred while processing your request.");
@@ -190,6 +195,8 @@ function Matchmaking(){
     // fonction qui verifie si des users matchent a utiliser avec des intervales
     useEffect(() => {
             // Verifie si chaque winrate a une difference de 5 ou moins par rapport aux autres winrarates
+            console.log(nbPlayers);
+            console.log(waitingPlayer.players);
             waitingPlayer.players.forEach((player, index) => {
                 for (let i = 0; i < waitingPlayer.players.length; i++) {
                     if (i !== index) {
@@ -210,52 +217,76 @@ function Matchmaking(){
     // }, [waitingPlayer.players.matched]);
 
     // Fonction pour rejoindre la file d'attente de matchmaking
-    const joinMatchmakingQueue = async (wr) => {
+    const joinMatchmakingQueue = async () => {
+
             if (waitingPlayer.players && nbPlayers < 4) {
-                if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host2)){
-                    //const index2 = waitingPlayer.players.findIndex(player => player.alias === host);
-                    setWaitingPLayer(prevState => {
-                        const index = prevState.players.findIndex(player => player.alias === '\0');
-                        if (index !== -1) {
-                            const updatedPlayers = [...prevState.players];
-                            updatedPlayers[index] = {
-                                ...updatedPlayers[index],
-                                alias: host,
-                                winrate:1,
-                            };
-                            return {
-                                ...prevState,
-                                players: updatedPlayers,
-                            };
+                if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
+                    try {
+                        const res_stat = await axios.post('https://localhost:8080/api/statsGames', {
+                            'username': host,
+                        });
+        
+                        if (res_stat.data.error)
+                            setStatsGames({'message': ""});
+                        else {
+                            nbPlayers += 1;
+                            const wr = res_stat.data.wrCheck;
+                            queueUp = true;
+                            setWaitingPLayer(prevState => {
+                                const index = prevState.players.findIndex(player => player.alias === '\0');
+                                if (index !== -1) {
+                                    const updatedPlayers = [...prevState.players];
+                                    updatedPlayers[index] = {
+                                        ...updatedPlayers[index],
+                                        alias: host,
+                                        winrate: wr,
+                                    };
+                                    return {
+                                        ...prevState,
+                                        players: updatedPlayers,
+                                    };
+                                }
+                                return prevState;
+                            });
                         }
-                        return prevState;
-                    });
+                    } catch (error) {
+                        alert(error.response.data.error);
+                    }
                     //affecter le winrate
                 }
                 else if(areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)){
                     try {
-                    } catch (error) {
-                        console.error('Erreur lors de la tentative de rejoindre la file d\'attente de matchmaking :', error);
-                    }
-                    setWaitingPLayer(prevState => {
-                        const index = prevState.players.findIndex(player => player.alias === '\0');
-                        if (index !== -1) {
-                            const updatedPlayers = [...prevState.players];
-                            updatedPlayers[index] = {
-                                ...updatedPlayers[index],
-                                alias: username,
-                            };
-                            return {
-                                ...prevState,
-                                players: updatedPlayers,
-                            };
+                        const res_stat = await axios.post('https://localhost:8080/api/statsGames', {
+                            'username': username,
+                        });
+        
+                        if (res_stat.data.error)
+                            setStatsGames({'message': ""});
+                        else {
+                            nbPlayers += 1;
+                            const wr = res_stat.data.wrCheck;
+                            queueUp = true;
+                            setWaitingPLayer(prevState => {
+                                const index = prevState.players.findIndex(player => player.alias === '\0');
+                                if (index !== -1) {
+                                    const updatedPlayers = [...prevState.players];
+                                    updatedPlayers[index] = {
+                                        ...updatedPlayers[index],
+                                        alias: username,
+                                        winrate: wr,
+                                    };
+                                    return {
+                                        ...prevState,
+                                        players: updatedPlayers,
+                                    };
+                                }
+                                return prevState;
+                            });
                         }
-                        return prevState;
-                    });
-                }
-                nbPlayers += 1;
-                queueUp = true;
-            }
+                    } catch (error) {
+                        alert(error.response.data.error);
+                    }
+            }}
             else
                 console.log('FAILED');
             setIsInQueue(true);
