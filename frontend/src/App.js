@@ -54,7 +54,7 @@ const backgroundStyle = {
     <Route path="/home" element={<PrivateRoute><div><Navbar /><Home /></div></PrivateRoute>} />
 	<Route path="/settings" element={<PrivateRoute><div><Navbar /><Settings /></div></PrivateRoute>} />
 	<Route path="/profile" element={<PrivateRoute><div><Navbar /><Profil /></div></PrivateRoute>} />
-  <Route path="/profilefriends/:friendUsername" element={<PrivateRoute><div><Navbar /><ProfilFriends /></div></PrivateRoute>} />
+  <Route path="/profilefriends/:id" element={<PrivateRoute><div><Navbar /><ProfilFriends /></div></PrivateRoute>} />
   	<Route path="/modetictactoe" element={<PrivateRoute><div><Navbar /><ModeTicTacToe /></div></PrivateRoute>} />
   	<Route path="/ai-tictactoe" element={<PrivateRoute><div><Navbar /><AITicTacToe /></div></PrivateRoute>} />
   	<Route path="/tictactoe" element={<PrivateRoute><div><Navbar /><TicTacToeGame /></div></PrivateRoute>} />

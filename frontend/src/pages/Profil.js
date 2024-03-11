@@ -32,7 +32,7 @@ const Profil = () => {
   useEffect(() => {
       const response = axios.post('https://localhost:8080/api/getFriends', 
       {
-        'username': user.get('username'),
+        'id': user.get('id'),
       }, 
       {}).then((response) => {
           if (response.data.error)
@@ -44,7 +44,7 @@ const Profil = () => {
       });
       const res_stat = axios.post('https://localhost:8080/api/statsGames',
       {
-        'username': user.get('username'),
+        'id': user.get('id'),
       },
       {}).then((res_stat) => {
         if (res_stat.data.error)
@@ -56,7 +56,7 @@ const Profil = () => {
       });
       const res_match_histo = axios.post('https://localhost:8080/api/listGames',
       {
-        'username': user.get('username'),
+        'id': user.get('id'),
       },
       {}).then((res_match_histo) => {
           if (res_match_histo.data.error)
@@ -120,7 +120,6 @@ const Profil = () => {
       </div>
   )}
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc bg-white ?*/}
-        <div>
           {/* Section Titre Profile */}
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
                 <div className="col d-flex justify-content-center align-items-center">
@@ -174,23 +173,27 @@ const Profil = () => {
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
                 <div className="icon-profile"/>
-                    <p class="title-profile">Liste d'ami</p>
+                    <p class="title-profile">Friends</p>
                 </div>
-                <div className="col text-center d-flex justify-content-center align-items-center">
-                    {
-                      listFriend && (
-                        <div>
-                          {listFriend.map((e, index) => (
-                            e.friend && (
-                              <p key={index} className='text-white'>
-                              <a href={`/profilefriends/${e.friend}`}>{e.friend}</a>
-                              </p>
-                              )
-                              ))}
-                        </div>
+                <div className="row mb-0">
+                  <div className="col text-center">      
+                    {listFriend && ( <div className="d-flex flex-wrap">
+                    {listFriend.map((e, index) => (
+                      e.friend && (
+                        <div key={index} className="mr-2">
+                        <p className='text-white' style={{marginRight: '10px'}}>
+                        <a href={`/profilefriends/${e.id}`} className="friend-link">
+                        @{e.friend}
+                      </a>
+                    </p>
+                    </div>
                       )
-                    }
-                </div>
+            ))}
+    </div>
+
+  )}
+</div>
+</div>
 
 
               {/* Section Stats */}
@@ -245,18 +248,19 @@ const Profil = () => {
 
               </div>
 
-              {/* Section Titre 2FA */}
+              {/* Section match history */}
 
               <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-leader"/>
               <p class="title-profile">Match History</p>
               </div>
               <div className="col d-flex justify-content-center align-items-center">
-              {
-              listGames && (
+              {listGames && listGames.list_object.length > 0 ? (
               <div>
-                {
-                  listGames.list_object.map((element, index) => (
+                {listGames.list_object
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .slice(0, 3)
+                  .map((element, index) => (
                     <div className='container mask-custom'>
                       <div className='row' keys={index}>
                         {element.tournament && element.tournament !== '' && (
@@ -287,16 +291,18 @@ const Profil = () => {
                         <p class="title-profile">{element.date}</p>
                       </div>
                     </div>
-                  ))
-                }
-              </div>
-              )
-              }
-            </div>
-      </div>
-    </div>
-    </>
-  );
-};
+                  ))}
+                  </div>
+                ) : (
+                  <div className="col text-center position-relative">
+                  <p className="profile-info-text">You did not play any games yet</p>
+                  </div>
+                )}
+                </div>
+                </div>
+                
+                </>
+                );
+              };
 
 export default Profil;

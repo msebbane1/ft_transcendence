@@ -11,12 +11,7 @@ function NavBar() {
   const user = useUser("user");
   const navigate = useNavigate();
   const [showModal, setShowModal] = React.useState(false);
-  //const [profilePictureKey, setProfilePictureKey] = useState(0);
-  
 
-  // const refreshProfilePicture = () => {
-  //   setProfilePictureKey(prevKey => prevKey + 1);
-  // };
 
   const openModal = () => setShowModal(true);
   const closeModal = () => setShowModal(false);
@@ -37,9 +32,6 @@ function NavBar() {
       <a href="/profile">Profile</a> 
       <a href="/settings">Settings</a>
       <div className="logout-link" onClick={openModal}></div>
-     {/* <div className="img-fluid">*/}
-     {/*   < ProfilePictureNav key={profilePictureKey} refreshImage={refreshProfilePicture}/>*/}
-	  {/*<div className="status-indicator"></div>*/}
      <LogoutModals showModal={showModal} handleClose={closeModal} />
     </nav>
   );

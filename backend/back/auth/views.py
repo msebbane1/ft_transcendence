@@ -150,23 +150,25 @@ def signup(request):
         password = data.get('password')
         repeat_password = data.get('repeatPassword')
 
-        
-        existing_users = User.objects.filter(pseudo=username) #reprendre fonction // ou username
-        existing_username = User.objects.filter(username=username)
-        if existing_username.exists():
-            return JsonResponse({'error': 'Username already exists'}, status=400)
-        if existing_users.exists():
-            return JsonResponse({'error': 'L\'utilisateur existe déja, veuillez en choisir un autre'}, status=400)
-        if not username.isalpha():
-            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
+        if not username:
+            return JsonResponse({'emptyName': False})
         if len(username) < 5:
-            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au moins 5 caractères'}, status=400)
+            return JsonResponse({'lenminName': False})
         if len(username) > 10:
-            return JsonResponse({'error': 'Le nom d\'utilisateur doit contenir au maximum 10 caractères'}, status=400)
+            return JsonResponse({'lenmaxName': False})
+        if not username.isalpha():
+            return JsonResponse({'alphaName': False})
+        if (usernameAlreadyUse(username)) or (pseudoAlreadyUse(username)):
+            return (JsonResponse({'nameAlreadyUse': False}))
+
+        if not password:
+            return JsonResponse({'emptyPass': False})
         if len(password) < 5:
-            return JsonResponse({'error': 'Le mot de passe doit contenir au moins 5 caractères'}, status=400)
+            return JsonResponse({'lenminPass': False})
+        if len(password) > 10:
+            return JsonResponse({'lenmaxPass': False})
         if password != repeat_password:
-            return JsonResponse({'error': 'Le mot de passe ne correspond pas'}, status=400)
+            return JsonResponse({'repeat': False})
 
         avatar = Avatar()
         avatar.save()
@@ -197,13 +199,13 @@ def signin(request):
         try:
             user = User.objects.get(pseudo=username)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'L\'utilisateur n\'existe pas'}, status=400)
+            return JsonResponse({'Namedontexist': False})
         if not username.isalpha():
-            return JsonResponse({'error': 'Le nom d\'utilisateur ne peut contenir que des lettres'}, status=400)
+            return JsonResponse({'alphaName': False})
         if not user.password:
-                return JsonResponse({'error': 'Connexion non autorisée, Veuillez vous connecter via 42'}, status=400)
+            return JsonResponse({'nopassword': False})
         elif not check_password(password, user.password):
-            return JsonResponse({'error': 'Mot de passe invalide'}, status=400)
+            return JsonResponse({'checkpassword': False})
         
         #user_auth = authenticate(request, username=username, password=password)
         #if user_auth is not None:
@@ -225,6 +227,7 @@ def signin(request):
             'avatar_id': user.avatar.id,
             'avatar_update': user.avatar.avatar_update,
             'status': user.status,
+            'statusIn': True,
             #'jwt_token': user.token_jwt,
         })
     else:

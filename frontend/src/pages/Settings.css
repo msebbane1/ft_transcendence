@@ -73,7 +73,7 @@
 .active-indicator {
   position: absolute;
   top: 85%;
-  left: 58%;
+  left: 75%;
   transform: translate(-50%, -50%);
   bottom: 1px;
   width: 28px;
@@ -82,11 +82,11 @@
   border: 1px solid #fff;
   box-shadow: 0px 0px 7px #fff inset,
   	      0px 0px 7px #fff;
-  background-color: #28a745; /* Défaut: couleur verte */
+  background-color: #28a745;
 }
 
 .active-indicator.offline {
-  background-color: grey; /* Couleur grise pour l'état hors ligne */
+  background-color: grey;
 }
 
 

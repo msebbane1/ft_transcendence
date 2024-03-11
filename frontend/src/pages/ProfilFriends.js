@@ -6,7 +6,7 @@ import { Modal, Button, Alert, Table } from 'react-bootstrap';
 import ProfilePictureFriends from '../components/ProfilePictureFriends';
 
 const ProfileFriends = () => {
-  const { friendUsername } = useParams();
+  const { id } = useParams();
   const [error, setError] = useState(null);
   const [userData, setUserData] = useState(null);
   const [statsGames, setStatsGames] = useState('');
@@ -16,7 +16,7 @@ const ProfileFriends = () => {
     const fetchUserData = async () => {
       try {
         const response = await axios.post('https://localhost:8080/api/getUserInfos', {
-          'username': friendUsername, 
+          'id': id, 
         });
         if (response.data.error) {
           setError(response.data.error);
@@ -31,7 +31,7 @@ const ProfileFriends = () => {
     const fetchStatsAndGames = async () => {
       try {
         const responseStats = await axios.post('https://localhost:8080/api/statsGames', {
-          'username': friendUsername,
+          'id': id,
         });
         if (responseStats.data.error) {
           setStatsGames({'message': ""});
@@ -40,7 +40,7 @@ const ProfileFriends = () => {
         }
 
         const responseListGames = await axios.post('https://localhost:8080/api/listGames', {
-          'username': friendUsername,
+          'id': id,
         });
         if (responseListGames.data.error) {
           setListGames({'message': ''});
@@ -66,13 +66,13 @@ const ProfileFriends = () => {
       </div>
 
       <div className="row mb-0">
-        <div className="col text-center position-relative">
+        <div className="col text-center">
           <div className="position-relative">
           <ProfilePictureFriends
-    userId={userData && userData.id}
-    avatarId={userData && userData.avatar_id}
-    userStatus={userData && userData.status}
-  />
+            userId={userData && userData.id}
+            avatarId={userData && userData.avatar_id}
+            userStatus={userData && userData.status}
+          />
           </div>
             {userData && (
               <>
@@ -133,16 +133,19 @@ const ProfileFriends = () => {
               }
       </div>
 
-      {/* Section Historique des matchs */}
-      <div className="col d-flex justify-content-center align-items-center">
-        <div className="icon-leader"></div>
-        <p className="title-profile">Match History</p>
-      </div>
-      <div className="col d-flex justify-content-center align-items-center">
-        {listGames && (
-          <div>
-            {
-                  listGames.list_object.map((element, index) => (
+  {/* Section match history */}
+
+  <div className="col d-flex justify-content-center align-items-center">
+              <div className="icon-leader"/>
+              <p class="title-profile">Match History</p>
+              </div>
+              <div className="col d-flex justify-content-center align-items-center">
+              {listGames && listGames.list_object.length > 0 ? (
+              <div>
+                {listGames.list_object
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .slice(0, 3)
+                  .map((element, index) => (
                     <div className='container mask-custom'>
                       <div className='row' keys={index}>
                         {element.tournament && element.tournament !== '' && (
@@ -173,16 +176,17 @@ const ProfileFriends = () => {
                         <p class="title-profile">{element.date}</p>
                       </div>
                     </div>
-                  ))
-                }
-            
-          </div>
-        )}
-      </div>
-
-    </div>
-  );
-};
+                  ))}
+                  </div>
+                ) : (
+                  <div className="col text-center position-relative">
+                  <p className="profile-info-text">You did not play any games yet</p>
+                  </div>
+                )}
+                </div>
+                </div>
+                );
+              };
 
 export default ProfileFriends;
 

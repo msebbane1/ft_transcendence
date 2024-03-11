@@ -32,18 +32,29 @@ const SignInModals = () => {
             },
         });
 
-      const data = response.data;
-      console.log('Server response:', response.data);
+      if (response.data.statusIn === true) {
+        const data = response.data;
+        console.log('Server response:', response.data);
 
-      user.setAll(data);
-      setUsername('');
-      setPassword('');
-	    setTimeout(() => navigate("/home"), 500);
+        user.setAll(data);
+        setUsername('');
+        setPassword('');
+	      setTimeout(() => navigate("/home"), 500);
+      }
+      else {
+        if (response.data['Namedontexist'] === false)
+          setError("L'utilisateur n'existe pas");
+        if (response.data['alphaName'] === false)
+          setError("Le nom d'utilisateur ne peut contenir que des lettres");
+        if (response.data['nopassword'] === false)
+          setError("Connexion non autorisée, Veuillez vous connecter via 42");
+        if (response.data['checkpassword'] === false)
+          setError("Mot de passe invalide");
+
+      setTimeout(() => setError(null), 2000);
+    }
     } catch (error) {
-      //console.error('Error submitting form:', error);
       if (error.response) {
-        
-        console.log('Server error:', error.response.data.error);
         setError(error.response.data.error);
       } else {
         setError('An unexpected error occurred');

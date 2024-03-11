@@ -39,7 +39,7 @@ return (
 	<>
    
     <div className="container mask-custom mt-5 p-4 col-lg-6 rounded"> {/*changer en blanc ?*/}
-        <div>
+        
           {/* Section Titre Settings */}
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
              <div className="col d-flex justify-content-center align-items-center">
@@ -110,9 +110,6 @@ return (
             </div>
           </div>
          </div>
-
-
-    </div>
 	</>
   );
 };

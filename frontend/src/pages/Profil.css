@@ -264,3 +264,36 @@
   height: auto;
 }*/
 
+
+.mask-customhistory {
+  border-radius: 2em;
+  backdrop-filter: blur(15px);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+  padding: 5px;
+  margin: 0 10px 20px 10px; 
+}
+
+.containerhistory {
+  display: flex;
+  align-items: center;
+  /*justify-content: center;*/
+  /*height: 100vh;*/
+  /*position: relative;*/
+  /*bottom: 200px;*/
+}
+.profile-info-text2 {
+  margin: 5px 0;
+  color:#ffffff;
+  font: 1.2rem "Fira Sans", sans-serif;
+  font-size: 18px;
+}
+
+.friend-link {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.friend-link:hover {
+  color: #f088a0;
+}

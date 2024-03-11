@@ -64,13 +64,14 @@ def del_friend(request):
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
         return (JsonResponse({'message':f'L\'ami(e) {user_to_del.username} a été supprimé des amis'}, status=200))
 
+
 @csrf_exempt
 def get_following(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        u = data.get('username')
+        u = data.get('id')
         try:
-            user = User.objects.get(username=u)
+            user = User.objects.get(id=u)
         except User.DoesNotExist:
             return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
         
@@ -83,16 +84,16 @@ def get_following(request):
             #if (diff >= 5):
                 #f.status = "offline"
                 #f.save()
-            lst_f.append({'friend': f"{f.username}"})
+            lst_f.append({'friend': f"{f.username}", 'id': f"{f.id}"})
         return (JsonResponse({'message': lst_f}, status=200))
 
 @csrf_exempt
 def get_user_infos(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        u = data.get('username')
+        id = data.get('id')
         try:
-            user = User.objects.get(username=u)
+            user = User.objects.get(id=id)
         except User.DoesNotExist:
             return JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200)
         
@@ -110,16 +111,18 @@ def get_user_infos(request):
         
         return JsonResponse({'message': user_info}, status=200)
 
+
+
 ################### STATS JOUEUR ##################
 
 @csrf_exempt
 def stats_games(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        u = data.get('username')
+        u = data.get('id')
         
         try:
-            user = User.objects.get(username=u)
+            user = User.objects.get(id=u)
             nb_win_tot = user.getCountWinsPong() + user.getCountWinsTTT()
             nb_lose_tot = user.getCountLosesPong() + user.getCountLosesTTT()
             nb_win_pong = user.getCountWinsPong()
@@ -166,10 +169,10 @@ def stats_games(request):
 def list_games(request):
     if request.method == 'POST':
         data = json.loads(request.body)
-        u = data.get('username')
+        u = data.get('id')
 
         try:
-            user = User.objects.get(username=u)
+            user = User.objects.get(id=u)
             list_games = []
             tmp = user.winnerpong.all().union(user.loserpong.all(), user.loserpong2.all() )
             for g in tmp:
