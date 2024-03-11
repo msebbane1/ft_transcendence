@@ -174,7 +174,6 @@ function Matchmaking(){
                 return player;
             })
         }));
-        nbPlayers -= 2;
     }
 
     //fonction de reset lors de l'annulation de la rechercher
@@ -201,7 +200,9 @@ function Matchmaking(){
                 for (let i = 0; i < waitingPlayer.players.length; i++) {
                     if (i !== index) {
                         const diff = Math.abs(player.winrate - waitingPlayer.players[i].winrate);
-                        if (diff <= (5 + (player.waitingTime / 5)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {                            handleMatches(index, i);
+                        if (diff <= (5 + (player.waitingTime / 5)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
+                            handleMatches(index, i);
+                            nbPlayers -= 2;
                             return; // Sortir de la boucle dès qu'une correspondance est trouvée
                         }
                     }
@@ -211,10 +212,34 @@ function Matchmaking(){
 
 
 
-    //A VOIR APRES
+    //A VOIR APRES FONCTION DE VIDAGE DES STATUS
     // useEffect(() => {
         
-    // }, [waitingPlayer.players.matched]);
+    //     return () => {
+    //         var toSet = [];
+    //         toSet.push(waitingPlayer.players[0].alias);
+    //         toSet.push(waitingPlayer.players[1].alias);
+    //         toSet.push(waitingPlayer.players[2].alias);
+    //         toSet.push(waitingPlayer.players[3].alias);
+    //         leaveGame(toSet);
+    //     }
+    // }, []);
+
+    // const leaveGame = async (toSet) => {
+    //     axios.post('https://localhost:8080/api/leaveStatus/', {
+    //         toSet,
+    //         host,
+    //       })
+    //       .then(response => {
+    //         const data = response.data;
+    //       })
+    //       .catch(error => {
+    //         if (error.response && error.response.data) {
+    //             alert(error.response.data.error); 
+    //         } else {
+    //             alert("An error occurred while processing your request.");
+    //         }});
+    // }
 
     // Fonction pour rejoindre la file d'attente de matchmaking
     const joinMatchmakingQueue = async () => {
@@ -222,7 +247,7 @@ function Matchmaking(){
             if (waitingPlayer.players && nbPlayers < 4) {
                 if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
                     try {
-                        const res_stat = await axios.post('https://localhost:8080/api/statsGames', {
+                        const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
                             'username': host,
                         });
         
@@ -254,9 +279,9 @@ function Matchmaking(){
                     }
                     //affecter le winrate
                 }
-                else if(areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)){
+                else if(username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)){
                     try {
-                        const res_stat = await axios.post('https://localhost:8080/api/statsGames', {
+                        const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
                             'username': username,
                         });
         
@@ -320,7 +345,7 @@ function Matchmaking(){
         <>
             <div>
                 {!areValuesEmpty(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias) && (
-                    <div class="container-board">
+                    <div className="container-board">
                         <div>
                             <p>En attente d'autres joueurs</p>
                                 {displayWaitingPlayers()}

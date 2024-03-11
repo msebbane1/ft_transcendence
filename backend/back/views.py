@@ -166,6 +166,56 @@ def stats_games(request):
         ))
 
 @csrf_exempt
+def stats_gamesttt(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        u = data.get('username')
+        
+        try:
+            user = User.objects.get(username=u)
+            nb_win_tot = user.getCountWinsPong() + user.getCountWinsTTT()
+            nb_lose_tot = user.getCountLosesPong() + user.getCountLosesTTT()
+            nb_win_pong = user.getCountWinsPong()
+            nb_lose_pong = user.getCountLosesPong()
+            nb_win_ttt = user.getCountWinsTTT()
+            nb_lose_ttt = user.getCountLosesTTT()
+            nb_draw_ttt = user.getCountDrawTTT()
+            if (nb_win_pong + nb_lose_pong == 0):
+                wr_pong = '0'
+            else:
+                wr_pong = (nb_win_pong / (nb_win_pong + nb_lose_pong)) * 100
+            if (nb_win_ttt + nb_lose_ttt == 0):
+                wr_ttt = '0'
+            else:
+                wr_ttt = (nb_win_ttt / (nb_win_ttt + nb_lose_ttt + nb_draw_ttt)) * 100
+            if (nb_win_tot + nb_lose_tot == 0):
+                wr_tot = '0'
+            else:
+                wr_tot = (nb_win_tot / (nb_win_tot + nb_lose_tot)) * 100
+            if wr_ttt == '0':
+                wrCheck = 0
+            else:
+                wrCheck = wr_ttt
+        except User.DoesNotExist:
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+        
+        return (JsonResponse(
+            {
+                'total_win': nb_win_tot,
+                'total_lose': nb_lose_tot,
+                'pong_win': nb_win_pong,
+                'pong_lose': nb_lose_pong,
+                'ttt_win': nb_win_ttt,
+                'ttt_lose': nb_lose_ttt,
+                'tot_wr': str(wr_tot)[:5],
+                'pong_wr': str(wr_pong)[:5],
+                'ttt_wr': str(wr_ttt)[:5],
+                'draw_ttt': nb_draw_ttt,
+                'wrCheck': wrCheck
+            }
+        ))
+
+@csrf_exempt
 def list_games(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -343,6 +393,26 @@ def updatetournament(request):
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+@csrf_exempt
+def leaveStatus(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        lst_players = data.get('toSet')
+        host = data.get('host')
+        for p in lst_players:
+            if p == host:
+                tmp = User.objects.get(username=p)
+                tmp.status = "online"
+                tmp.save()
+            else:
+                tmp = User.objects.get(username=p)
+                tmp.status = "offline"
+                tmp.save()
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
 
 @csrf_exempt
 def endtournament(request):
