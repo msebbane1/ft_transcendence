@@ -2,19 +2,27 @@ import { useState, useEffect } from "react";
 
 const useUserStorage = (name, defaults = {}) => {
   const base64Encode = (str) => {
-    return btoa(str);
+      return btoa(str);
   };
 
   const base64Decode = (str) => {
-    return atob(str);
+      return atob(str);
   };
 
   const getLocalStorageData = () => {
-    const localStorageData = localStorage.getItem(name);
-    if (localStorageData) {
-      return JSON.parse(base64Decode(localStorageData)); // Tente de décoder la chaîne JSON
+    try
+    {
+      const localStorageData = localStorage.getItem(name);
+      if (localStorageData) {
+        let a = base64Decode(localStorageData);
+        return JSON.parse(a);
+      }
     }
-    return defaults; // Retourne les valeurs par défaut si aucune donnée n'est trouvée dans le stockage local
+    catch (error)
+    {
+      return defaults;
+    }
+    return defaults;
   };
 
   const [storage, setStorage] = useState(getLocalStorageData());
@@ -26,6 +34,7 @@ const useUserStorage = (name, defaults = {}) => {
 
   const set = (key, value) => {
     const updatedStorage = { ...storage, [key]: value };
+
     setStorage(updatedStorage);
   };
 
