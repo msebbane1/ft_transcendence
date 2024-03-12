@@ -336,7 +336,7 @@ const PongGameIa = () => {
         play:true,
       }));
     }
-    console.log(game.play);
+
   };
 
   const handleFeature = () => {

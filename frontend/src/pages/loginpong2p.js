@@ -38,7 +38,6 @@ const Login2p = () => {
       .then(response => {
         const data = response.data;
         user.set("pongAccess", 'pongv2');
-        console.log("access dans choix = ", user.get("pongAccess"));
         
         setUsername('');
         setPassword('');
@@ -47,7 +46,6 @@ const Login2p = () => {
           localStorage.setItem(toadd, data.username+"@+Alias");
           userArray[playerN-1][1] = data.username;
           playerN += 1;
-          console.log(userArray);
         } else {
           alert("Alias/Username already in use.");
         }
@@ -70,7 +68,6 @@ const Login2p = () => {
       .then(response => {
         const data = response.data;
         user.set("pongAccess", 'pongtournament');
-        console.log("access dans choix = ", user.get("pongAccess"));
         setUsername('');
         setPassword('');
         setLoginMethod('');
@@ -79,7 +76,6 @@ const Login2p = () => {
           localStorage.setItem(toadd, data.username+"@+User");
           userArray[playerN-1][1] = data.username;
           playerN += 1;
-          console.log(userArray);
         } else {
           alert("User/Alias doesn't exist or already in use.");
         }

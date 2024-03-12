@@ -12,37 +12,17 @@ var MATCH = [];
 var name = "";
 var name2 = "";
 var queueUp = false;
-// Module majeur : Ajout d’un second jeu avec historique et "matchmaking".
-// Dans ce module majeur, l’objectif est d’introduire un nouveau jeu, distinct de
-// Pong, et d’y incorporer des fonctionnalités telles que l’historique de l’utilisateur et
-// le "matchmaking".
-// ◦ Développez un nouveau jeu pour diversifier l’offre de la plateforme et divertir
-// les utilisateurs.
-// ◦ Implémentez une gestion de l’historique de l’utilisateur pour enregistrer et afficher les statistiques individuelles du joueur.
-// ◦ Créez un système de "matchmaking" pour permettre aux utilisateurs de trouver
-// des adversaire afin de disputer des parties équitables et équilibrées.
-// ◦ Assurez vous que les données sur l’historique des parties et le "matchmaking"
-// sont stockées de manière sécuritaire et demeurent à jour.
-// ◦ Optimisez la performance et la réactivité du nouveau jeu afin de fournir une
-// expérience utilisateur agréable. Mettez à jour et maintenez régulièrement le jeu
-// afin de réparer les bogues, ajouter de nouvelles fonctionnalités et améliorer la
-// jouabilité.
-// Ce module majeur vise à développer votre plateforme en introduisant un nouveau jeu, améliorant ainsi l’engagement de l’utilisateur avec l’historique des parties,
-// et facilitant le "matchmaking" pour une expérience utilisateur agréable.
-
-// matchmaking: se baser sur le nombre de partie gagner / perdu et tie
 
 function Matchmaking(){
 
     const [isInQueue, setIsInQueue] = useState(false);
     const [showForm, setShowForm] = useState(false);
-    // const [ownwr, setOwnwr] = useState(user.get("winrate"));
     const [statsGames, setStatsGames] = useState('');
     const [statsGames2, setStatsGames2] = useState('');
     const user = useUser("user");
     const [host, setHost] = useState(user.get("username"));
-    const [username, setUsername] = useState('');//recuperer le username en entrer
-	const [password, setPassword] = useState('');//recuperer le mot de passe en entrer
+    const [username, setUsername] = useState('');
+	const [password, setPassword] = useState('');
     const [matchUp, setMatchUp] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [waitingPlayer, setWaitingPLayer] = useState({
@@ -111,7 +91,6 @@ function Matchmaking(){
 
 
     const areValuesUnique = (value1, value2, value3, value4, value5) => {
-        console.log(value1, value2, value3, value4, value5);
         const nonEmptyValues = [value1, value2, value3, value4, value5].filter(value => value !== '\0');
         let test = new Set(nonEmptyValues);
         return nonEmptyValues.length === test.size;
@@ -124,7 +103,6 @@ function Matchmaking(){
 
 
 	const handleSubmit = async (e) => {
-        console.log('form submitted');
         setShowForm(true);
         e.preventDefault();
         axios.post('https://localhost:8080/api/signintournament2/', {
@@ -197,8 +175,6 @@ function Matchmaking(){
     // fonction qui verifie si des users matchent a utiliser avec des intervales
     useEffect(() => {
             // Verifie si chaque winrate a une difference de 5 ou moins par rapport aux autres winrarates
-            console.log(nbPlayers);
-            console.log(waitingPlayer.players);
             waitingPlayer.players.forEach((player, index) => {
                 for (let i = 0; i < waitingPlayer.players.length; i++) {
                     if (i !== index) {
@@ -249,7 +225,6 @@ function Matchmaking(){
     const joinMatchmakingQueue = async () => {
         if(matchUp === false) {
             if (waitingPlayer.players && nbPlayers < 4) {
-                console.log("username = ", username);
                 if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
                     try {
                         const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
@@ -281,7 +256,6 @@ function Matchmaking(){
                     } catch (error) {
                         alert(error.response.data.error);
                     }
-                    //affecter le winrate
                 }
                 else if(username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)){
                     try {
@@ -396,8 +370,6 @@ function Matchmaking(){
                 { matchUp == true && showPopup == false && (
                     <ShowTicTacToeM user={name} opponent={name2} setMatchUp={setMatchUp} matchUp={matchUp}/>
                 )}
-                {/*-pour une compilation plus rapide: recuperer le docker.yml, le dockefile et le .env 
-                   -le popUp dans la condition n'affiche rien(ni le pop-up ni le jeu)*/}
             </div>
         </>
     );

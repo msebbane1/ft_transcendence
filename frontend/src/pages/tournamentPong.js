@@ -95,7 +95,6 @@ const setupTournament = () => {
 
     for (let i = 1; i <= 4; i++) {
     const alias = localStorage.getItem(`alias${i}`).split("@+");
-    console.log(alias);
     if (alias) {
         if(alias[1] == 'User')
           playersUser.push(alias[0]);
@@ -397,11 +396,8 @@ const playerMove = () => {
       {
         tournOver = true;
         let {maxIndex, maxIndex2} = getMaxOfColumn();
-        console.log(maxIndex);
-        console.log(maxIndex2);
         if(maxIndex2 == -1)
         {
-          console.log(maxIndex, maxIndex2);
           winnerN = players[maxIndex].name;
           totOver = true;
         }
@@ -425,10 +421,8 @@ const playerMove = () => {
         {
           tournOver = true;
           let {maxIndex, maxIndex2} = getMaxOfColumn();
-          console.log(maxIndex , maxIndex2);
           if(maxIndex2 == -1)
           {
-            console.log(maxIndex);
             winnerN = players[maxIndex].name;
             totOver = true;
           }
@@ -620,7 +614,6 @@ const playerMove = () => {
           maxIndex2 = i;
       }
     }
-    console.log(maxIndex, maxValue, maxIndex2, maxValue2);
     return {maxIndex, maxIndex2};
   }
 

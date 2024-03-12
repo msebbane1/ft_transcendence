@@ -15,7 +15,6 @@ function TicTacToeGame(){
 
 	 const handleUsernameChange = (event) => {
 		setUsername(event.target.value);
-		console.log(username);
 	};
 
 	const handlePasswordChange = (event) => {

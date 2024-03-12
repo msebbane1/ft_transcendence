@@ -22,7 +22,6 @@ const Settings = () => {
     profilePictureKey: 0
   });
 
-  console.log("username(settings1): ", userData.username);
 
   const updateUserProfile = (newUsername, newProfilePictureKey) => {
     user.set("username", newUsername);

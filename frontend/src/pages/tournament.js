@@ -43,7 +43,6 @@ const Tournament = () => {
       .then(response => {
         const data = response.data;
         user.set("pongAccess", 'pongtournament');
-        console.log("access dans choix = ", user.get("pongAccess"));
 
         setUsername('');
         setPassword('');
@@ -52,7 +51,6 @@ const Tournament = () => {
           localStorage.setItem(toadd, data.username+"@+Alias");
           userArray[playerN-1][1] = data.username;
           playerN += 1;
-          console.log(userArray);
         } else {
           alert("Alias/Username already in use.");
         }
@@ -75,7 +73,6 @@ const Tournament = () => {
     .then(response => {
       const data = response.data;
       user.set("pongAccess", 'pongtournament');
-      console.log("access dans choix = ", user.get("pongAccess"));
       setUsername('');
       setPassword('');
       setLoginMethod('');
@@ -84,9 +81,7 @@ const Tournament = () => {
         localStorage.setItem(toadd, data.username+"@+User");
         userArray[playerN-1][1] = data.username;
         playerN += 1;
-        console.log(userArray);
       } else {
-        console.log("Adakor");
         alert("User/Alias doesn't exist or already in use.");
       }
     })

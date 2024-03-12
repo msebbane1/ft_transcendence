@@ -30,7 +30,6 @@ const Login3p = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Yo");
     const toadd = 'alias' + playerN;
     var  tocheck = username;
     if(loginMethod == 'Alias')
@@ -48,7 +47,6 @@ const Login3p = () => {
           localStorage.setItem(toadd, data.username+"@+Alias");
           userArray[playerN-1][1] = data.username;
           playerN += 1;
-          console.log(userArray);
         } else {
           alert("Alias/Username already in use.");
         }

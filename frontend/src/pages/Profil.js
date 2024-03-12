@@ -17,11 +17,6 @@ const Profil = () => {
   const [listFriend, setlistFriend] = useState('');
   const [statsGames, setStatsGames] = useState('');
   const [listGames, setListGames] = useState('');
- 
-
-  console.log("username(profil): ", user.get("username"));
-
-
   const   handleShowModal = () => setShowModal(true);
   const   handleCloseModal = () => setShowModal(false);
 

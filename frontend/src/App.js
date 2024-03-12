@@ -27,7 +27,7 @@ import TournamentPong from './pages/tournamentPong';
 import TicTacToeGame from './pages/TicTacToe'; //jeu Cassandra Player vs Player
 import AITicTacToe from './pages/AI_TicTacToe'; // Player vs AI
 import ModeTicTacToe from './pages/modeTicTacToe'; //choix du mode de jeu
-import Matchmaking from './pages/matchmakingTicTacToe';
+import Matchmaking from './pages/matchmakingTicTacToe';//Matchmaking
 // ROUTES
 import GameRoute from './routes/GameRoute';
 import UnknowRoute from './routes/UnknowRoute';

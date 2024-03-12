@@ -34,7 +34,6 @@ const SignInModals = () => {
 
       if (response.data.statusIn === true) {
         const data = response.data;
-        console.log('Server response:', response.data);
 
         user.setAll(data);
         setUsername('');

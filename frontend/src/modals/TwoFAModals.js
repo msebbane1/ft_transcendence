@@ -16,9 +16,7 @@ const TwoFAModals = () => {
   const { protocol, hostname, port } = window.location;
 
   const handleActivation = async (checkstatus) => {
-    console.log("2FA status (activate) =", user.get("status_2FA"));
     if (checkstatus) {
-      console.log("checkstatys=", checkstatus);
       return user.set("status_2FA", true);
     }
     setError("Code invalide");

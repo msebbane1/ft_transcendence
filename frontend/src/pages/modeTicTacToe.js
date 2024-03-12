@@ -16,13 +16,13 @@ function ModeTicTacToe() {
       <div className="mode"> Select Mode</div>
       <div className="linker">
         <Link to="/ai-tictactoe" className="container0 container1">
-          <button class="example_g"> Player vs AI</button>
+          <button className="example_g"> Player vs AI</button>
         </Link>
         <Link to="/tictactoe" className="container0 container2">
-          <button class="example_g">Player vs Player</button>
+          <button className="example_g">Player vs Player</button>
         </Link>
         <Link to="/matchmaking" className="container0 container2">
-          <button class="example_g">Matchmaking</button>
+          <button className="example_g">Matchmaking</button>
         </Link>
       </div>
       </div>

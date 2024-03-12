@@ -352,7 +352,6 @@ const PongGame = () => {
         play:true,
       }));
     }
-    console.log(game.play);
   };
 
   const handleFeature = () => {

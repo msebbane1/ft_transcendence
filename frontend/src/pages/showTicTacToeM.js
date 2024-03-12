@@ -120,7 +120,6 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
 		let p1 = player1.playerAlias;
 		let p2 = player2.playerAlias;
 		let gameState = winningPlayer;
-		console.log("p1 = ", p1, "p2 = ", p2, "p2State  = ", p2State, " gameState = ", gameState, " winningPlaye r= ", winningPlayer);
         if(winningPlayer != ""){
             axios.post('https://localhost:8080/api/ttthistory/', {
 				p1,
