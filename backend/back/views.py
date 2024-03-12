@@ -31,18 +31,18 @@ def add_friend(request):
         friend_to_add = data.get('user_to_add')
 
         if (username_who_request == friend_to_add):
-            return (JsonResponse({'error': 'Faut vraiment un grain pour s\'ajouter soi-même... fin bref...'}, status=200))
+            return (JsonResponse({'error': 'It really takes a bean to add yourself... anyway...'}, status=200))
 
         try:
             user = User.objects.get(username=username_who_request)
             user_to_add = User.objects.get(username=friend_to_add)
             if (user.friends.filter(pk=user_to_add.pk).exists()):
-                return (JsonResponse({'error': 'L\'utilisateur est déjà dans votre liste d\'ami.'}, status=200))
+                return (JsonResponse({'error': 'User already in your friend list.'}, status=200))
             user.follow(user_to_add)
             user.save()
         except User.DoesNotExist:
-            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
-        return (JsonResponse({'message':f'L\'ami(e) {user_to_add.username} a été ajoute aux amis'}, status=200))
+            return (JsonResponse({'error': 'User doesn\'t exist.'}, status=200))
+        return (JsonResponse({'message':f'User {user_to_add.username}  added to your friend list'}, status=200))
 
 @csrf_exempt
 @jwt_token_required
@@ -53,18 +53,18 @@ def del_friend(request):
         friend_to_del = data.get('user_to_del')
 
         if (username_who_request == friend_to_del):
-            return (JsonResponse({'error': 'Faut vraiment un grain pour se supprimer soi-même... fin bref...'}, status=200))
+            return (JsonResponse({'error': 'It really takes a bean to suppress yourself... anyway...'}, status=200))
 
         try:
             user = User.objects.get(username=username_who_request)
             user_to_del = User.objects.get(username=friend_to_del)
             if (not user.friends.filter(pk=user_to_del.pk).exists()):
-                return (JsonResponse({'error': 'L\'utilisateur n\'est pas dans votre liste d\'ami.'}, status=200))
+                return (JsonResponse({'error': 'The user is not in your friend list.'}, status=200))
             user.unfollow(user_to_del)
             user.save()
         except User.DoesNotExist:
-            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
-        return (JsonResponse({'message':f'L\'ami(e) {user_to_del.username} a été supprimé des amis'}, status=200))
+            return (JsonResponse({'error': 'User doesn\'t exist.'}, status=200))
+        return (JsonResponse({'message':f'User {user_to_del.username} removed from your friend list'}, status=200))
 
 
 @csrf_exempt
@@ -75,7 +75,7 @@ def get_following(request):
         try:
             user = User.objects.get(id=u)
         except User.DoesNotExist:
-            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
+            return (JsonResponse({'error': 'User doesn\'t exist.'}, status=200))
         
         #now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
         friends = user.getFollowing()
@@ -97,7 +97,7 @@ def get_user_infos(request):
         try:
             user = User.objects.get(id=id)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200)
+            return JsonResponse({'error': 'User doesn\'t exist.'}, status=200)
         
         avatar_id = None
         if user.avatar:

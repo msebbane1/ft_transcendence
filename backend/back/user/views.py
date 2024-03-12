@@ -62,11 +62,11 @@ def update_username(request, id):
             user.username = new_username
             user.save()
 
-            return JsonResponse({'message': 'Nom d\'utilisateur mis à jour avec succès'}, status=200)
+            return JsonResponse({'message': 'Username updated with success !'}, status=200)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
 
-    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+    return JsonResponse({'error': 'Unauthorized method'}, status=405)
 
 
 
@@ -95,9 +95,9 @@ def create_password_tournament(request, id):
                 user.password = make_password(new_password)
             user.save()
 
-            return JsonResponse({'message': 'Le mot de passe Tournois mis à jour avec succès'}, status=200)
+            return JsonResponse({'message': 'Turnament password updated with success!'}, status=200)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -121,10 +121,10 @@ def get_avatar(request, id, avatar_id):
             image_url = request.build_absolute_uri(avatar.image.url)
             return JsonResponse({'image_url': image_url})
         else:
-            return JsonResponse({'message': 'Aucune image, image par default'}, status=200)
+            return JsonResponse({'message': 'No image, default image'}, status=200)
 
     except User.DoesNotExist:
-        return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+        return JsonResponse({'error': 'User not found'}, status=404)
 
 @csrf_exempt
 @jwt_token_required

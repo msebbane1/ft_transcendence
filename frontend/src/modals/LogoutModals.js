@@ -34,18 +34,18 @@ const LogoutModals = ({ showModal, handleClose }) => {
     return (
         <Modal show={showModal} onHide={handleClose}>
             <Modal.Header closeButton>
-                <Modal.Title>Confirmation de déconnexion</Modal.Title>
+                <Modal.Title>Confirm Logout</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <p>Êtes-vous sûr de vouloir vous déconnecter?</p>
+                <p>Are you sure you want to logout?</p>
                 {logoutError && <p style={{ color: 'red' }}>{logoutError}</p>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
-                    Annuler
+                    Cancel
                 </Button>
                 <Button variant="primary" onClick={handleLogout}>
-                    Se déconnecter
+                    Logout
                 </Button>
             </Modal.Footer>
         </Modal>

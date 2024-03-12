@@ -93,7 +93,7 @@ const Profil = () => {
           handleCloseModal();
           setTimeout(() => {window.location.reload();}, 2000);
         } catch (error) {
-            console.error('Erreur lors de la requete au backend: ', error);
+            console.error('Backend request error: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
         }
     };
@@ -121,7 +121,7 @@ const Profil = () => {
           handleCloseModal();
           setTimeout(() => {window.location.reload();}, 2000);
         } catch (error) {
-            console.error('Erreur lors de la requete au backend: ', error);
+            console.error('Backend request error: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
         }
     };
@@ -153,23 +153,23 @@ const Profil = () => {
 
                     <Modal show={showModal} onHide={handleCloseModal}>
                         <Modal.Header closeButton>
-                        <Modal.Title>Ajouter/Supprimer un ami</Modal.Title>
+                        <Modal.Title>Add/remove friends</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                         <Form.Group controlId="formBaliseTexte">
-                            <Form.Label>Entrez le nom d'utilisateur :</Form.Label>
+                            <Form.Label>Enter username :</Form.Label>
                             <Form.Control type="text" value={baliseTexte} onChange={handleInputChange} />
                         </Form.Group>
                         </Modal.Body>
                         <Modal.Footer>
                         <Button variant="primary" onClick={handleSubmitAdd}>
-                            Ajouter
+                            Add
                         </Button>
                         <Button variant="primary" onClick={handleSubmitDel}>
-                            Supprimer
+                            Delete
                         </Button>
                         <Button variant="secondary" onClick={handleCloseModal}>
-                            Fermer
+                            Close
                         </Button>
                         </Modal.Footer>
                     </Modal>
@@ -184,7 +184,7 @@ const Profil = () => {
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
                     <Button variant="light" size='sm' onClick={handleShowModal}>
-                        Gestion d'ami
+                        Friends management
                     </Button>
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
@@ -225,9 +225,9 @@ const Profil = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Victoires</th>
-                        <th>Défaites</th>
-                        <th>Egalites</th>
+                        <th>Victories</th>
+                        <th>Defeats</th>
+                        <th>Equalities</th>
                         <th>Total</th>
                         <th>Winrate</th>
                       </tr>

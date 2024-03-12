@@ -42,13 +42,13 @@ const EditPasswordModal = () => {
       }
       else{
       if (response.data['empty'] === false)
-        setError("Veuillez entrer un mot de passe");
+        setError("Please enter a password");
       if (response.data['lenmin'] === false)
-        setError("Le mot de passe doit contenir au moins 5 caractères");
+        setError("Password must contain at least 5 characters");
       if (response.data['lenmax'] === false)
-        setError("Le mot de passe doit contenir au maximum 10 caractères");
+        setError("Password must contain a maximum of 10 characters");
       if (response.data['repeat'] === false)
-        setError("Le mot de passe ne correspond pas");
+        setError("The password doesn't match");
       setTimeout(() => setError(null), 2000);
     }
     } catch (error) {
@@ -67,30 +67,30 @@ const EditPasswordModal = () => {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modifier le mot de passe</Modal.Title>
+          <Modal.Title>Change Password</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {error && <Alert variant="danger">{error}</Alert>}
           {showSuccessMessage && (
             <Alert variant="success" onClose={() => setShowSuccessMessage(false)} dismissible>
-              Le mot de passe a été mis à jour avec succès !
+             The password has been successfully updated!
             </Alert>
           )}
           <Form>
             <Form.Group controlId="formNewPassword">
-              <Form.Label>Nouveau mot de passe</Form.Label>
+              <Form.Label>New password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Entrez le nouveau mot de passe"
+                placeholder="Enter new password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
               />
             </Form.Group>
             <Form.Group controlId="formConfirmPassword">
-              <Form.Label>Confirmer le mot de passe</Form.Label>
+              <Form.Label>Confirm password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Confirmez le nouveau mot de passe"
+                placeholder="Confirm  new password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
@@ -99,10 +99,10 @@ const EditPasswordModal = () => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Annuler
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleSavePassword}>
-            Enregistrer le mot de passe
+            Save password
           </Button>
         </Modal.Footer>
       </Modal>

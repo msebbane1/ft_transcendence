@@ -46,15 +46,15 @@ const EditUsernameModal = ({ setUsername }) => {
       }
       else {
         if (response.data['empty'] === false)
-          setError("Veuillez entrer un nom d'utilisateur");
+          setError("Please enter a username");
         if (response.data['lenmin'] === false)
-          setError("Le nom d'utilisateur doit contenir au moins 5 caractères");
+          setError("Username must contain at least 5 characters");
         if (response.data['lenmax'] === false)
-          setError("Le nom d'utilisateur doit contenir au maximum 10 caractères");
+          setError("Username must contain a maximum of 10 characters");
         if (response.data['alpha'] === false)
-          setError("Le nom d'utilisateur ne peut contenir que des lettres");
+          setError("Username must contain letters only");
         if (response.data['nameAlreadyUse'] === false)
-          setError("Le nom d'utilisateur est déjà utliser, veuillez en choisir un autre...");
+          setError("Username already in use, choose another one...");
       setTimeout(() => setError(null), 2000);
     }
     } catch (error) {
@@ -80,21 +80,21 @@ const EditUsernameModal = ({ setUsername }) => {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modifier le nom d'utilisateur</Modal.Title>
+          <Modal.Title>Change username</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {error && <Alert variant="danger">{error}</Alert>}
           {showSuccessMessage && (
             <Alert variant="success" onClose={() => setShowSuccessMessage(false)} dismissible>
-              Le pseudo a été mis à jour avec succès !
+              Username has been successfully updated !
             </Alert>
           )}
           <Form>
             <Form.Group controlId="formNewUsername">
-              <Form.Label>Nouveau nom d'utilisateur</Form.Label>
+              <Form.Label>New username</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Entrez le nouveau nom d'utilisateur"
+                placeholder="Enter new username"
                 value={newUsername}
                 onChange={(e) => setNewUsername(e.target.value)}
                 onKeyDown={handleKeyDown}
@@ -104,10 +104,10 @@ const EditUsernameModal = ({ setUsername }) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Annuler
+            Cancel
           </Button>
           <Button variant="primary" onClick={handleSaveUsername}>
-            Enregistrer Nom d'Utilisateur
+            Save username
           </Button>
         </Modal.Footer>
       </Modal>

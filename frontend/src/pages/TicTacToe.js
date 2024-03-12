@@ -56,7 +56,7 @@ function TicTacToeGame(){
 								<label htmlFor="inputPassword5" className="form-label">Password</label>
 								<input type="password" id="inputPassword5" className="form-control" aria-describedby="passwordHelpBlock" value={password} onChange={handlePasswordChange} />
 								<div id="passwordHelpBlock" className="form-text">
-									Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+									Your password must be 5-10 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
 								</div>
 							</div>
 							<button type="submit" className="btn btn-primary">Submit</button>

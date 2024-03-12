@@ -43,13 +43,13 @@ const SignInModals = () => {
       }
       else {
         if (response.data['Namedontexist'] === false)
-          setError("L'utilisateur n'existe pas");
+          setError("User doesn't exist");
         if (response.data['alphaName'] === false)
-          setError("Le nom d'utilisateur ne peut contenir que des lettres");
+          setError("Username must contain letters only");
         if (response.data['nopassword'] === false)
-          setError("Connexion non autorisée, Veuillez vous connecter via 42");
+          setError("Unauthorized connection, Please connect via 42");
         if (response.data['checkpassword'] === false)
-          setError("Mot de passe invalide");
+          setError("Invalid password");
 
       setTimeout(() => setError(null), 2000);
     }

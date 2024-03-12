@@ -66,13 +66,13 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
 
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Modifier l'avatar</Modal.Title>
+          <Modal.Title>Change Avatar</Modal.Title>
         </Modal.Header>
         <Modal.Body>
 	      {error && <Alert variant="danger">{error}</Alert>}
           {showSuccessMessage && (
             <Alert variant="success" onClose={() => setShowSuccessMessage(false)} dismissible>
-              Le photo de profil a été mis à jour avec succès !
+              The profile picture has been successfully updated!
             </Alert>
           )}
           <form onSubmit={handleSubmit}>
@@ -82,7 +82,7 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleCloseModal}>
-            Annuler
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>

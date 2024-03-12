@@ -39,7 +39,7 @@ def get_authorize_url(request):
         authorization_url = f'https://api.intra.42.fr/oauth/authorize?client_id={CLIENT_ID}&redirect_uri={REDIRECT_URI}&response_type=code'
         return JsonResponse({'authorization_url': authorization_url})
     
-    return JsonResponse({'error': 'Methode non autorisée'}, status=405)
+    return JsonResponse({'error': 'Unauthorized method'}, status=405)
     
 
 ##### PHOTO DE PROFILE INTRA ####
@@ -56,9 +56,9 @@ def get_profile_image(request):
         if image_url:
             return JsonResponse({'image_url': image_url})
         else:
-            return JsonResponse({'error': 'Image de profil indisponible'}, status=400)
+            return JsonResponse({'error': 'Profile picture unavailable'}, status=400)
 
-    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+    return JsonResponse({'error': 'Unauthorized method'}, status=405)
 
 #### INFOS USER ####
 ## A changer en get ??
@@ -73,9 +73,9 @@ def get_infos_user(request):
         if data:
             return JsonResponse(data)
         else:
-            return JsonResponse({'error': 'Infos user indisponible'}, status=400)
+            return JsonResponse({'error': 'User information unavailable'}, status=400)
 
-    return JsonResponse({'error': 'Méthode non autorisée'}, status=405)
+    return JsonResponse({'error': 'Unauthorized method'}, status=405)
 
 ########################################################### LOGIN 42 #################################################################33
 @csrf_exempt
@@ -135,7 +135,7 @@ def login42(request):
 })
 
         except json.decoder.JSONDecodeError as e:
-            return JsonResponse({'error': 'Reponse JSON et access token indisponible'}, status=500)
+            return JsonResponse({'error': 'JSON response and access token unavailable'}, status=500)
 
     if request.method == 'GET':
         return JsonResponse({'message': 'GET request received'})
@@ -245,9 +245,9 @@ def logout(request, id):
             user.status = "offline"
             user.save()
 
-            return JsonResponse({'success': 'Déconnexion réussie'}, status=200)
+            return JsonResponse({'success': 'Successful disconnection'}, status=200)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -271,7 +271,7 @@ def validate_2fa(request):
 
             return JsonResponse({'status': True})
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -319,7 +319,7 @@ def disable_2fa(request):
 
             return JsonResponse({'status': True})
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -353,7 +353,7 @@ def get_jwt_token(request, id):
             else:
                 return JsonResponse({'error': 'no jwt token'}, status=404)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
         return JsonResponse({'status': True})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -374,7 +374,7 @@ def get_jwt_tokenCookies(request, id):
             else:
                 return JsonResponse({'error': 'no jwt token'}, status=404)
         except User.DoesNotExist:
-            return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
+            return JsonResponse({'error': 'User not found'}, status=404)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 

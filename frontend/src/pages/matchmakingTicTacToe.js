@@ -347,16 +347,16 @@ function Matchmaking(){
                 {!areValuesEmpty(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias) && (
                     <div className="container-board">
                         <div>
-                            <p>En attente d'autres joueurs</p>
+                            <p>Waiting for other players</p>
                                 {displayWaitingPlayers()}
-                            <button className="btn btn-danger" onClick={resetQueue}>Annuler la recherche</button>
+                            <button className="btn btn-danger" onClick={resetQueue}>Cancel</button>
                         </div>
                     </div>
                 )}
                 {nbPlayers < 4  && (
                     <div>
-                        <button className="toconnect" onClick={joinMatchmakingQueue}>Rejoindre la file d'attente</button>
-                        <button className="toconnect" onClick={toggleForm}>Connecter un autre joueur</button> 
+                        <button className="toconnect" onClick={joinMatchmakingQueue}>Join the queue</button>
+                        <button className="toconnect" onClick={toggleForm}>Connect another player</button> 
                     </div>
                 
                 )}

@@ -17,12 +17,12 @@ def jwt_token_required(view_func):
                 if expiration_time:
                     current_time = datetime.datetime.utcnow().timestamp()
                     if current_time > expiration_time:
-                        return JsonResponse({'error': 'Le token JWT a expiré'}, status=401)
+                        return JsonResponse({'error': 'JWT token expired'}, status=401)
                 return view_func(request, *args, **kwargs)
             except jwt.exceptions.DecodeError:
-                return JsonResponse({'error': 'Token JWT invalide'}, status=401)
+                return JsonResponse({'error': 'Invalid JWT Token'}, status=401)
         else:
-            return JsonResponse({'error': 'Token JWT manquant'}, status=401)
+            return JsonResponse({'error': 'Missing JWT Token'}, status=401)
     return wrapped_view
 
 def oauth2_token_required(view_func):
@@ -37,11 +37,11 @@ def oauth2_token_required(view_func):
                 if response.status_code == 200:
                     return view_func(request, *args, **kwargs)
                 else:
-                    return JsonResponse({'error': 'Token OAuth2 invalide'}, status=401)
+                    return JsonResponse({'error': 'Invalid OAuth2 token'}, status=401)
             except Exception as e:
                 return JsonResponse({'error': str(e)}, status=500)
         else:
-            return JsonResponse({'error': 'Token OAuth2 manquant'}, status=401)
+            return JsonResponse({'error': 'Missing OAuth2 Token'}, status=401)
     return wrapped_view
 
 
@@ -56,11 +56,11 @@ def refresh_token_requiredd(view_func):
                 token.verify()
                 return view_func(request, *args, **kwargs)
             except jwt.ExpiredSignatureError:
-                return JsonResponse({'error': 'Le token de rafraîchissement a expiré'}, status=401)
+                return JsonResponse({'error': 'Refresh token expired'}, status=401)
             except jwt.InvalidTokenError:
-                return JsonResponse({'error': 'Token de rafraîchissement invalide'}, status=401)
+                return JsonResponse({'error': 'Invalid refresh token'}, status=401)
         else:
-            return JsonResponse({'error': 'Token de rafraîchissement manquant'}, status=401)
+            return JsonResponse({'error': 'Missing refresh token'}, status=401)
     return wrapped_view
 
 
@@ -74,7 +74,7 @@ def refresh_token_required(view_func):
             if not token.access_token:
                 return view_func(request, *args, **kwargs)
             else:
-                return JsonResponse({'error': 'Token de rafraîchissement requis'}, status=401)
+                return JsonResponse({'error': 'Refresh token required'}, status=401)
         except TokenError as e:
             return JsonResponse({'error': str(e)}, status=401)
     return wrapped_view

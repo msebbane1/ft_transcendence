@@ -95,9 +95,9 @@ const ProfileFriends = () => {
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Victoires</th>
-                        <th>Défaites</th>
-                        <th>Egalites</th>
+                        <th>Victories</th>
+                        <th>Defeats</th>
+                        <th>Equalities</th>
                         <th>Total</th>
                         <th>Winrate</th>
                       </tr>

@@ -27,7 +27,7 @@ return (
     <div>
       {loading ? (
         <div className="loading-auth">
-          <p className="loading-text">Authentification en cours...</p>
+          <p className="loading-text">Authentification in progress...</p>
         </div>
       ) : (
         <div className="container-login animate__bounceIn">
