@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Alert, Button, Modal } from 'react-bootstrap';
 import QrCode from '../components/settings/QrCode';
-import QrCodeValidator from "../components/settings/Qr";
+import CheckValidQrCode from "../components/settings/CheckValidQrCode";
 import useUser from '../hooks/useUserStorage';
 import '../pages/Settings.css';
 import axios from 'axios';
@@ -15,19 +15,17 @@ const TwoFAModals = () => {
   const [error, setError] = useState(null);
   const { protocol, hostname, port } = window.location;
 
-  const handleActivation = async (status: boolean) => {
+  const handleActivation = async (checkstatus) => {
     console.log("2FA status (activate) =", user.get("status_2FA"));
-    if (status) {
-       console.log("status =", status);
+    if (checkstatus) {
+      console.log("checkstatys=", checkstatus);
       return user.set("status_2FA", true);
     }
     setError("Code invalide");
     setTimeout(() => setError(null), 2000);
   };
 
-  const handleDesactivation = async (status: boolean) => {
-    if (status) {
-            console.log("2FA status (activate) apreees =", user.get("status_2FA"));
+  const handleDesactivation = async () => {
       try {
 
         const responsejwt = await axios.post(
@@ -61,7 +59,6 @@ const TwoFAModals = () => {
         setError("Erreur inattendue");
         setTimeout(() => setError(null), 2000);
       }
-    }
   };
 
   return (
@@ -93,11 +90,11 @@ const TwoFAModals = () => {
                 {user.get("status_2FA") ? "Two-factor authentication is enabled" : 
 			"Saisissez le code à 6 chiffres généré par votre app Google Authentificator."}</p>
 	  	    
-              {/* QR Code Validator Section */}
-              {error && <Alert variant="danger">{error}</Alert>}
+              {/* CheckValidQrCode Section */}
+              {error && <div className="text-danger">{error}</div>}
               {!user.get("status_2FA") ? (
-                <QrCodeValidator
-                  then={handleActivation}
+                <CheckValidQrCode
+                  checkstatus={handleActivation}
                   placeholder="_"
                 />
               ) : (

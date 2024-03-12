@@ -5,6 +5,18 @@ import axios from "axios";
 import { useState } from "react";
 import { useEffect } from 'react';
 
+
+// conversion en base64
+const arrayBufferToBase64 = (buffer) => {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const len = bytes.byteLength;
+  for (let i = 0; i < len; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  return btoa(binary);
+}
+
 const QrCode = (props) => {
   const { size } = props;
   const user = useUser("user");
@@ -57,17 +69,6 @@ const QrCode = (props) => {
       margin: "auto"
     }} />
   );
-}
-
-// conversion array buffer to base64
-const arrayBufferToBase64 = (buffer) => {
-  let binary = '';
-  const bytes = new Uint8Array(buffer);
-  const len = bytes.byteLength;
-  for (let i = 0; i < len; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary);
 }
 
 export default QrCode;

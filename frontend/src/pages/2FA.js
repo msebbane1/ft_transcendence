@@ -1,28 +1,24 @@
 import { useState } from "react";
 import useUser from "../hooks/useUserStorage";
-import QrCodeValidator from "../components/settings/Qr";
+import CheckValidQrCode from "../components/settings/CheckValidQrCode";
 import { useNavigate } from "react-router-dom";
 import './2FA.css';
 import './loading.css'
 
 const TwoFactorAuth = () => {
-    const session = useUser("user");
+    const user = useUser("user");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleError = (error) => {
-        setError(error);
-        setTimeout(() => setError(null), 2000);
-    }
-
-    const handleValidation = (status) => {
-        if (status) {
+    const handleValidation = (checkstatus) => {
+        if (checkstatus) {
             setLoading(true);
-            session.set("2FA_valid", true);
+            user.set("2FA_valid", true);
             setTimeout(() => navigate("/home"), 1000);
         } else {
-            handleError("Code invalide");
+            setError("Code invalide");
+            setTimeout(() => setError(null), 2000);
         }
     }
 
@@ -37,7 +33,8 @@ const TwoFactorAuth = () => {
                 <div>
                     <h1>Two-Factor autentification</h1>
                     <p>Saisissez le code à 6 chiffres généré par votre application pour confirmer votre action.</p>
-                    <QrCodeValidator then={handleValidation} placeholder="_" />
+                    <CheckValidQrCode checkstatus={handleValidation} placeholder="_" />
+                    {error && <div className="text-danger">{error}</div>}
                 </div>
             )}
         </div>

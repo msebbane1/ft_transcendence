@@ -76,7 +76,7 @@ const EditAvatarModal = ({refreshProfilePicture}) => {
             </Alert>
           )}
           <form onSubmit={handleSubmit}>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <input type="file" accept="image/jpeg, image/jpg, image/png, image/svg+xml" onChange={handleImageChange} />
             <button type="submit">Update Avatar</button>
           </form>
         </Modal.Body>

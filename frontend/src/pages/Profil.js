@@ -30,11 +30,11 @@ const Profil = () => {
   }
 
   useEffect(() => {
+    
       const response = axios.post('https://localhost:8080/api/getFriends', 
       {
         'id': user.get('id'),
-      }, 
-      {}).then((response) => {
+      },).then((response) => {
           if (response.data.error)
             setlistFriend({"message": ""});
           else
@@ -71,11 +71,19 @@ const Profil = () => {
 
   const handleSubmitAdd = async () => {
         try {
+
+          const responsejwt = await axios.post(
+            `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
+          );
           const response = await axios.post('https://localhost:8080/api/addFriend', 
           {
               user_to_add: baliseTexte,
               username: user.get('username')
-          });
+          },
+          {headers: {
+            Authorization: `Bearer ${responsejwt.data.jwt_token}`,
+            'Content-Type': 'application/json',
+          },});
           
           if (response.data.message)
             setPopupInfo({message: response.data.message, variant: 'success'});
@@ -91,11 +99,19 @@ const Profil = () => {
     };
     const handleSubmitDel = async () => {
         try {
+
+          const responsejwt = await axios.post(
+            `https://localhost:8080/api/auth/get-tokenjwt/${user.get("id")}/`, {},{}
+          );
           const response = await axios.post('https://localhost:8080/api/delFriend', 
           {
               user_to_del: baliseTexte,
               username: user.get('username')
-          });
+          },
+          {headers: {
+            Authorization: `Bearer ${responsejwt.data.jwt_token}`,
+            'Content-Type': 'application/json',
+          },});
           
           if (response.data.message)
             setPopupInfo({message: response.data.message, variant: 'success'});

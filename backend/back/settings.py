@@ -1,21 +1,18 @@
 from pathlib import Path
 import os
 import secrets
+from dotenv import load_dotenv
 
-# Définition du répertoire racine de votre projet Django
+load_dotenv()
+
+JWT_SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+JWT_ALGORITHM = os.getenv("JWT_ALGORITHM") 
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# Configuration des paramètres MEDIA pour le stockage des fichiers médias
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Autres paramètres de configuration...
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-#BASE_DIR = Path(__file__).resolve().parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-_gpjt-re1vo^qvm%*t4zpx5f6jc(%u(^0l6-q9b4l!e!gi0*cu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -23,11 +20,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1'] 
 
-###### JWT #####
-JWT_SECRET_KEY = secrets.token_hex(32) # A METTRE DANS .ENV
-
-# Algorithme de signature JWT (par défaut, utilisez HS256)
-JWT_ALGORITHM = 'HS256'
 
 # Application definition
 

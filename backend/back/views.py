@@ -23,6 +23,7 @@ from .utils import usernameAlreadyUse, pseudoAlreadyUse
 
 ############################ FRIENDS ###########################
 @csrf_exempt
+@jwt_token_required
 def add_friend(request):
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -44,6 +45,7 @@ def add_friend(request):
         return (JsonResponse({'message':f'L\'ami(e) {user_to_add.username} a été ajoute aux amis'}, status=200))
 
 @csrf_exempt
+@jwt_token_required
 def del_friend(request):
     if request.method == 'POST':
         data = json.loads(request.body)
