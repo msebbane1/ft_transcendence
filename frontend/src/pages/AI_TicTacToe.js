@@ -34,7 +34,6 @@ function AITicTacToe(){
     const [squares, setSquares] = useState(Array(9).fill(null));
 	const [player, setPlayer] = useState({
         playerSymbol: (randomNum < 0.5 ? 'X' : 'O'),  // si rNum < 0.5 symbole = X et invercement
-        //playerId: , //database
     });
 	const [ai , setAi] = useState({
         aiSymbol: (player.playerSymbol === 'X' ? 'O' : 'X'), //choisi en fonction du symbole du player
@@ -45,10 +44,10 @@ function AITicTacToe(){
         window.location.href = "/ai-tictactoe"; 
         window.location.reload();
     }
+
     useEffect(() => {
         if (!xIsNext && !calculateWinner(squares, lines)) {
                 const aiMove = AI(squares); // Récupère le mouvement de l'IA
-                console.log("aiMove=", aiMove);
                 const nextSquares = squares.slice();// l'utilisation de slice() permet de creer une copie du jeu a modifier pour garder le status d'avant en memoire
                 nextSquares[aiMove] = ai.aiSymbol;
                 setSquares(nextSquares);

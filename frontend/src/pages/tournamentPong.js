@@ -95,6 +95,7 @@ const setupTournament = () => {
 
     for (let i = 1; i <= 4; i++) {
     const alias = localStorage.getItem(`alias${i}`).split("@+");
+    console.log(alias);
     if (alias) {
         if(alias[1] == 'User')
           playersUser.push(alias[0]);
@@ -121,7 +122,6 @@ const setupTournament = () => {
 const TournamentPong = () => {
   
   const user = useUser("user");
-  var host = user.get('username');
   if(x == 0)
   {
     setupTournament();
@@ -371,6 +371,7 @@ const playerMove = () => {
   };
 
   useEffect(() => { // gestion touches pour joueurs 1 et 2
+    user.set("pongAccess", 'fin');
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
     return () => {
@@ -444,8 +445,6 @@ const playerMove = () => {
     const targetFPS = 200;
     const frameInterval = 1 / targetFPS;
     const update = () => {
-      //user.set("pongAccess", 'fin');
-      // console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
       if (deltaTime >= frameInterval) {
@@ -664,18 +663,18 @@ const playerMove = () => {
     <div className="canvas">
       <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
       {game.winner && tournOver != true && (
-        <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', textAlign: 'center', width: 'fit-content', transform: 'translateX(-50%)' }}>
+        <div className="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', textAlign: 'center', width: 'fit-content', transform: 'translateX(-50%)' }}>
           Round Winner : {winnerN} 
-          <button type="button" class="btn btn-primary"onClick={handleMatch}>Next Match :{matches[MATCHN + 1][0]} vs {matches[MATCHN + 1][1]}</button>
+          <button type="button" className="btn btn-primary"onClick={handleMatch}>Next Match :{matches[MATCHN + 1][0]} vs {matches[MATCHN + 1][1]}</button>
         </div>
       )}
       {tournOver && totOver &&(
-        <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
-        {winnerN} is the tournament Winner ! <a href="/modepong" class="alert-link">Back</a> 
+        <div className="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+        {winnerN} is the tournament Winner ! <a href="/modepong" className="alert-link">Back</a> 
       </div>
       )}
       {tournOver && totOver == false && MATCHN != 6 && (
-              <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+              <div className="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
                 DRAW !
                 <button onClick={handleLast}>Final Round :{matches[6][0]} vs {matches[6][1]}</button>
               </div>

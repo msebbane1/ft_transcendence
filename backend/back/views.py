@@ -298,6 +298,38 @@ def signintournament(request):
         })
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+####################################################  SIGNINTOURNAMENT2 ###############################################
+
+@csrf_exempt
+def signintournament2(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        username = data.get('username')
+        password = data.get('password')
+        host = data.get('host')
+        try:
+            host = User.objects.get(username=host)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
+        try:
+            user = User.objects.get(pseudo=username)
+        except User.DoesNotExist:
+            return JsonResponse({'error': 'User does not exist'}, status=400)
+        if not user.password_tournament:
+            return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
+        if not check_password(password, user.password_tournament):
+            return JsonResponse({'error': 'Invalid password'}, status=400)
+        host.status = 'In game'
+        host.save()
+        user.status = "In game"
+        user.save()
+        return JsonResponse({
+            'username': user.username,
+            'pseudo': user.pseudo,
+        })
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 ####################################################  CHECK ALIAS ###############################################
 
 @csrf_exempt
@@ -426,7 +458,7 @@ def endtournament(request):
         host = data.get('host')
         lst_players.pop(0)
         try:
-            host = User.objects.get(pseudo=host)
+            host = User.objects.get(username=host)
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=400)
         try:

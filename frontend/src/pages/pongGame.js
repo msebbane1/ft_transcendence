@@ -287,6 +287,7 @@ const PongGame = () => {
 
 
   useEffect(() => { // gestion touches pour joueurs 1 et 2
+    user.set("pongAccess", 'fin');
     document.addEventListener('keydown', handleKeyDown);
     document.addEventListener('keyup', handleKeyUp);
     return () => {
@@ -300,8 +301,6 @@ const PongGame = () => {
     const targetFPS = 200;
     const frameInterval = 1000 / targetFPS;
     const update = () => {
-      user.set("pongAccess", 'fin');
-    console.log("access dans choix = ", user.get("pongAccess"));
       const currentTime = performance.now();
       const deltaTime = currentTime - lastFrameTime;
   

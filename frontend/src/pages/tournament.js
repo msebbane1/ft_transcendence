@@ -30,6 +30,7 @@ const Tournament = () => {
            value5 !== value1;
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const toadd = 'alias' + playerN;

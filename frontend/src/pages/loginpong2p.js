@@ -14,7 +14,7 @@ userArray.push(['alias2', "- 1234", "none"]);
 const Login2p = () => {
   
   const user = useUser("user");
-  const p1 = user.get("username");
+  const p1 = user.get("pseudo");
   userArray[0][1] = p1;
   localStorage.setItem('alias1', p1+ "@+User");
   const [username, setUsername] = useState('');

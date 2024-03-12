@@ -26,7 +26,7 @@ function TicTacToeGame(){
         e.preventDefault();
         try {
 			const host = player1;
-			const response = await axios.post('https://localhost:8080/api/signintournament/', {
+			const response = await axios.post('https://localhost:8080/api/signintournament2/', {
 			  username,
 			  password,
 			  host,

@@ -16,12 +16,12 @@ function Home() {
         <Link to="/modetictactoe" className="container0 container-2">
           Tic Tac Toe
         </Link>
-        <Link to="/profile" className="container0 container-4">
+        <a href="/profile" className="container0 container-4">
           Profile
-        </Link>
-        <Link to="/settings" className="container0 container-5">
+        </a>
+        <a href="/settings" className="container0 container-5">
           Settings
-        </Link>
+        </a>
     
 </div>
   );

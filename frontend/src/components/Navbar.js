@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from "react-router-dom";
 import { Button, Modal } from 'react-bootstrap';
 import LogoutModals from '../modals/LogoutModals';
-import ProfilePictureNav from './ProfilePictureNav';
 
 function NavBar() {
   const user = useUser("user");

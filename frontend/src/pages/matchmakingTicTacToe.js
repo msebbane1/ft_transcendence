@@ -127,7 +127,7 @@ function Matchmaking(){
         console.log('form submitted');
         setShowForm(true);
         e.preventDefault();
-        axios.post('https://localhost:8080/api/signintournament/', {
+        axios.post('https://localhost:8080/api/signintournament2/', {
             username,
             password,
             host,
@@ -176,6 +176,9 @@ function Matchmaking(){
         }));
     }
 
+    // useEffect(() => {
+
+    // }, [matc])
     //fonction de reset lors de l'annulation de la rechercher
     const resetQueue = async () => {
         
@@ -202,7 +205,7 @@ function Matchmaking(){
                         const diff = Math.abs(player.winrate - waitingPlayer.players[i].winrate);
                         if (diff <= (5 + (player.waitingTime / 5)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
                             handleMatches(index, i);
-                            nbPlayers -= 2;
+                            nbPlayers -= 1;
                             return; // Sortir de la boucle dès qu'une correspondance est trouvée
                         }
                     }
@@ -216,16 +219,17 @@ function Matchmaking(){
     // useEffect(() => {
         
     //     return () => {
-    //         var toSet = [];
-    //         toSet.push(waitingPlayer.players[0].alias);
-    //         toSet.push(waitingPlayer.players[1].alias);
-    //         toSet.push(waitingPlayer.players[2].alias);
-    //         toSet.push(waitingPlayer.players[3].alias);
-    //         leaveGame(toSet);
+    //         leaveGame();
     //     }
     // }, []);
 
-    // const leaveGame = async (toSet) => {
+    // const leaveGame = async () => {
+    //     let toSet = [];
+    //     for(let i = 0; i < 4; i++)
+    //     {
+    //         if(waitingPlayer.players[i].alias != '\0')
+    //             toSet.push(waitingPlayer.players[i].alias);
+    //     }
     //     axios.post('https://localhost:8080/api/leaveStatus/', {
     //         toSet,
     //         host,
@@ -243,14 +247,14 @@ function Matchmaking(){
 
     // Fonction pour rejoindre la file d'attente de matchmaking
     const joinMatchmakingQueue = async () => {
-
+        if(matchUp === false) {
             if (waitingPlayer.players && nbPlayers < 4) {
+                console.log("username = ", username);
                 if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
                     try {
                         const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
                             'username': host,
                         });
-        
                         if (res_stat.data.error)
                             setStatsGames({'message': ""});
                         else {
@@ -317,6 +321,7 @@ function Matchmaking(){
             setIsInQueue(true);
             setPassword('');
             setUsername('');
+        }
     };
 
     function displayWaitingPlayers(){
@@ -324,7 +329,7 @@ function Matchmaking(){
             <div>
                 {waitingPlayer.players.map((player, index) => (
                     <div key={index}>
-                        {player.alias != '\0' && <p>Joueur : {player.alias} | Temps d'attente : {player.waitingTime} secondes</p>}
+                        {player.alias != '\0' && <p>Player: {player.alias} | Waiting time : {player.waitingTime} seconds</p>}
                     </div>
                 ))}
             </div>
@@ -339,7 +344,8 @@ function Matchmaking(){
     }
 
     const toggleForm = () => {
-        setShowForm(!showForm);
+        if(matchUp === false)
+            setShowForm(!showForm);
     };
     return (
         <>
@@ -355,8 +361,8 @@ function Matchmaking(){
                 )}
                 {nbPlayers < 4  && (
                     <div>
-                        <button className="toconnect" onClick={joinMatchmakingQueue}>Join the queue</button>
-                        <button className="toconnect" onClick={toggleForm}>Connect another player</button> 
+                        <button className="toconnect" onClick={joinMatchmakingQueue}>Join Queue</button>
+                        <button className="toconnect" onClick={toggleForm}>Connect an other player</button> 
                     </div>
                 
                 )}
