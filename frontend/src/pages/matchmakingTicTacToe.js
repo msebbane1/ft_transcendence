@@ -153,7 +153,7 @@ function Matchmaking(){
                 return player;
             })
         }));
-        nbPlayers -= 2;
+        nbPlayers -= 1;
     }
     // useEffect(() => {
     // }, [matc])
@@ -182,7 +182,6 @@ function Matchmaking(){
                         const diff = Math.abs(player.winrate - waitingPlayer.players[i].winrate);
                         if (diff <= (5 + (player.waitingTime / 2)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
                             handleMatches(index, i);
-                            console.log(nbPlayers);
                             return; // Sortir de la boucle dès qu'une correspondance est trouvée
                         }
                     }
@@ -219,7 +218,6 @@ function Matchmaking(){
     const joinMatchmakingQueue = async () => {
         if(matchUp === false) {
             if (waitingPlayer.players && nbPlayers < 4) {
-                console.log("user = ", username);
                 if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
                     try {
                         const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {

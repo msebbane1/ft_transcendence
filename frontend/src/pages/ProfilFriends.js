@@ -137,7 +137,7 @@ const ProfileFriends = () => {
 
   <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-leader"/>
-              <p class="title-profile">Match History</p>
+              <p className="title-profile">Match History</p>
               </div>
               <div className="col d-flex justify-content-center align-items-center">
               {listGames && listGames.list_object.length > 0 ? (
@@ -146,34 +146,34 @@ const ProfileFriends = () => {
                   .sort((a, b) => new Date(b.date) - new Date(a.date))
                   .slice(0, 3)
                   .map((element, index) => (
-                    <div className='container mask-custom'>
-                      <div className='row' keys={index}>
+                    <div className='container mask-custom' key={index}>
+                      <div className='row' >
                         {element.tournament && element.tournament !== '' && (
-                          <p class="title-profile">{element.tournament}</p>
+                          <p className="title-profile">{element.tournament}</p>
                         )
                         }
-                        <p class="title-profile">{element.loser2 ? element.type_game + " 3Players" : (element.type_game == 'PONG' ? element.type_game + " 2Players": element.type_game)}</p>
+                        <p className="title-profile">{element.loser2 ? element.type_game + " 3Players" : (element.type_game == 'PONG' ? element.type_game + " 2Players": element.type_game)}</p>
                         {element.winner && (
-                          <p class="title-profile">Winner: {element.winner}</p>
+                          <p className="title-profile">Winner: {element.winner}</p>
                         )
                         }
                         {element.score && (
-                          <p class="title-profile">{element.score}</p>
+                          <p className="title-profile">{element.score}</p>
                         )
                         }
                         {element.loser && (
-                          <p class="title-profile">Loser: {element.loser}</p>
+                          <p className="title-profile">Loser: {element.loser}</p>
                         )
                         }
                         {element.loser2 && (
-                          <p class="title-profile">Loser: {element.loser2}</p>
+                          <p className="title-profile">Loser: {element.loser2}</p>
                         )
                         }
                         {element.draw_user1 && element.draw_user2 && (
-                          <p class="title-profile">Draw between {element.draw_user1} and {element.draw_user2}</p>
+                          <p className="title-profile">Draw between {element.draw_user1} and {element.draw_user2}</p>
                         )
                         }
-                        <p class="title-profile">{element.date}</p>
+                        <p className="title-profile">{element.date}</p>
                       </div>
                     </div>
                   ))}

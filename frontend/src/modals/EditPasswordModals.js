@@ -13,8 +13,11 @@ const EditPasswordModal = () => {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
 
   const handleOpenModal = () => setShowModal(true);
-  const handleCloseModal = () => setShowModal(false);
-
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setNewPassword('');
+    setConfirmPassword('');
+  }
   const handleSavePassword = async () => {
     try {
 
@@ -39,17 +42,21 @@ const EditPasswordModal = () => {
           setShowSuccessMessage(false);
           handleCloseModal();
         }, 2000);
+        setNewPassword('');
+        setConfirmPassword('');
       }
       else{
-      if (response.data['empty'] === false)
-        setError("Please enter a password");
-      if (response.data['lenmin'] === false)
-        setError("Password must contain at least 5 characters");
-      if (response.data['lenmax'] === false)
-        setError("Password must contain a maximum of 10 characters");
-      if (response.data['repeat'] === false)
-        setError("The password doesn't match");
-      setTimeout(() => setError(null), 2000);
+        if (response.data['empty'] === false)
+          setError("Please enter a password");
+        if (response.data['lenmin'] === false)
+          setError("Password must contain at least 5 characters");
+        if (response.data['lenmax'] === false)
+          setError("Password must contain a maximum of 10 characters");
+        if (response.data['repeat'] === false)
+          setError("The password doesn't match");
+        setTimeout(() => setError(null), 2000);
+        setNewPassword('');
+        setConfirmPassword('');
     }
     } catch (error) {
       if (error.response) {

@@ -62,7 +62,6 @@ const SignUpPage = () => {
       console.error('Error submitting form:', error);
       if (error.response) {
         
-        console.log('Server error:', error.response.data.error);
         setError(error.response.data.error);
       } else {
         setError('An unexpected error occurred');

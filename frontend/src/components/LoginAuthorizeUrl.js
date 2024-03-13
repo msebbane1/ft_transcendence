@@ -23,7 +23,7 @@ const LoginAuthorizeUrl = () => {
                 window.location.href = response.data.authorization_url;
             }
             else {
-                console.log('Réponse URL', response.data);
+                console.log('Response URL', response.data);
             }
         } catch (error) {
             console.error('Erreur lors de la vérification de l\'authentification 42 LOGIN:', error);

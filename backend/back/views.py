@@ -77,16 +77,16 @@ def get_following(request):
         except User.DoesNotExist:
             return (JsonResponse({'error': 'User doesn\'t exist.'}, status=200))
         
-        #now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
+        now_date = datetime.strptime(datetime.now().strftime("%H:%M"), "%H:%M")
         friends = user.getFollowing()
         lst_f = []
         for f in friends:
-            #dt_tmp = datetime.strptime(f.limit_status, "%H:%M")
-            #diff = ((now_date - dt_tmp).seconds // 60) % 60
-            #if (diff >= 5):
-                #f.status = "offline"
-                #f.save()
-            lst_f.append({'friend': f"{f.username}", 'id': f"{f.id}"})
+            dt_tmp = datetime.strptime(f.limit_status, "%H:%M")
+            diff = ((now_date - dt_tmp).seconds // 60) % 60
+            if (diff >= 5):
+                f.status = "offline"
+                f.save()
+            lst_f.append({'friend': f"{f.username}", 'id': f"{f.id}", 'status': f"{f.status}"})
         return (JsonResponse({'message': lst_f}, status=200))
 
 @csrf_exempt
@@ -286,6 +286,11 @@ def signintournament(request):
             return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
         if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
+
+        tmp = User.objects.get(pseudo=username)
+        tmp.status = "online"
+        tmp.limit_status = datetime.now().strftime("%H:%M")
+        tmp.save()
         # host.status = 'In game'
         # host.save()
         # user.status = "In game"
@@ -356,10 +361,11 @@ def begintournament(request):
         playersUsers = data.get('playersUser')
         playersAlias = data.get('playersAlias')
 
-        # for p in playersUsers:
-        #     tmp = User.objects.get(username=p)
-        #     tmp.status = "In game"
-        #     tmp.save()
+        for p in playersUsers:
+            tmp = User.objects.get(username=p)
+            tmp.status = "online"
+            tmp.limit_status = datetime.now().strftime("%H:%M")
+            tmp.save()
 
         try:
             trnmt = Tournament.objects.create(
@@ -483,11 +489,11 @@ def endtournament(request):
             t = Tournament.objects.get(id=tournamentID)
             t.creator.limit_status = datetime.now().strftime("%H:%M")
             t.creator.list_players_status = lst_players
-            # for p in lst_players:
-            #     tmp = User.objects.get(username=p)
-            #     tmp.status = "offline"
-            #     tmp.limit_status = datetime.now().strftime("%H:%M")
-            #     tmp.save()
+            for p in lst_players:
+                tmp = User.objects.get(username=p)
+                tmp.status = "online"
+                tmp.limit_status = datetime.now().strftime("%H:%M")
+                tmp.save()
             try:
                 u = User.objects.get(username=winnerG)
             except User.DoesNotExist:
@@ -540,10 +546,12 @@ def ttthistory(request):
             loser = l if gameState != "draw" else None,
             date = datetime.now().strftime("%d/%m/%Y %H:%M"),
         )
-        # p1.status = "online"
-        # p1.save()
-        # p2.status = "offline"
-        # gt.save()
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.status = "online"
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = "online"
+        gt.save()
         return JsonResponse({'player1': player1})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -574,12 +582,12 @@ def pong2phistory(request):
         else:
             p2 = User.objects.get(username=player2)
 
-        # p1.limit_status = datetime.now().strftime("%H:%M")
-        # p1.status = 'online'
-        # p1.save()
-        # p2.limit_status = datetime.now().strftime("%H:%M")
-        # p2.status = 'offline'
-        # p2.save()
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.status = 'online'
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = 'online'
+        p2.save()
 
         w = p2
         l = p1
@@ -645,15 +653,15 @@ def pong3phistory(request):
         else:
             p3 = User.objects.get(username=player3)
 
-        # p1.limit_status = datetime.now().strftime("%H:%M")
-        # p1.status = 'online'
-        # p1.save()
-        # p2.limit_status = datetime.now().strftime("%H:%M")
-        # p2.status = 'offline'
-        # p2.save()
-        # p3.limit_status = datetime.now().strftime("%H:%M")
-        # p3.status = 'offline'
-        # p3.save()
+        p1.limit_status = datetime.now().strftime("%H:%M")
+        p1.status = 'online'
+        p1.save()
+        p2.limit_status = datetime.now().strftime("%H:%M")
+        p2.status = 'online'
+        p2.save()
+        p3.limit_status = datetime.now().strftime("%H:%M")
+        p3.status = 'online'
+        p3.save()
 
         tab = [p1score, p2score, p3score]
         tab.sort(reverse=True)

@@ -129,7 +129,7 @@ const TournamentPong = () => {
   const canvasRef = useRef(null);
   const [game, setGame] = useState({
     feature: {
-      on: true,
+      on: false,
     },
     keysPressed:{
       player:{
@@ -568,7 +568,7 @@ const playerMove = () => {
       winnerN: '',
       feature: {
         ...prevGame.player,
-        on: true,
+        on: false,
       },
       player: {
         ...prevGame.player,
@@ -679,35 +679,35 @@ const playerMove = () => {
       {/* gestion rectangles aff tournoi
       L ENFER EST PRESENT*/}
       <div style={{position: 'absolute', left: '150px', top: '100px'}}>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[0][0]} : {matches[0][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[0][1]} : {matches[0][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[0][0]} : {matches[0][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[0][1]} : {matches[0][3]}</div>
         </div>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[1][0]} : {matches[1][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[1][1]} : {matches[1][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[1][0]} : {matches[1][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[1][1]} : {matches[1][3]}</div>
         </div>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[2][0]} : {matches[2][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[2][1]} : {matches[2][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[2][0]} : {matches[2][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[2][1]} : {matches[2][3]}</div>
         </div>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[3][0]} : {matches[3][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[3][1]} : {matches[3][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[3][0]} : {matches[3][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[3][1]} : {matches[3][3]}</div>
         </div>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[4][0]} : {matches[4][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[4][1]} : {matches[4][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[4][0]} : {matches[4][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[4][1]} : {matches[4][3]}</div>
         </div>
-        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid black', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[5][0]} : {matches[5][2]}</div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}> Vs </div>
-          <div style={{textAlign: 'center', fontSize: '16px', color: 'black'}}>{matches[5][1]} : {matches[5][3]}</div>
+        <div style={{width: '150px', height: '75px', backgroundColor: 'rgba(255, 255, 255, 0)', border: '1px solid white', marginBottom: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[5][0]} : {matches[5][2]}</div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}> Vs </div>
+          <div style={{textAlign: 'center', fontSize: '16px', color: 'white'}}>{matches[5][1]} : {matches[5][3]}</div>
         </div>
       </div>
     </div>

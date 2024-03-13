@@ -26,7 +26,6 @@ export const RedirectPrivate = ({ user, onLoadingFinish }) => {
 
     } catch (error) {
       navigate('/');
-      console.log("jwt token invalide or not authenticated");
       onLoadingFinish();
     }
   };

@@ -81,12 +81,14 @@ const Profil = () => {
           },});
           
           if (response.data.message)
+          {
             setPopupInfo({message: response.data.message, variant: 'success'});
+            setTimeout(() => {window.location.reload();}, 2000);
+          }
           else
             setPopupInfo({message: response.data.error, variant: 'danger'})
           setBaliseTexte('');
           handleCloseModal();
-          setTimeout(() => {window.location.reload();}, 2000);
         } catch (error) {
             console.error('Backend request error: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
@@ -109,12 +111,14 @@ const Profil = () => {
           },});
           
           if (response.data.message)
+          {
             setPopupInfo({message: response.data.message, variant: 'success'});
+            setTimeout(() => {window.location.reload();}, 2000);
+          }
           else
               setPopupInfo({message: response.data.error, variant: 'danger'})
           setBaliseTexte('');
           handleCloseModal();
-          setTimeout(() => {window.location.reload();}, 2000);
         } catch (error) {
             console.error('Backend request error: ', error);
             //setPopupInfo({message: 'Une erreur s\'est produite lors de la requête au backend.', variant: 'danger' });
@@ -194,7 +198,7 @@ const Profil = () => {
                         <div key={index} className="mr-2">
                         <p className='text-white' style={{marginRight: '10px'}}>
                         <a href={`/profilefriends/${e.id}`} className="friend-link">
-                        @{e.friend}
+                        @{e.friend} : {e.status}
                       </a>
                     </p>
                     </div>
