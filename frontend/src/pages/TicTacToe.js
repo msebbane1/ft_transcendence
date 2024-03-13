@@ -9,7 +9,7 @@ function TicTacToeGame(){
 	const user = useUser("user");
  	const [username, setUsername] = useState('');
  	const [password, setPassword] = useState('');
-	const player1 = user.get("username");
+	const player1 = user.get("pseudo");
 	const [player2, setPlayer2] = useState('');
 	const [shouldRenderTicTacToe, setShouldRenderTicTacToe] = useState(false);
 

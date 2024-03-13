@@ -13,13 +13,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-SECRET_KEY = 'django-insecure-_gpjt-re1vo^qvm%*t4zpx5f6jc(%u(^0l6-q9b4l!e!gi0*cu'
+SECRET_KEY = os.getenv("SECRET_KEY")
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1'] 
-
 
 # Application definition
 
@@ -48,31 +46,6 @@ AUTHENTICATION_BACKENDS = [
     #'social_core.backends.42.EDXOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 ]
-
-
-SOCIALACCOUNT_PROVIDERS = {
-    '42': {
-        'APP': {
-            'client_id': os.environ.get('CLIENT_ID', ''),
-            'secret': os.environ.get('CLIENT_SECRET', ''),
-            'key': '',
-            'scope': ['public', 'profile', 'email'],
-            'auth_params': {'access_type': 'online'},
-            'redirect_uris': [
-                'https://localhost:3000/callback',
-                'https://127.0.0.1:3000/callback',
-            ],
-        }
-    }
-}
-
-
-SOCIAL_AUTH_42_KEY = 'u-s4t2ud-ab0a2c4d071ad2ab41a09ecc31c56a394d7d0ffe63be47f4cd76e20ae87e843e'
-SOCIAL_AUTH_42_SECRET = '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'
-SOCIAL_AUTH_42_SCOPE = ['public']
-LOGIN_URL = 'login'
-LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'https://localhost:3000/callback'
 
 MIDDLEWARE = [
     # CORS
@@ -142,11 +115,11 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        "NAME": "django_db",
-        "USER": "msebbane",
-        "PASSWORD": "pass",
+        "NAME": os.getenv("POSTGRES_DB"),
+        "USER": os.getenv("POSTGRES_USER"),
+        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
         "HOST": "database",
-        "PORT": "5432",
+        "PORT": os.getenv("DATABASE_PORT"),
     }
 }
 

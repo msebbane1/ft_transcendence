@@ -30,7 +30,7 @@ function AITicTacToe(){
 	const randomNum = Math.random(); //genere un num entre 0 et 1
     const [xIsNext, setXIsNext] = useState(true);
     const user = useUser("user");
-    const p1 = user.get('username');
+    const p1 = user.get('pseudo');
     const [squares, setSquares] = useState(Array(9).fill(null));
 	const [player, setPlayer] = useState({
         playerSymbol: (randomNum < 0.5 ? 'X' : 'O'),  // si rNum < 0.5 symbole = X et invercement

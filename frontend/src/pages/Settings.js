@@ -56,7 +56,7 @@ return (
             			
                 </div>
                 <p className="profile-info-text">@{userData.username}</p>
-	{/*<p class="profile-info-text" >{user.get("status_2FA") ? "2FA: On" : "2FA: Off"}</p>*/}
+	{/*<p class="profile-info-text" >{user.get("status2FA") ? "2FA: On" : "2FA: Off"}</p>*/}
               </div>
              </div>
               {/* Section Titre User */}

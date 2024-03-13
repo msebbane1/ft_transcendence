@@ -20,7 +20,7 @@ function Matchmaking(){
     const [statsGames, setStatsGames] = useState('');
     const [statsGames2, setStatsGames2] = useState('');
     const user = useUser("user");
-    const [host, setHost] = useState(user.get("username"));
+    const [host, setHost] = useState(user.get("pseudo"));
     const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
     const [matchUp, setMatchUp] = useState(false);
@@ -113,7 +113,7 @@ function Matchmaking(){
           .then(response => {
             const data = response.data;
             if(username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)) {
-              joinMatchmakingQueue(data.winrate);
+              joinMatchmakingQueue();
             } else {
               alert("User/Alias doesn't exist or already in use.");
             }
@@ -179,7 +179,7 @@ function Matchmaking(){
                 for (let i = 0; i < waitingPlayer.players.length; i++) {
                     if (i !== index) {
                         const diff = Math.abs(player.winrate - waitingPlayer.players[i].winrate);
-                        if (diff <= (5 + (player.waitingTime / 5)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
+                        if (diff <= (5 + (player.waitingTime / 2)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
                             handleMatches(index, i);
                             nbPlayers -= 1;
                             return; // Sortir de la boucle dès qu'une correspondance est trouvée
@@ -225,6 +225,7 @@ function Matchmaking(){
     const joinMatchmakingQueue = async () => {
         if(matchUp === false) {
             if (waitingPlayer.players && nbPlayers < 4) {
+                console.log("user = ", username);
                 if(!username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, host)){
                     try {
                         const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
@@ -262,10 +263,13 @@ function Matchmaking(){
                         const res_stat = await axios.post('https://localhost:8080/api/stats_gamesttt/', {
                             'username': username,
                         });
-        
                         if (res_stat.data.error)
+                        {
                             setStatsGames({'message': ""});
+                            console.log("AH");
+                        }
                         else {
+                            console.log("username = ", username);
                             nbPlayers += 1;
                             const wr = res_stat.data.wrCheck;
                             queueUp = true;

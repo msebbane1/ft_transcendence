@@ -1,12 +1,11 @@
 import React from 'react';
-import QrCodeReact from 'react-qr-code';
 import useUser from '../../hooks/useUserStorage';
 import axios from "axios";
 import { useState } from "react";
 import { useEffect } from 'react';
 
 
-// conversion en base64
+// conversion en base64 pour le qrcode
 const arrayBufferToBase64 = (buffer) => {
   let binary = '';
   const bytes = new Uint8Array(buffer);
@@ -20,10 +19,10 @@ const arrayBufferToBase64 = (buffer) => {
 const QrCode = (props) => {
   const { size } = props;
   const user = useUser("user");
-  const [qrCodeValue, setQrCodeValue] = useState("");
+  const [QrCodeImage, setQrCodeImage] = useState("");
 
   useEffect(() => {
-    const fetchQrCode = async () => {
+    const getQrCodeUser = async () => {
       try {
 
         const responsejwt = await axios.post(
@@ -37,35 +36,31 @@ const QrCode = (props) => {
           },
           body: JSON.stringify({
             pseudo: user.get("pseudo"),
-            secret: user.get("2FA_secret")
+            secret: user.get("2FASecret")
           })
         });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch QR code');
+        if (response.ok){
+          const imageBuffer = await response.arrayBuffer();
+          const base64Image = arrayBufferToBase64(imageBuffer);
+        setQrCodeImage(`data:image/png;base64,${base64Image}`);
         }
-
-        const imageBuffer = await response.arrayBuffer();
-        const base64Image = arrayBufferToBase64(imageBuffer);
-        setQrCodeValue(`data:image/png;base64,${base64Image}`);
       } catch (error) {
         console.error('Error fetching QR code:', error);
       }
     };
 
-    fetchQrCode();
+    getQrCodeUser();
   }, [user]);
-
-  const qrCodeSize = size || 150;
 
   return (
     <div style={{
-      width: qrCodeSize,
-      height: qrCodeSize,
-      backgroundImage: `url(${qrCodeValue})`,
+      backgroundImage: `url(${QrCodeImage})`,
       backgroundSize: "cover",
       backgroundPosition: "center",
       borderRadius: "12px",
+      width: size || 150,
+      height: size || 150,
       margin: "auto"
     }} />
   );

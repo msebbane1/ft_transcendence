@@ -3,7 +3,7 @@ import useUser from "../../hooks/useUserStorage";
 import axios from "axios";
 import "../../pages/2FA.css";
 
-const Qr = ({ checkstatus, placeholder }) => {
+const CheckValidQrCode = ({ checkStatusCode }) => {
   const user = useUser("user");
   const [error, setError] = useState(null);
   const [codes, setCodes] = useState(Array(6).fill(""));
@@ -30,7 +30,7 @@ const Qr = ({ checkstatus, placeholder }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const secret = user.get("2FA_secret");
+    const secret = user.get("2FASecret");
     const code = codes.join("");
 
     try {
@@ -54,14 +54,14 @@ const Qr = ({ checkstatus, placeholder }) => {
       const data = response.data;
 
       if (data.status) {
-        checkstatus(true);
+        checkStatusCode(true);
       } else {
-        checkstatus(false);
+        checkStatusCode(false);
       }
     } catch (error) {
       setError("Error");
       setTimeout(() => setError(null), 2000);
-      checkstatus(false);
+      checkStatusCode(false);
     }
   };
 
@@ -75,7 +75,7 @@ const Qr = ({ checkstatus, placeholder }) => {
               type="text"
               className="form-control text-center"
               value={code}
-              placeholder={placeholder}
+              placeholder="_"
               onChange={(e) => handleChange(index, e.target.value)}
               maxLength={1}
             />
@@ -90,4 +90,4 @@ const Qr = ({ checkstatus, placeholder }) => {
   );
 };
 
-export default Qr;
+export default CheckValidQrCode;

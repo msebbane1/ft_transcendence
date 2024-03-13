@@ -16,20 +16,6 @@ def dynamic_truncation_fn(hmac_value):
     )
     return truncated_value
 
-#def generate_code(secret):
-#   decoded_secret = base64.b32decode(secret, casefold=True)
-#    buffer = bytearray(8)
-#    counter = int(time.time() / 30)
-#    for i in range(8):
-#        buffer[7 - i] = counter & 0xff
-#        counter >>= 8
-
- #   hmac_result = hmac.new(decoded_secret, bytes(buffer), hashlib.sha1).digest()
- #   return dynamic_truncation_fn(hmac_result) % (10 ** 6)
-
-#def validate_code(code, secret):
- #   return generate_code(secret) == code
-
 def generate_secret(data=None):
     if data is None:
         data = ''
@@ -58,10 +44,5 @@ def to_data_url(uri: str) -> str:
     buffered = BytesIO()
     img.save(buffered, format="PNG")
     return base64.b64encode(buffered.getvalue()).decode('utf-8')
-
-#def generate_secret(data):
- #   hash_object = hashlib.md5(data.encode())
-  #  hash_hex = hash_object.hexdigest()
-   # return base64.b32encode(hash_hex.encode()).decode().replace('=', '')
 
 

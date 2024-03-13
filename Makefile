@@ -12,7 +12,7 @@ clean:	dbclean
 	@rm -rf back/dist back/node_modules frontend/node_modules
 
 fclean: down clean
-	@docker rm -f	back frontend
+	@docker rm  -f back frontend
 	@docker rmi -f back frontend
 	@docker system prune -af
 

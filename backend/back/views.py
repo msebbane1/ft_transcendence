@@ -122,7 +122,7 @@ def stats_games(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         u = data.get('id')
-        
+
         try:
             user = User.objects.get(id=u)
             nb_win_tot = user.getCountWinsPong() + user.getCountWinsTTT()
@@ -172,9 +172,8 @@ def stats_gamesttt(request):
     if request.method == 'POST':
         data = json.loads(request.body)
         u = data.get('username')
-        
         try:
-            user = User.objects.get(username=u)
+            user = User.objects.get(pseudo=u)
             nb_win_tot = user.getCountWinsPong() + user.getCountWinsTTT()
             nb_lose_tot = user.getCountLosesPong() + user.getCountLosesTTT()
             nb_win_pong = user.getCountWinsPong()
@@ -199,8 +198,7 @@ def stats_gamesttt(request):
             else:
                 wrCheck = wr_ttt
         except User.DoesNotExist:
-            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=200))
-        
+            return (JsonResponse({'error': 'L\'utilisateur n\'existe pas.'}, status=400))
         return (JsonResponse(
             {
                 'total_win': nb_win_tot,
@@ -309,7 +307,7 @@ def signintournament2(request):
         password = data.get('password')
         host = data.get('host')
         try:
-            host = User.objects.get(username=host)
+            host = User.objects.get(pseudo=host)
         except User.DoesNotExist:
             return JsonResponse({'error': 'User does not exist'}, status=400)
         try:
@@ -496,7 +494,7 @@ def ttthistory(request):
         p2State = data.get('p2State')
         gameState = data.get('gameState')
         winnerG = data.get('winningPlayer')
-        p1 = User.objects.get(username=player1)
+        p1 = User.objects.get(pseudo=player1)
         if (p2State == 'Alias' or p2State == 'IA'):
             try:
                 p2 = User.objects.get(aliasname=player2)
@@ -507,7 +505,7 @@ def ttthistory(request):
                     pseudo='',
                 )
         else:
-            p2 = User.objects.get(username=player2)
+            p2 = User.objects.get(pseudo=player2)
 
         w = p2
         l = p1

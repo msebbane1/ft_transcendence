@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { RedirectPrivate } from '../components/RedirectApp';
-import axios from 'axios';
 import useUser from '../hooks/useUserStorage';
 
 const ProtectedRoute = ({ children }) => {
@@ -21,12 +20,10 @@ const ProtectedRoute = ({ children }) => {
 
         if(authenticated){
           setAuthenticated(true);
-          console.log("authenticated");
           handleLoadingFinish();
         }
         else{
         navigate('/');
-        console.log("jwt token invalide");
         handleLoadingFinish();
         }
     };

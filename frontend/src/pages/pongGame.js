@@ -5,6 +5,7 @@ import axios from 'axios';
 import "./pongGame.css"
 import "./modePong"
 
+const TOWIN = 5;
 const CANVAS_HEIGHT = window.innerHeight * 0.5149330587;
 const CANVAS_WIDTH = window.innerWidth* 0.52083;
 const PLAYER_HEIGHT = CANVAS_HEIGHT / 5;
@@ -316,14 +317,14 @@ const PongGame = () => {
       }
       animId = requestAnimationFrame(update);
     };
-    if(game.computer.score == 1)
+    if(game.computer.score == TOWIN)
     {
       resetCanva();
       draw();
       game.winner= true;
       winnerN = game.computer.name;
     }
-    else if(game.player.score == 1)
+    else if(game.player.score == TOWIN)
     {
       resetCanva();
       draw();

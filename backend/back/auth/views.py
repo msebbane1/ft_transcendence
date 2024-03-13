@@ -61,7 +61,6 @@ def get_profile_image(request):
     return JsonResponse({'error': 'Unauthorized method'}, status=405)
 
 #### INFOS USER ####
-## A changer en get ??
 @csrf_exempt
 @oauth2_token_required
 def get_infos_user(request):
@@ -97,7 +96,6 @@ def login42(request):
                 avatar.image_url_42 = user_picture
                 avatar.save()
 
-
                 user, created = User.objects.get_or_create(
                 pseudo=user_info.get('login'),
                 defaults={
@@ -112,7 +110,7 @@ def login42(request):
                 user.save()
             
             refresh = RefreshToken.for_user(user)
-            #user.jwt_token = str(refresh.access_token) a essayer
+            #user.jwt_token = str(refresh.access_token)
             user.status = "online"
             user.register = False
             user.token_jwt = generate_jwt_token(user)
@@ -123,10 +121,10 @@ def login42(request):
                 'id': user.id,
                 'username': user.username,
                 'pseudo': user.pseudo,
-                '2FA_secret': user.secret_2auth,
-                '2FA_valid': False,
+                '2FASecret': user.secret_2auth,
+                '2FAValid': False,
                 'avatar_update': user.avatar.avatar_update,
-                'status_2FA': user.has_2auth,
+                'status2FA': user.has_2auth,
                 'access_token': access_token,
                 'refresh_token': str(refresh),
                 'avatar_id': user.avatar.id,
@@ -221,9 +219,9 @@ def signin(request):
             'register': user.register,
             'username': user.username,
             'pseudo': user.pseudo,
-            '2FA_secret': user.secret_2auth,
-            '2FA_valid': False,
-            'status_2FA': user.has_2auth,
+            '2FASecret': user.secret_2auth,
+            '2FAValid': False,
+            'status2FA': user.has_2auth,
             'avatar_id': user.avatar.id,
             'avatar_update': user.avatar.avatar_update,
             'status': user.status,
@@ -277,32 +275,6 @@ def validate_2fa(request):
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
-
-@csrf_exempt
-@jwt_token_required
-def enable_2fa(request):
-    if request.method == 'POST':
-        data = json.loads(request.body)
-        secret = data.get('secret')
-        code = data.get('code')
-
-        if not secret or not code or not check_valid_code(secret, code):
-            return JsonResponse({'status': False})
-
-      #  try:
-       #     user = User.objects.get(secret_2auth=secret)
-        #    user.has_2auth = True
-         #   user.save()
-
-          #  return JsonResponse({'message': 'Enable 2FA avec succès'}, status=200)
-        #except User.DoesNotExist:
-         #   return JsonResponse({'error': 'Utilisateur non trouvé'}, status=404)
-
-
-        return JsonResponse({'status': True})
-    else:
-        return JsonResponse({'error': 'Invalid request method'}, status=400)
-
 @csrf_exempt
 @jwt_token_required
 def disable_2fa(request):
@@ -339,7 +311,7 @@ def get_qrcode(request):
         response['Content-Disposition'] = f'inline; filename="qrcode.png"'
         return response
     else:
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
 
 
 ################################################### TOKEN JWT ###########################################

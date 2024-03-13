@@ -135,7 +135,7 @@ const Profil = () => {
               <div className="row mb-0"> {/*<div className="row mb-4 border-bottom border-dark">*/}
                 <div className="col d-flex justify-content-center align-items-center">
                   <div className="icon-profile1"></div>
-                  <p class="title-profile-settings">PROFILE</p>
+                  <p className="title-profile-settings">PROFILE</p>
 	              </div>
               </div>
            
@@ -184,7 +184,7 @@ const Profil = () => {
                 </div>
                 <div className="col text-center d-flex justify-content-center align-items-center">
                 <div className="icon-profile"/>
-                    <p class="title-profile">Friends</p>
+                    <p className="title-profile">Friends</p>
                 </div>
                 <div className="row mb-0">
                   <div className="col text-center">      
@@ -211,7 +211,7 @@ const Profil = () => {
 
              <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-stats"></div>
-              <p class="title-profile">Statistics</p>
+              <p className="title-profile">Statistics</p>
              </div>
              <div className="col text-center d-flex justify-content-center align-items-center">
 
@@ -263,7 +263,7 @@ const Profil = () => {
 
               <div className="col d-flex justify-content-center align-items-center">
               <div className="icon-leader"/>
-              <p class="title-profile">Match History</p>
+              <p className="title-profile">Match History</p>
               </div>
               <div className="col d-flex justify-content-center align-items-center">
               {listGames && listGames.list_object.length > 0 ? (

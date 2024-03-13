@@ -7,8 +7,8 @@ export const RedirectPrivate = ({ user, onLoadingFinish }) => {
 
   useEffect(() => {
     const authenticated = user.has("access_token") || user.get("register");
-    const code2FA_is_activate = user.get("status_2FA");
-    const code2FA_is_valid = user.get("2FA_valid");
+    const code2FA_is_activate = user.get("status2FA");
+    const code2FA_is_valid = user.get("2FAValid");
     const not_2FA = !code2FA_is_activate || code2FA_is_valid;
 
     const checkAuthentication = async () => {
@@ -18,7 +18,6 @@ export const RedirectPrivate = ({ user, onLoadingFinish }) => {
         );
 
     if (authenticated && response.data) {
-      console.log("jwt token valide");
       if (!not_2FA) 
         navigate("/2FA");
     } 
@@ -44,8 +43,8 @@ export const RedirectPublic = ({ user }) => {
 
   useEffect(() => {
     const authenticated = user.has("access_token") || user.get("register");
-    const code2FA_is_activate = user.get("status_2FA");
-    const code2FA_is_valid = user.get("2FA_valid");
+    const code2FA_is_activate = user.get("status2FA");
+    const code2FA_is_valid = user.get("2FAValid");
     const not_2FA = !code2FA_is_activate || code2FA_is_valid;
 
     if (authenticated && not_2FA)
@@ -78,14 +77,9 @@ export const RedirectLogin = ({ user }) => {
 
   useEffect(() => { 
     const authenticated42 = user.has("access_token");
-    const code2FA_is_activate = user.get("status_2FA");
-    const code2FA_is_valid = user.get("2FA_valid");
+    const code2FA_is_activate = user.get("status2FA");
+    const code2FA_is_valid = user.get("2FAValid");
     const not_2FA = !code2FA_is_activate || code2FA_is_valid;
-    
-    //console.log("2FA auth: ", not_2FA);
-    //console.log("2FA Secret =", user.has("2FA_secret"));
-    //console.log("1ere connection :", user.get("first_access"));
-    //console.log("User connected :", user.has("access_token"));
 
     if (authenticated42 && not_2FA){
 		          navigate("/home");
