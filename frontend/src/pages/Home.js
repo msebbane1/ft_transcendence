@@ -22,8 +22,13 @@ function Home() {
         <a href="/settings" className="container0 container-5">
           Settings
         </a>
-    
-</div>
+        <div className="warning-container">
+        <div className="warning-logo"></div>
+        <div>
+          <p>Please choose a game password to access other players games when you are not logged in. </p>
+        </div>
+      </div>
+    </div>
   );
 }
 

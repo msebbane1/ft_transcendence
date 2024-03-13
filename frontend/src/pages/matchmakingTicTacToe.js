@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-//import { Link  } from 'react-router-dom';
-//import { useNavigate } from 'react-router-dom';
 import useUser from "../hooks/useUserStorage";
 import axios from 'axios';
-import ShowTicTacToe from "./showTicTacToeM";
 import './matchmakingTicTacToe.css';
 import ShowTicTacToeM from "./showTicTacToeM";
 var nbPlayers = 0;
@@ -24,6 +21,7 @@ function Matchmaking(){
     const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
     const [matchUp, setMatchUp] = useState(false);
+    const [error, setError] = useState(null);
     const [showPopup, setShowPopup] = useState(false);
     const [waitingPlayer, setWaitingPLayer] = useState({
         players: [
@@ -113,20 +111,23 @@ function Matchmaking(){
           .then(response => {
             const data = response.data;
             if(username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)) {
-              joinMatchmakingQueue();
+                setShowForm(false);
+                joinMatchmakingQueue();
             } else {
-              alert("User/Alias doesn't exist or already in use.");
+                setError("User/Alias doesn't exist or already in use.");
+                setTimeout(() => setError(null), 2000);
             }
           })
           .catch(error => {
             if (error.response && error.response.data) {
                 setUsername('');
                 setPassword('');
-                alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+                setError(error.response.data.error);
+                setTimeout(() => setError(null), 2000); // Affiche le message d'erreur renvoyé par le backend
             } else {
-                alert("An error occurred while processing your request.");
+                setError("An error occurred while processing your request.");
+                setTimeout(() => setError(null), 2000);
             }});
-        setShowForm(false);
     };
 
 
@@ -191,14 +192,12 @@ function Matchmaking(){
 
 
 
-    // //A VOIR APRES FONCTION DE VIDAGE DES STATUS
-    // useEffect(() => {
+    useEffect(() => {
         
-    //     return () => {
-    //         nbPlayers = 0;
-    //         leaveGame();
-    //     }
-    // }, []);
+        return () => {
+            nbPlayers = 0;
+        }
+    }, []);
 
     // const leaveGame = async () => {
     //     axios.post('https://localhost:8080/api/leaveStatus/', {
@@ -229,8 +228,8 @@ function Matchmaking(){
                         if (res_stat.data.error)
                             setStatsGames({'message': ""});
                         else {
-                            toSet.push(host)
-                            nbPlayers += 1;
+                            if(nbPlayers < 4)
+                                nbPlayers += 1;
                             const wr = res_stat.data.wrCheck;
                             queueUp = true;
                             setWaitingPLayer(prevState => {
@@ -251,7 +250,8 @@ function Matchmaking(){
                             });
                         }
                     } catch (error) {
-                        alert(error.response.data.error);
+                        setError(error.response.data.error);
+                        setTimeout(() => setError(null), 2000);
                     }
                 }
                 else if(username && areValuesUnique(waitingPlayer.players[0].alias, waitingPlayer.players[1].alias, waitingPlayer.players[2].alias, waitingPlayer.players[3].alias, username)){
@@ -264,8 +264,8 @@ function Matchmaking(){
                             setStatsGames({'message': ""});
                         }
                         else {
-                            toSet.push(username);
-                            nbPlayers += 1;
+                            if(nbPlayers < 4)
+                                nbPlayers += 1;
                             const wr = res_stat.data.wrCheck;
                             queueUp = true;
                             setWaitingPLayer(prevState => {
@@ -286,7 +286,8 @@ function Matchmaking(){
                             });
                         }
                     } catch (error) {
-                        alert(error.response.data.error);
+                        setError(error.response.data.error);
+                        setTimeout(() => setError(null), 2000);
                     }
             }}
             else
@@ -316,6 +317,11 @@ function Matchmaking(){
         }, 3000);
     }
 
+    function closePopup() {
+        var popUpOverlay = document.querySelector('.pop-up-overlay');
+        popUpOverlay.style.display = 'none';
+    }
+
     const toggleForm = () => {
         if(matchUp === false)
             setShowForm(!showForm);
@@ -343,6 +349,7 @@ function Matchmaking(){
                     <div className="pop-up-overlay">
                         <div className="pop-up">
                             <div className="alert alert-info" role="alert">
+                                <button type="button" className="btn-close" aria-label="Close" onClick={closePopup}></button>
                                 <form onSubmit={handleSubmit}>
                                     <div className="mb-3">
                                         <label htmlFor="exampleFormControlInput1" className="form-label">Username</label>
@@ -354,6 +361,7 @@ function Matchmaking(){
                                     </div>
                                     <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>
+                                {error && <div className="text-danger">{error}</div>}
                             </div>
                         </div>
                     </div>

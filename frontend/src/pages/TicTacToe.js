@@ -3,6 +3,7 @@ import useUser from "../hooks/useUserStorage";
 import axios from 'axios';
 import './TicTacToe.css';
 import ShowTicTacToe from "./showTicTacToe";
+import { Link } from 'react-router-dom';
 
 
 function TicTacToeGame(){
@@ -62,6 +63,9 @@ function TicTacToeGame(){
 								</div>
 							</div>
 							<button type="submit" className="btn btn-primary">Submit</button>
+							<Link to="/modetictactoe">
+								<button type="return" className="btn btn-primary">Return</button>
+							</Link>
 						</form>
 						</div>
 					</div>
