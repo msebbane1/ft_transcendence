@@ -11,6 +11,7 @@ function TicTacToeGame(){
  	const [password, setPassword] = useState('');
 	const player1 = user.get("pseudo");
 	const [player2, setPlayer2] = useState('');
+	const [error, setError] = useState(null);
 	const [shouldRenderTicTacToe, setShouldRenderTicTacToe] = useState(false);
 
 	 const handleUsernameChange = (event) => {
@@ -35,7 +36,8 @@ function TicTacToeGame(){
 			setPlayer2(username);
 			setShouldRenderTicTacToe(true);
 		} catch (error) {
-			console.error('Error:', error);
+			setError(error.response.data.error);
+			setTimeout(() => setError(null), 2000);
         }
     };
 
@@ -45,6 +47,7 @@ function TicTacToeGame(){
 				<div className="pop-up-overlay">
 					<div className="pop-up">
 						<div className="alert alert-info" role="alert">
+						{error && <p className="text-danger">{error}</p>}
 						<form onSubmit={handleSubmit}>
 							<p>Please connect another player</p>
 							<div className="mb-3">

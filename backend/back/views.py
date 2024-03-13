@@ -286,10 +286,10 @@ def signintournament(request):
             return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
         if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
-        host.status = 'In game'
-        host.save()
-        user.status = "In game"
-        user.save()
+        # host.status = 'In game'
+        # host.save()
+        # user.status = "In game"
+        # user.save()
         return JsonResponse({
             'username': user.username,
             'pseudo': user.pseudo,
@@ -318,10 +318,10 @@ def signintournament2(request):
             return JsonResponse({'error': 'You didnt set your tournament password yet'}, status=400)
         if not check_password(password, user.password_tournament):
             return JsonResponse({'error': 'Invalid password'}, status=400)
-        host.status = 'In game'
-        host.save()
-        user.status = "In game"
-        user.save()
+        # host.status = 'In game'
+        # host.save()
+        # user.status = "In game"
+        # user.save()
         return JsonResponse({
             'username': user.username,
             'pseudo': user.pseudo,
@@ -356,10 +356,10 @@ def begintournament(request):
         playersUsers = data.get('playersUser')
         playersAlias = data.get('playersAlias')
 
-        for p in playersUsers:
-            tmp = User.objects.get(username=p)
-            tmp.status = "In game"
-            tmp.save()
+        # for p in playersUsers:
+        #     tmp = User.objects.get(username=p)
+        #     tmp.status = "In game"
+        #     tmp.save()
 
         try:
             trnmt = Tournament.objects.create(
@@ -435,13 +435,33 @@ def leaveStatus(request):
         host = data.get('host')
         for p in lst_players:
             if p == host:
-                tmp = User.objects.get(username=p)
+                tmp = User.objects.get(pseudo=p)
                 tmp.status = "online"
                 tmp.save()
             else:
-                tmp = User.objects.get(username=p)
+                tmp = User.objects.get(pseudo=p)
                 tmp.status = "offline"
                 tmp.save()
+        return JsonResponse({'message': 'test'})
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+@csrf_exempt
+def leaveStatus2(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        lst_players = data.get('toSet')
+        host = data.get('host')
+        for p in lst_players:
+            if p == host:
+                tmp = User.objects.get(pseudo=p)
+                tmp.status = "online"
+                tmp.save()
+            else:
+                tmp = User.objects.get(pseudo=p)
+                tmp.status = "offline"
+                tmp.save()
+        return JsonResponse({'message': 'test'})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
 
@@ -463,11 +483,11 @@ def endtournament(request):
             t = Tournament.objects.get(id=tournamentID)
             t.creator.limit_status = datetime.now().strftime("%H:%M")
             t.creator.list_players_status = lst_players
-            for p in lst_players:
-                tmp = User.objects.get(username=p)
-                tmp.status = "offline"
-                tmp.limit_status = datetime.now().strftime("%H:%M")
-                tmp.save()
+            # for p in lst_players:
+            #     tmp = User.objects.get(username=p)
+            #     tmp.status = "offline"
+            #     tmp.limit_status = datetime.now().strftime("%H:%M")
+            #     tmp.save()
             try:
                 u = User.objects.get(username=winnerG)
             except User.DoesNotExist:
@@ -476,8 +496,8 @@ def endtournament(request):
             t.save()
         except Tournament.DoesNotExist:
             return (JsonResponse({'error', 'Tournament does not exist.'}, status=400))
-        host.status = 'online'
-        host.save()
+        # host.status = 'online'
+        # host.save()
         return JsonResponse({
             'lst_players': lst_players
         })
@@ -520,10 +540,10 @@ def ttthistory(request):
             loser = l if gameState != "draw" else None,
             date = datetime.now().strftime("%d/%m/%Y %H:%M"),
         )
-        p1.status = "online"
-        p1.save()
-        p2.status = "offline"
-        gt.save()
+        # p1.status = "online"
+        # p1.save()
+        # p2.status = "offline"
+        # gt.save()
         return JsonResponse({'player1': player1})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -554,12 +574,12 @@ def pong2phistory(request):
         else:
             p2 = User.objects.get(username=player2)
 
-        p1.limit_status = datetime.now().strftime("%H:%M")
-        p1.status = 'online'
-        p1.save()
-        p2.limit_status = datetime.now().strftime("%H:%M")
-        p2.status = 'offline'
-        p2.save()
+        # p1.limit_status = datetime.now().strftime("%H:%M")
+        # p1.status = 'online'
+        # p1.save()
+        # p2.limit_status = datetime.now().strftime("%H:%M")
+        # p2.status = 'offline'
+        # p2.save()
 
         w = p2
         l = p1
@@ -625,15 +645,15 @@ def pong3phistory(request):
         else:
             p3 = User.objects.get(username=player3)
 
-        p1.limit_status = datetime.now().strftime("%H:%M")
-        p1.status = 'online'
-        p1.save()
-        p2.limit_status = datetime.now().strftime("%H:%M")
-        p2.status = 'offline'
-        p2.save()
-        p3.limit_status = datetime.now().strftime("%H:%M")
-        p3.status = 'offline'
-        p3.save()
+        # p1.limit_status = datetime.now().strftime("%H:%M")
+        # p1.status = 'online'
+        # p1.save()
+        # p2.limit_status = datetime.now().strftime("%H:%M")
+        # p2.status = 'offline'
+        # p2.save()
+        # p3.limit_status = datetime.now().strftime("%H:%M")
+        # p3.status = 'offline'
+        # p3.save()
 
         tab = [p1score, p2score, p3score]
         tab.sort(reverse=True)

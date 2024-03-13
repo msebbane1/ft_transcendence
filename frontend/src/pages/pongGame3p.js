@@ -5,7 +5,7 @@ import useUser from "../hooks/useUserStorage";
 const CANVAS_HEIGHT = 500;
 const PLAYER_HEIGHT = CANVAS_HEIGHT/5;
 const PLAYER_WIDTH = 12;
-const TOWIN = 1;
+const TOWIN = 5;
 const CANVAS_WIDTH = 1000;
 var winnerN = "";
 var p2state;
@@ -575,8 +575,8 @@ const pongPad3p = (playerPosition) => {
     <div className = "canvas">
       <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT}/>
       {game.winner && (
-          <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
-            {winnerN} is the match Winner! <a href="/modepong" class="alert-link">Back</a> 
+          <div className="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+            {winnerN} is the match Winner! <a href="/modepong" className="alert-link">Back</a> 
           </div>
       )}
       <div className = "scorej1">{game.player.name} : {game.player.score}</div>

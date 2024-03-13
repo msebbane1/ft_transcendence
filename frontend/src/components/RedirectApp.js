@@ -103,10 +103,7 @@ export const RedirectGame = ({ user, onLoadingFinish }) => {
     if (authenticated) {
       const pongAccess = user.has("pongAccess");
       const endpong = user.get("pongAccess");
-      console.log("pongAccess:", pongAccess);
-      console.log("pongAccess:", endpong);
       if (endpong === "fin" || !pongAccess) {
-        console.log("pongAccessentrer:", pongAccess);
         navigate("/home");
       }
 

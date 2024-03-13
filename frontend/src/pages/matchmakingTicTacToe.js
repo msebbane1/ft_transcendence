@@ -6,12 +6,12 @@ import axios from 'axios';
 import ShowTicTacToe from "./showTicTacToeM";
 import './matchmakingTicTacToe.css';
 import ShowTicTacToeM from "./showTicTacToeM";
-
 var nbPlayers = 0;
 var MATCH = [];
 var name = "";
 var name2 = "";
 var queueUp = false;
+var toSet = [];
 
 function Matchmaking(){
 
@@ -152,10 +152,9 @@ function Matchmaking(){
                 return player;
             })
         }));
+        nbPlayers -= 2;
     }
-
     // useEffect(() => {
-
     // }, [matc])
     //fonction de reset lors de l'annulation de la rechercher
     const resetQueue = async () => {
@@ -171,6 +170,7 @@ function Matchmaking(){
             }));
         nbPlayers = 0;
         queueUp=false;
+        toSet = [];
     }
     // fonction qui verifie si des users matchent a utiliser avec des intervales
     useEffect(() => {
@@ -181,7 +181,7 @@ function Matchmaking(){
                         const diff = Math.abs(player.winrate - waitingPlayer.players[i].winrate);
                         if (diff <= (5 + (player.waitingTime / 2)) && player.alias !== '\0' && waitingPlayer.players[i].alias !== '\0' && player.winrate !== -1 && waitingPlayer.players[i].winrate !== -1 && queueUp == true) {
                             handleMatches(index, i);
-                            nbPlayers -= 1;
+                            console.log(nbPlayers);
                             return; // Sortir de la boucle dès qu'une correspondance est trouvée
                         }
                     }
@@ -191,21 +191,16 @@ function Matchmaking(){
 
 
 
-    //A VOIR APRES FONCTION DE VIDAGE DES STATUS
+    // //A VOIR APRES FONCTION DE VIDAGE DES STATUS
     // useEffect(() => {
         
     //     return () => {
+    //         nbPlayers = 0;
     //         leaveGame();
     //     }
     // }, []);
 
     // const leaveGame = async () => {
-    //     let toSet = [];
-    //     for(let i = 0; i < 4; i++)
-    //     {
-    //         if(waitingPlayer.players[i].alias != '\0')
-    //             toSet.push(waitingPlayer.players[i].alias);
-    //     }
     //     axios.post('https://localhost:8080/api/leaveStatus/', {
     //         toSet,
     //         host,
@@ -234,6 +229,7 @@ function Matchmaking(){
                         if (res_stat.data.error)
                             setStatsGames({'message': ""});
                         else {
+                            toSet.push(host)
                             nbPlayers += 1;
                             const wr = res_stat.data.wrCheck;
                             queueUp = true;
@@ -266,10 +262,9 @@ function Matchmaking(){
                         if (res_stat.data.error)
                         {
                             setStatsGames({'message': ""});
-                            console.log("AH");
                         }
                         else {
-                            console.log("username = ", username);
+                            toSet.push(username);
                             nbPlayers += 1;
                             const wr = res_stat.data.wrCheck;
                             queueUp = true;

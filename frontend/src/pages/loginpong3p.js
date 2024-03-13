@@ -8,6 +8,7 @@ var   playerN = 2;
 var   settingOver = false;
 var   userArray = [];
 
+
 userArray.push(['alias1', "- ", "user"]);
 userArray.push(['alias2', "- 1234", "none"]);
 userArray.push(['alias3', "- 4321", "none"]);
@@ -21,6 +22,7 @@ const Login3p = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginMethod, setLoginMethod] = useState('');
+  const [error, setError] = useState(null);
 
   const areValuesUnique = (value1, value2, value3, value4) => {
     return value1 !== value2 && value1 !== value3 && value1 !== value4 &&
@@ -48,12 +50,14 @@ const Login3p = () => {
           userArray[playerN-1][1] = data.username;
           playerN += 1;
         } else {
-          alert("Alias/Username already in use.");
+          setError("Alias/Username already in use.");
+          setTimeout(() => setError(null), 2000);
         }
       })
       .catch(error => {
         if (error.response && error.response.data) {
-            alert(error.response.data.error); 
+          setError(error.response.data.error);
+          setTimeout(() => setError(null), 2000);
         } else {
             alert("An error occurred while processing your request.");
         }});
@@ -78,12 +82,14 @@ const Login3p = () => {
         userArray[playerN-1][1] = data.username;
         playerN += 1;
       } else {
-        alert("User/Alias doesn't exist or already in use.");
+        setError("User/Alias doesn't exist or already in use.");
+        setTimeout(() => setError(null), 2000);
       }
     })
     .catch(error => {
       if (error.response && error.response.data) {
-          alert(error.response.data.error); 
+        setError(error.response.data.error);
+        setTimeout(() => setError(null), 2000);
       } else {
           alert("An error occurred while processing your request.");
       }});
@@ -105,8 +111,8 @@ const Login3p = () => {
           <option value="User">User</option>
         </select>)}
         {playerN == 4 && (
-              <div class="alert alert-primary" role="alert" style={{position: 'relative'}}>
-              Get ready for the match ! <a href="/pong3p" class="alert-link">continue</a> 
+              <div className="alert alert-primary" role="alert" style={{position: 'relative'}}>
+              Get ready for the match ! <a href="/pong3p" className="alert-link">continue</a> 
               </div>
         )}
       {loginMethod == 'User' && (
@@ -136,8 +142,9 @@ const Login3p = () => {
           required
           style={{ width: '100%' }}
         />)}
-        {playerN < 4 && (<button type="submit" class="btn btn-outline-secondary">Submit</button>)}
+        {playerN < 4 && (<button type="submit" className="btn btn-outline-secondary">Submit</button>)}
       </form>
+      {error && <p className="text-danger">{error}</p>}
     </div>
   );
 }

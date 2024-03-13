@@ -10,6 +10,7 @@ const CANVAS_HEIGHT = window.innerHeight * 0.5149330587;
 const CANVAS_WIDTH = window.innerWidth* 0.52083;
 const PLAYER_HEIGHT = CANVAS_HEIGHT / 5;
 const PLAYER_WIDTH = CANVAS_WIDTH * 0.012;
+var toSet = [];
 var winnerN = '';
 var p2State = '';
 var maxSpeed = 25;
@@ -42,6 +43,7 @@ const PongGame = () => {
     setupPlayers();
   const user = useUser("user");
   const p1 = user.get("username");
+  const host = user.get("pseudo")
   const p2 = players[1].name;
   const [axiosCalled, setAxiosCalled] = useState(false);
   const canvasRef = useRef(null);
@@ -378,6 +380,32 @@ const PongGame = () => {
     }
   };
 
+
+
+  // const leaveGame = async () => {
+  //   axios.post('https://localhost:8080/api/leaveStatus2/', {
+  //       toSet,
+  //       host,
+  //     })
+  //     .then(response => {
+  //       const data = response.data;
+  //     })
+  //     .catch(error => {
+  //       if (error.response && error.response.data) {
+  //           alert(error.response.data.error); 
+  //       } else {
+  //           alert("An error occurred while processing your request.");
+  //       }});
+  // }
+  
+  // useEffect(() => {
+        
+  //   return () => {
+  //       console.log(toSet);
+  //       leaveGame();
+  //   }
+  // }, []);
+
   useEffect(() => { //historique fin de partie2p
     let p1score = game.player.score;
     let p2score = game.computer.score;
@@ -467,8 +495,8 @@ const PongGame = () => {
       <canvas ref={canvasRef} width={CANVAS_WIDTH} height={CANVAS_HEIGHT} />
 
       {game.winner && (
-        <div class="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
-        {winnerN} won the Match !<a href="/modepong" class="alert-link">Back</a>
+        <div className="alert alert-primary" role="alert" style={{ position: 'absolute', top: '40%', left: '50%', transform: 'translateX(-50%)' }}>
+        {winnerN} won the Match !<a href="/modepong" className="alert-link">Back</a>
       </div>
       )}
       <div className = "scorej1">{game.player.name} : {game.player.score}</div>

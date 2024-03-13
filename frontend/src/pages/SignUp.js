@@ -24,19 +24,40 @@ const SignUpPage = () => {
 	repeatPassword,
 
       });
-    	
-	const data = response.data;
-      	console.log('Server response:', response.data);
-	user.setAll(data);
-	   
-	setShowSuccessMessage(true);
+
+      if (response.data.status === true) { 	
+	      const data = response.data;
+	      user.setAll(data);
+	      setShowSuccessMessage(true);
       	setUsername('');
       	setPassword('');
       	setRepeatPassword('');
-
-	    setTimeout(() => {
+	      setTimeout(() => {
         navigate("/");
       }, 3000);
+      }
+      else {
+        if (response.data['emptyName'] === false)
+          setError("Username empty");
+        if (response.data['lenminName'] === false)
+          setError("Username must contain at least 5 chars");
+        if (response.data['lenmaxName'] === false)
+          setError("Username must contain at most 10 chars");
+        if (response.data['alphaName'] === false)
+          setError("Username must contain letters only");
+        if (response.data['nameAlreadyUse'] === false)
+          setError("Username already used");
+        if (response.data['emptyPass'] === false)
+          setError("Password empty");
+        if (response.data['lenminPass'] === false)
+          setError("Password must contain at least 5 chars");
+        if (response.data['lenmaxPass'] === false)
+          setError("Password must contain at most 10 chars");
+        if (response.data['repeat'] === false)
+          setError("Password doesn't match");
+
+      setTimeout(() => setError(null), 2000);
+    }
     } catch (error) {
       console.error('Error submitting form:', error);
       if (error.response) {

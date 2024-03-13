@@ -112,10 +112,10 @@ function ShowTicTacToe(user, opponent){
                             <h4 className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>{status}</h4>
                             <div className="linker">
                                 <Link to="/ai-tictactoe">
-                                    <button type="button" class="btn btn-secondary" onClick={() => handleRefresh()}>Play Again</button>
+                                    <button type="button" className="btn btn-secondary" onClick={() => handleRefresh()}>Play Again</button>
                                 </Link>
                                 <Link to="/modetictactoe">
-                                    <button type="button" class="btn btn-secondary">Change Mode</button>
+                                    <button type="button" className="btn btn-secondary">Change Mode</button>
                                 </Link>
                             </div>
                         </div>

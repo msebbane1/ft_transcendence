@@ -2,7 +2,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib.auth.views import LoginView
-from back.views import signintournament, checkalias, add_friend, del_friend, get_following, get_user_infos, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory, stats_games, list_games, ttthistory, stats_gamesttt ,signintournament2#, leaveStatus
+from back.views import signintournament, checkalias, add_friend, del_friend, get_following, get_user_infos, begintournament, updatetournament, endtournament, pong2phistory, pong3phistory, stats_games, list_games, ttthistory, stats_gamesttt ,signintournament2, leaveStatus, leaveStatus2
 
 urlpatterns = [
     path('api/auth/', include('back.auth.urls')),
@@ -25,7 +25,8 @@ urlpatterns = [
     path('api/pong2phistory/', pong2phistory, name='pong2phistory'),
     path('api/ttthistory/', ttthistory, name='ttthistory'),
     path('api/stats_gamesttt/', stats_gamesttt, name='stats_gamesttt'),
-    # path('api/leaveStatus/', leaveStatus, name='leaveStatus'),
+    path('api/leaveStatus/', leaveStatus, name='leaveStatus'),
+    path('api/leaveStatus2/', leaveStatus2, name='leaveStatus2'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -15,12 +15,14 @@ userArray.push(['alias4', "- 234234", "none"]);
 const Tournament = () => {
   
   const user = useUser("user");
-  const p1 = user.get("username");
+  const p1 = user.get("pseudo");
+  const toAdd = user.get("username");
   userArray[0][1] = p1;
-  localStorage.setItem('alias1', p1+ "@+User");
+  localStorage.setItem('alias1', toAdd+ "@+User");
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginMethod, setLoginMethod] = useState('');
+  const [error, setError] = useState(null);
 
 
   const areValuesUnique = (value1, value2, value3, value4, value5) => {
@@ -52,12 +54,14 @@ const Tournament = () => {
           userArray[playerN-1][1] = data.username;
           playerN += 1;
         } else {
-          alert("Alias/Username already in use.");
+          setError("Alias/Username already in use.");
+          setTimeout(() => setError(null), 2000);
         }
       })
       .catch(error => {
         if (error.response && error.response.data) {
-            alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+          setError(error.response.data.error);
+          setTimeout(() => setError(null), 2000);
         } else {
             alert("An error occurred while processing your request.");
         }});
@@ -82,12 +86,14 @@ const Tournament = () => {
         userArray[playerN-1][1] = data.username;
         playerN += 1;
       } else {
-        alert("User/Alias doesn't exist or already in use.");
+        setError("User/Alias doesn't exist or already in use.");
+          setTimeout(() => setError(null), 2000);
       }
     })
     .catch(error => {
       if (error.response && error.response.data) {
-          alert(error.response.data.error); // Affiche le message d'erreur renvoyé par le backend
+        setError(error.response.data.error);
+        setTimeout(() => setError(null), 2000);
       } else {
           alert("An error occurred while processing your request.");
       }});
@@ -109,8 +115,8 @@ const Tournament = () => {
           <option value="User">User</option>
         </select>)}
         {playerN == 5 && (
-              <div class="alert alert-primary" role="alert" style={{position: 'relative'}}>
-              Tournament is ready ! <a href="/tournamentPong" class="alert-link">continue</a> 
+              <div className="alert alert-primary" role="alert" style={{position: 'relative'}}>
+              Tournament is ready ! <a href="/tournamentPong" className="alert-link">continue</a> 
               </div>
         )}
       {loginMethod == 'User' && (
@@ -140,8 +146,9 @@ const Tournament = () => {
           required
           style={{ width: '100%' }}
         />)}
-        {playerN < 5 && (<button type="submit" class="btn btn-outline-secondary">Submit</button>)}
+        {playerN < 5 && (<button type="submit" className="btn btn-outline-secondary">Submit</button>)}
       </form>
+      {error && <p className="text-danger">{error}</p>}
     </div>
   );
 }

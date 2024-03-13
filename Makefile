@@ -5,7 +5,7 @@ build:
 down:
 	@docker-compose	down
 
-dbclean: down
+dbclean:
 	@docker volume prune -f
 
 clean:	dbclean
@@ -16,6 +16,6 @@ fclean: down clean
 	@docker rmi -f back frontend
 	@docker system prune -af
 
-re: down fclean build
+re: fclean build
 
 .PHONY: all build down clean fclean re

@@ -148,7 +148,7 @@ function ShowTicTacToeM({user, opponent, setMatchUp, matchUp}){
                     <div className="popup">
                         <div className="alert alert-success" role="alert">
                             <h4 className={`status ${winner ? 'winner' : ''} ${tie ? 'tie' : ''}`}>{status}</h4>
-                            <button type="button" class="btn btn-secondary" onClick={handleHist}>Well played!</button>
+                            <button type="button" className="btn btn-secondary" onClick={handleHist}>Well played!</button>
                         </div>
                     </div>
                 </div>
